@@ -1,5 +1,5 @@
 ---
-title: MySQL_学习笔记
+title: MySQL整理
 # 文章标题(必需)
 published: 2025-09-16
 # 文章发布日期，格式为YYYY-MM-DD

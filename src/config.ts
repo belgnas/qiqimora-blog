@@ -127,14 +127,15 @@ export const siteConfig: SiteConfig = {
 				"/assets/desktop-banner/4.webp",
 				"/assets/desktop-banner/5.webp",
 				"/assets/desktop-banner/6.webp",
+				"/assets/desktop-banner/7.webp",
+				"/assets/desktop-banner/8.webp",
+				"/assets/desktop-banner/9.webp",
+				"/assets/desktop-banner/10.webp",
 			], // 桌面横幅图片
 			mobile: [
 				"/assets/mobile-banner/1.webp",
 				"/assets/mobile-banner/2.webp",
 				"/assets/mobile-banner/3.webp",
-				"/assets/mobile-banner/4.webp",
-				"/assets/mobile-banner/5.webp",
-				"/assets/mobile-banner/6.webp",
 			], // 移动横幅图片
 		}, // 使用本地横幅图片
 
@@ -142,7 +143,7 @@ export const siteConfig: SiteConfig = {
 
 		carousel: {
 			enable: true, // 为 true 时：为多张图片启用轮播。为 false 时：从数组中随机显示一张图片
-			interval: 5, // 轮播间隔时间（秒）
+			interval: 4, // 轮播间隔时间（秒）
 		},
 
 		waves: {
@@ -246,20 +247,21 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 			"/assets/desktop-banner/4.webp",
 			"/assets/desktop-banner/5.webp",
 			"/assets/desktop-banner/6.webp",
+			"/assets/desktop-banner/7.webp",
+			"/assets/desktop-banner/8.webp",
+			"/assets/desktop-banner/9.webp",
+			"/assets/desktop-banner/10.webp",
 		], // 桌面横幅图片
 		mobile: [
 			"/assets/mobile-banner/1.webp",
 			"/assets/mobile-banner/2.webp",
 			"/assets/mobile-banner/3.webp",
-			"/assets/mobile-banner/4.webp",
-			"/assets/mobile-banner/5.webp",
-			"/assets/mobile-banner/6.webp",
 		], // 移动横幅图片
 	}, // 使用本地横幅图片
 	position: "center", // 壁纸位置，等同于 object-position
 	carousel: {
 		enable: true, // 启用轮播
-		interval: 10, // 轮播间隔时间（秒）
+		interval: 8, // 轮播间隔时间（秒）
 	},
 	zIndex: -1, // 层级，确保壁纸在背景层
 	opacity: 0.8, // 壁纸透明度
@@ -646,6 +648,7 @@ export const pioConfig: import("./types/config").PioConfig = {
 			"摸摸我!",
 			"看不懂qwq",
 			"什么时候下班呢？",
+			"不要戳我啦!",
 		], // 触摸提示
 		home: "魔法：回到首页!", // 首页提示
 		skin: ["想看我的新衣服吗？", "新衣服 好看喵~"], // 换装提示

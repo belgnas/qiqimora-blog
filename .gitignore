@@ -1,5 +1,6 @@
 # build output
-dist/
+# 服务器的内存不够，用本地的dist目录来代替构建
+# dist/
 
 # generated types
 .astro/

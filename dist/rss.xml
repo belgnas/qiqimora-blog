@@ -1,0 +1,4392 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>奇奇莫拉の日记本</title><description>私人小网站</description><link>https://qiqimora.cn/</link><language>zh_CN</language><item><title>清单（待完成）</title><link>https://qiqimora.cn/posts/%E6%B8%85%E5%8D%95/</link><guid isPermaLink="true">https://qiqimora.cn/posts/%E6%B8%85%E5%8D%95/</guid><description>咱想着把待完成事项整理一下，记录下来，不然不小心就会忘记。</description><pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;待完成事项清单&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;about页面编写&lt;/li&gt;
+&lt;li&gt;项目页面编写&lt;/li&gt;
+&lt;li&gt;技能页面编写&lt;/li&gt;
+&lt;li&gt;设备列表页面编写&lt;/li&gt;
+&lt;li&gt;写一下2025总结&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;已完成事项清单&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;整理markdown文档编写规范&lt;/li&gt;
+&lt;/ol&gt;
+</content:encoded></item><item><title>文档编写规范</title><link>https://qiqimora.cn/posts/%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E8%A7%84%E8%8C%83/</link><guid isPermaLink="true">https://qiqimora.cn/posts/%E6%96%87%E6%A1%A3%E7%BC%96%E5%86%99%E8%A7%84%E8%8C%83/</guid><description>文档编写的规范是非常重要的，它困扰了奇奇莫拉好久，直到看到了《中文文案排版指北》这篇文章。</description><pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&amp;lt;!-- 小贴士：图片优化建议
+虽然使用文件夹方案可以自主管理图片，但仍建议对图片进行适当优化：&lt;/p&gt;
+&lt;p&gt;选择合适的格式&lt;/p&gt;
+&lt;p&gt;照片类图片：使用WebP或JPEG格式
+图标类图片：使用PNG或SVG格式
+动态图片：使用WebP或GIF格式
+控制图片大小&lt;/p&gt;
+&lt;p&gt;照片：建议宽度不超过1200px
+缩略图：宽度300-400px即可
+大图考虑使用懒加载技术
+批量处理工具&lt;/p&gt;
+&lt;p&gt;推荐使用ImageOptim、Squoosh等工具批量压缩
+或使用命令行工具如sharp、imagemin自动化处理
+目录结构建议&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;my-complex-post
+&lt;ul&gt;
+&lt;li&gt;index.md&lt;/li&gt;
+&lt;li&gt;images/
+&lt;ul&gt;
+&lt;li&gt;cover.jpg      # 封面图&lt;/li&gt;
+&lt;li&gt;screenshot-1.webp  # 截图&lt;/li&gt;
+&lt;li&gt;diagram.svg     # 示意图&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;assets/
+&lt;ul&gt;
+&lt;li&gt;data.json       # 数据文件&lt;/li&gt;
+&lt;li&gt;download.zip    # 下载文件
+对于图片较多的文章，可以创建子目录进一步组织资源。 --&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;lt;!-- 这是在Mizuki8.0以上加入的新特性，支持你为图片设置缩放比例、标题和居中对齐！&lt;/p&gt;
+&lt;p&gt;使用方法
+使用以下语法可以设置图片的缩放比例、标题和居中对齐：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;%E5%9B%BE%E7%89%87%E9%93%BE%E6%8E%A5&quot; alt=&quot;图片描述 w-50%&quot; title=&quot;图片标题&quot; /&gt;
+其中：&lt;/p&gt;
+&lt;p&gt;w-50% 表示图片宽度为 50%（可以是任意百分比）
+&quot;图片标题&quot; 表示图片的标题（可选） --&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;!-- 链接到文章
+要在博客页面或其他页面中链接到你的文章，可以使用标准的HTML &amp;lt;a&amp;gt; 标签：&lt;/p&gt;
+&lt;p&gt;&amp;lt;a href=&quot;/posts/my-complex-post/&quot;&amp;gt;我的复杂文章&amp;lt;/a&amp;gt;
+确保链接的href属性指向正确的文章路径。 --&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;!-- 链接多篇文章
+要在博客页面中链接到多篇文章，可以创建一个文章列表：&lt;/p&gt;
+&lt;p&gt;&amp;lt;ul&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;a href=&quot;/posts/my-first-post/&quot;&amp;gt;我的第一篇文章&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;a href=&quot;/posts/my-second-post/&quot;&amp;gt;我的第二篇文章&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;a href=&quot;/posts/my-third-post/&quot;&amp;gt;我的第三篇文章&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+确保每个链接都指向正确的文章路径。 --&amp;gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注：本篇文章为外部引用文章，目的是推广中文文案的排版标准&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;原文链接：&lt;a href=&quot;https://github.com/mzlogin/chinese-copywriting-guidelines&quot;&gt;中文文案排版指北&lt;/a&gt;&lt;/p&gt;
+&lt;h1&gt;中文文案排版指北&lt;/h1&gt;
+&lt;p&gt;统一中文文案、排版的相关用法，降低团队成员之间的沟通成本，增强网站气质。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;目录&lt;/h2&gt;
+&lt;p&gt;&amp;lt;!-- vim-markdown-toc GFM --&amp;gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%88%E6%8E%92%E7%89%88%E6%8C%87%E5%8C%97&quot;&gt;中文文案排版指北&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%E7%9B%AE%E5%BD%95&quot;&gt;目录&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E7%A9%BA%E6%A0%BC&quot;&gt;空格&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%E4%B8%AD%E8%8B%B1%E6%96%87%E4%B9%8B%E9%97%B4%E9%9C%80%E8%A6%81%E5%A2%9E%E5%8A%A0%E7%A9%BA%E6%A0%BC&quot;&gt;中英文之间需要增加空格&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E4%B8%AD%E6%96%87%E4%B8%8E%E6%95%B0%E5%AD%97%E4%B9%8B%E9%97%B4%E9%9C%80%E8%A6%81%E5%A2%9E%E5%8A%A0%E7%A9%BA%E6%A0%BC&quot;&gt;中文与数字之间需要增加空格&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E6%95%B0%E5%AD%97%E4%B8%8E%E5%8D%95%E4%BD%8D%E4%B9%8B%E9%97%B4%E6%97%A0%E9%9C%80%E5%A2%9E%E5%8A%A0%E7%A9%BA%E6%A0%BC&quot;&gt;数字与单位之间无需增加空格&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E5%85%A8%E8%A7%92%E6%A0%87%E7%82%B9%E4%B8%8E%E5%85%B6%E4%BB%96%E5%AD%97%E7%AC%A6%E4%B9%8B%E9%97%B4%E4%B8%8D%E5%8A%A0%E7%A9%BA%E6%A0%BC&quot;&gt;全角标点与其他字符之间不加空格&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-ms-text-autospace-to-the-rescue&quot;&gt;&lt;code&gt;-ms-text-autospace&lt;/code&gt; to the rescue?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E6%A0%87%E7%82%B9%E7%AC%A6%E5%8F%B7&quot;&gt;标点符号&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%E4%B8%8D%E9%87%8D%E5%A4%8D%E4%BD%BF%E7%94%A8%E6%A0%87%E7%82%B9%E7%AC%A6%E5%8F%B7&quot;&gt;不重复使用标点符号&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E5%85%A8%E8%A7%92%E5%92%8C%E5%8D%8A%E8%A7%92&quot;&gt;全角和半角&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%E4%BD%BF%E7%94%A8%E5%85%A8%E8%A7%92%E4%B8%AD%E6%96%87%E6%A0%87%E7%82%B9&quot;&gt;使用全角中文标点&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E6%95%B0%E5%AD%97%E4%BD%BF%E7%94%A8%E5%8D%8A%E8%A7%92%E5%AD%97%E7%AC%A6&quot;&gt;数字使用半角字符&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E9%81%87%E5%88%B0%E5%AE%8C%E6%95%B4%E7%9A%84%E8%8B%B1%E6%96%87%E6%95%B4%E5%8F%A5%E7%89%B9%E6%AE%8A%E5%90%8D%E8%AF%8D%E5%85%B6%E5%85%A7%E5%AE%B9%E4%BD%BF%E7%94%A8%E5%8D%8A%E8%A7%92%E6%A0%87%E7%82%B9&quot;&gt;遇到完整的英文整句、特殊名词，其內容使用半角标点&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E5%90%8D%E8%AF%8D&quot;&gt;名词&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%E4%B8%93%E6%9C%89%E5%90%8D%E8%AF%8D%E4%BD%BF%E7%94%A8%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%A4%A7%E5%B0%8F%E5%86%99&quot;&gt;专有名词使用正确的大小写&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%9C%B0%E9%81%93%E7%9A%84%E7%BC%A9%E5%86%99&quot;&gt;不要使用不地道的缩写&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E4%BA%89%E8%AE%AE&quot;&gt;争议&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%E9%93%BE%E6%8E%A5%E4%B9%8B%E9%97%B4%E5%A2%9E%E5%8A%A0%E7%A9%BA%E6%A0%BC&quot;&gt;链接之间增加空格&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%E4%BD%BF%E7%94%A8%E7%9B%B4%E8%A7%92%E5%BC%95%E5%8F%B7&quot;&gt;简体中文使用直角引号&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E5%B7%A5%E5%85%B7&quot;&gt;工具&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E8%B0%81%E5%9C%A8%E8%BF%99%E6%A0%B7%E5%81%9A&quot;&gt;谁在这样做？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE&quot;&gt;参考文献&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;lt;!-- vim-markdown-toc --&amp;gt;&lt;/p&gt;
+&lt;h2&gt;空格&lt;/h2&gt;
+&lt;p&gt;「有研究显示，打字的时候不喜欢在中文和英文之间加空格的人，感情路都走得很辛苦，有七成的比例会在 34 岁的时候跟自己不爱的人结婚，而其余三成的人最后只能把遗产留给自己的猫。毕竟爱情跟书写都需要适时地留白。&lt;/p&gt;
+&lt;p&gt;与大家共勉之。」——&lt;a href=&quot;https://github.com/vinta/pangu.js&quot;&gt;vinta/paranoid-auto-spacing&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;中英文之间需要增加空格&lt;/h3&gt;
+&lt;p&gt;正确：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在 LeanCloud 上，数据存储是围绕 &lt;code&gt;AVObject&lt;/code&gt; 进行的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;错误：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在LeanCloud上，数据存储是围绕&lt;code&gt;AVObject&lt;/code&gt;进行的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在 LeanCloud上，数据存储是围绕&lt;code&gt;AVObject&lt;/code&gt; 进行的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;完整的正确用法：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在 LeanCloud 上，数据存储是围绕 &lt;code&gt;AVObject&lt;/code&gt; 进行的。每个 &lt;code&gt;AVObject&lt;/code&gt; 都包含了与 JSON 兼容的 key-value 对应的数据。数据是 schema-free 的，你不需要在每个 &lt;code&gt;AVObject&lt;/code&gt; 上提前指定存在哪些键，只要直接设定对应的 key-value 即可。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;例外：「豆瓣FM」等产品名词，按照官方所定义的格式书写。&lt;/p&gt;
+&lt;h3&gt;中文与数字之间需要增加空格&lt;/h3&gt;
+&lt;p&gt;正确：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;今天出去买菜花了 5000 元。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;错误：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;今天出去买菜花了 5000元。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;今天出去买菜花了5000元。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;数字与单位之间无需增加空格&lt;/h3&gt;
+&lt;p&gt;正确：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我家的光纤入户宽带有 10Gbps，SSD 一共有 10TB。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;错误：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我家的光纤入户宽带有 10 Gbps，SSD 一共有 20 TB。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;另外，度／百分比与数字之间不需要增加空格：&lt;/p&gt;
+&lt;p&gt;正确：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;今天是 233° 的高温。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;新 MacBook Pro 有 15% 的 CPU 性能提升。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;错误：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;今天是 233 ° 的高温。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;新 MacBook Pro 有 15 % 的 CPU 性能提升。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;全角标点与其他字符之间不加空格&lt;/h3&gt;
+&lt;p&gt;正确：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;刚刚买了一部 iPhone，好开心！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;错误：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;刚刚买了一部 iPhone ，好开心！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;&lt;code&gt;-ms-text-autospace&lt;/code&gt; to the rescue?&lt;/h3&gt;
+&lt;p&gt;Microsoft 有个 &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/ie/ms531164(v=vs.85).aspx&quot;&gt;&lt;code&gt;-ms-text-autospace&lt;/code&gt;&lt;/a&gt; 的 CSS 属性可以实现自动为中英文之间增加空白。不过目前并未普及，另外在其他应用场景，例如 OS X、iOS 的用户界面目前并不存在这个特性，所以请继续保持随手加空格的习惯。&lt;/p&gt;
+&lt;h2&gt;标点符号&lt;/h2&gt;
+&lt;h3&gt;不重复使用标点符号&lt;/h3&gt;
+&lt;p&gt;正确：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;德国队竟然战胜了巴西队！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;她竟然对你说「喵」？！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;错误：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;德国队竟然战胜了巴西队！！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;德国队竟然战胜了巴西队！！！！！！！！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;她竟然对你说「喵」？？！！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;她竟然对你说「喵」？！？！？？！！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;全角和半角&lt;/h2&gt;
+&lt;p&gt;不明白什么是全角（全形）与半角（半形）符号？请查看维基百科词条『&lt;a href=&quot;http://zh.wikipedia.org/wiki/%E5%85%A8%E5%BD%A2%E5%92%8C%E5%8D%8A%E5%BD%A2&quot;&gt;全角和半角&lt;/a&gt;』。&lt;/p&gt;
+&lt;h3&gt;使用全角中文标点&lt;/h3&gt;
+&lt;p&gt;正确：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;嗨！你知道嘛？今天前台的小妹跟我说「喵」了哎！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;核磁共振成像（NMRI）是什么原理都不知道？JFGI！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;错误：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;嗨! 你知道嘛? 今天前台的小妹跟我说 &quot;喵&quot; 了哎!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;嗨!你知道嘛?今天前台的小妹跟我说&quot;喵&quot;了哎!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;核磁共振成像 (NMRI) 是什么原理都不知道? JFGI!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;核磁共振成像(NMRI)是什么原理都不知道?JFGI!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;数字使用半角字符&lt;/h3&gt;
+&lt;p&gt;正确：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这件蛋糕只卖 1000 元。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;错误：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这件蛋糕只卖 １０００ 元。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;例外：在设计稿、宣传海报中如出现极少量数字的情形时，为方便文字对齐，是可以使用全角数字的。&lt;/p&gt;
+&lt;h3&gt;遇到完整的英文整句、特殊名词，其內容使用半角标点&lt;/h3&gt;
+&lt;p&gt;正确：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;乔布斯那句话是怎么说的？「Stay hungry, stay foolish.」&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;推荐你阅读《Hackers &amp;amp; Painters: Big Ideas from the Computer Age》，非常的有趣。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;错误：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;乔布斯那句话是怎么说的？「Stay hungry，stay foolish。」&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;推荐你阅读《Hackers＆Painters：Big Ideas from the Computer Age》，非常的有趣。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;名词&lt;/h2&gt;
+&lt;h3&gt;专有名词使用正确的大小写&lt;/h3&gt;
+&lt;p&gt;大小写相关用法原属于英文书写范畴，不属于本 wiki 讨论內容，在这里只对部分易错用法进行简述。&lt;/p&gt;
+&lt;p&gt;正确：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用 GitHub 登录&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们的客户有 GitHub、Foursquare、Microsoft Corporation、Google、Facebook, Inc.。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;错误：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用 github 登录&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用 GITHUB 登录&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用 Github 登录&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用 gitHub 登录&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用 gｲんĤЦ8 登录&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们的客户有 github、foursquare、microsoft corporation、google、facebook, inc.。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们的客户有 GITHUB、FOURSQUARE、MICROSOFT CORPORATION、GOOGLE、FACEBOOK, INC.。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们的客户有 Github、FourSquare、MicroSoft Corporation、Google、FaceBook, Inc.。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们的客户有 gitHub、fourSquare、microSoft Corporation、google、faceBook, Inc.。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们的客户有 gｲんĤЦ8、ｷouЯƧquﾑгє、๓เςг๏ร๏Ŧt ς๏гק๏гคtเ๏ภn、900913、ƒ4ᄃëв๏๏к, IПᄃ.。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;注意：当网页中需要配合整体视觉风格而出现全部大写／小写的情形，HTML 中请使用标准的大小写规范进行书写；并通过 &lt;code&gt;text-transform: uppercase;&lt;/code&gt;／&lt;code&gt;text-transform: lowercase;&lt;/code&gt; 对表现形式进行定义。&lt;/p&gt;
+&lt;h3&gt;不要使用不地道的缩写&lt;/h3&gt;
+&lt;p&gt;正确：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们需要一位熟悉 JavaScript、HTML5，至少理解一种框架（如 Backbone.js、AngularJS、React 等）的前端开发者。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;错误：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们需要一位熟悉 Js、h5，至少理解一种框架（如 backbone、angular、RJS 等）的 FED。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;争议&lt;/h2&gt;
+&lt;p&gt;以下用法略带有个人色彩，即：无论是否遵循下述规则，从语法的角度来讲都是&lt;strong&gt;正确&lt;/strong&gt;的。&lt;/p&gt;
+&lt;h3&gt;链接之间增加空格&lt;/h3&gt;
+&lt;p&gt;用法：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;请 &lt;a href=&quot;#&quot;&gt;提交一个 issue&lt;/a&gt; 并分配给相关同事。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;访问我们网站的最新动态，请 &lt;a href=&quot;#&quot;&gt;点击这里&lt;/a&gt; 进行订阅！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;对比用法：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;请&lt;a href=&quot;#&quot;&gt;提交一个 issue&lt;/a&gt; 并分配给相关同事。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;访问我们网站的最新动态，请&lt;a href=&quot;#&quot;&gt;点击这里&lt;/a&gt;进行订阅！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;简体中文使用直角引号&lt;/h3&gt;
+&lt;p&gt;用法：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;「老师，『有条不紊』的『紊』是什么意思？」&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;对比用法：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“老师，‘有条不紊’的‘紊’是什么意思？”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;工具&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;仓库&lt;/th&gt;
+&lt;th&gt;语言&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://github.com/vinta/paranoid-auto-spacing&quot;&gt;vinta/paranoid-auto-spacing&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;JavaScript&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://github.com/huei90/pangu.node&quot;&gt;huei90/pangu.node&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Node.js&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://github.com/huacnlee/auto-correct&quot;&gt;huacnlee/auto-correct&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Ruby&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://github.com/sparanoid/space-lover&quot;&gt;sparanoid/space-lover&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;PHP (WordPress)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://github.com/NauxLiu/auto-correct&quot;&gt;nauxliu/auto-correct&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;PHP&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://github.com/ricoa/copywriting-correct&quot;&gt;ricoa/copywriting-correct&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;PHP&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://github.com/hotoo/pangu.vim&quot;&gt;hotoo/pangu.vim&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Vim&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://github.com/sparanoid/grunt-auto-spacing&quot;&gt;sparanoid/grunt-auto-spacing&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Node.js (Grunt)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://github.com/hjiang/scripts/blob/master/add-space-between-latin-and-cjk&quot;&gt;hjiang/scripts/add-space-between-latin-and-cjk&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Python&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;谁在这样做？&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;网站&lt;/th&gt;
+&lt;th&gt;文案&lt;/th&gt;
+&lt;th&gt;UGC&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.apple.com/cn/&quot;&gt;Apple 中国&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.apple.com/hk/&quot;&gt;Apple 香港&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.apple.com/tw/&quot;&gt;Apple 台湾&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.microsoft.com/zh-cn/&quot;&gt;Microsoft 中国&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.microsoft.com/zh-hk/&quot;&gt;Microsoft 香港&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://www.microsoft.com/zh-tw/&quot;&gt;Microsoft 台湾&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://leancloud.cn/&quot;&gt;LeanCloud&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://www.zhihu.com/&quot;&gt;知乎&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;部分用户达成&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://www.v2ex.com/&quot;&gt;V2EX&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://segmentfault.com/&quot;&gt;SegmentFault&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;部分用户达成&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://apple4us.com/&quot;&gt;Apple4us&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://www.wandoujia.com/&quot;&gt;豌豆荚&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://ruby-china.org/&quot;&gt;Ruby China&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;标题达成&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://phphub.org/&quot;&gt;PHPHub&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;标题达成&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;http://sspai.com/&quot;&gt;少数派&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;N/A&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&quot;https://leetcode-cn.com/&quot;&gt;力扣 LeetCode&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;参考文献&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://grammar.about.com/od/punctuationandmechanics/a/Guidelines-For-Using-Capital-Letters.htm&quot;&gt;Guidelines for Using Capital Letters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Letter_case&quot;&gt;Letter case - Wikipedia&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.oxforddictionaries.com/words/punctuation&quot;&gt;Punctuation - Oxford Dictionaries&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://owl.english.purdue.edu/owl/section/1/6/&quot;&gt;Punctuation - The Purdue OWL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.wikihow.com/Use-English-Punctuation-Correctly&quot;&gt;How to Use English Punctuation Corrently - wikiHow&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://zh.opensuse.org/index.php?title=Help:%E6%A0%BC%E5%BC%8F&quot;&gt;格式 - openSUSE&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://zh.wikipedia.org/wiki/%E5%85%A8%E5%BD%A2%E5%92%8C%E5%8D%8A%E5%BD%A2&quot;&gt;全角和半角 - 维基百科&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://zh.wikipedia.org/wiki/%E5%BC%95%E8%99%9F&quot;&gt;引号 - 维基百科&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://zh.wikipedia.org/wiki/%E7%96%91%E5%95%8F%E9%A9%9A%E5%98%86%E8%99%9F&quot;&gt;疑问惊叹号 - 维基百科&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>blog日常推送操作</title><link>https://qiqimora.cn/posts/blog%E6%97%A5%E5%B8%B8%E6%8E%A8%E9%80%81%E6%93%8D%E4%BD%9C/</link><guid isPermaLink="true">https://qiqimora.cn/posts/blog%E6%97%A5%E5%B8%B8%E6%8E%A8%E9%80%81%E6%93%8D%E4%BD%9C/</guid><description>记录一下blog日常推送操作</description><pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;博客日常推送操作&lt;/h1&gt;
+&lt;h2&gt;步骤1：拉取远程最新（避免冲突）&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;git pull origin main
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;步骤2：暂存所有修改 + 提交（学了什么 + 做了什么 + 写了什么）&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;git add .
+git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描述 + 第三件事简短描述&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;步骤3：推送到 GitHub（完成同步）&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;git push origin main
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>《操作系统概论》整理</title><link>https://qiqimora.cn/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E6%95%B4%E7%90%86/</link><guid isPermaLink="true">https://qiqimora.cn/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E6%95%B4%E7%90%86/</guid><description>计算机经典书籍，咱要努力啃掉，嗷呜！</description><pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;操作系统概论&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&quot;./images/image-9.png&quot; alt=&quot;操作系统概论原书第9版&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;概论&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;操作系统（&lt;strong&gt;Operating System，OS&lt;/strong&gt;）位于计算机用户与计算机&lt;strong&gt;硬件&lt;/strong&gt;之间。&lt;/li&gt;
+&lt;li&gt;操作系统的目的是提供环境，以便用户能够便捷而高效地执行程序。&lt;/li&gt;
+&lt;li&gt;操作系统是&lt;strong&gt;管理计算机硬件&lt;/strong&gt;的程序。它还为应用程序提供基础，并充当计算机用户和硬件的中介。&lt;/li&gt;
+&lt;li&gt;大型机的操作系统主要用于&lt;strong&gt;优化硬件使用率&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;个人计算机（PC）的操作系统支持复杂游戏、商业应用和这两者之间的其他应- 用。&lt;/li&gt;
+&lt;li&gt;操作系统&lt;strong&gt;既庞大又复杂&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;操作系统的功能&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;计算机系统可以分为4个组件：硬件、操作系统、应用程序、用户。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;硬件：如中央处理单元（cpu）、内存、输入/输出设备，为系统提供基本的计算机资源。&lt;/li&gt;
+&lt;li&gt;操作系统控制硬件，并协调各个用户应用程序的硬件使用。&lt;/li&gt;
+&lt;li&gt;计算机系统可以分为硬件、软件及数据。当计算机系统运行时，操作系统正确手段以便使用这些资源。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;操作系统类似于政府，其本身不能实现任何有用功能，而是提供一个方便其他程序执行有用工作的环境。
+&amp;lt;br&amp;gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;用户视角&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;计算机的用户视角因使用界面不同而不同。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PC用户&lt;/strong&gt;：操作系统设计的主要目的是用户使用方便、次要的是性能，不在乎的资源利用。&lt;/li&gt;
+&lt;li&gt;大型机或小型机用户：操作系统的设计目标是优化资源利用率，确保所有的cpu时间、内存和I/O都能得到有效使用，并且确保没有用户使用超过限额以外的资源。&lt;/li&gt;
+&lt;li&gt;工作站用户：工作站与其他工作站和服务器相连。操作系统的设计需要兼顾使用方便性和资源利用率。&lt;/li&gt;
+&lt;li&gt;智能手机和平板电脑等&lt;strong&gt;移动计算机用户&lt;/strong&gt;：大多数移动计算机为单用户使用，用户通过触摸屏来交互。&lt;/li&gt;
+&lt;li&gt;嵌入式设备：家电和汽车等嵌入式计算机。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;系统视角&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;从计算机角度来看，操作系统是与硬件紧密相连的程序。可将操作系统看作&lt;strong&gt;资源分配器&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;计算机系统可能具有许多资源：cpu时间、内存空间、文件存储空间、I/O设备等。操作系统管理这些资源。面对许多甚至冲突的资源请求，操作系统应考虑如何为各个程序和用户分配资源，以便计算机系统能有效且公平地运行。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;操作系统的定义&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一般来说，没有一个关于操作系统的完全准确的定义。&lt;/li&gt;
+&lt;li&gt;操作系统的存在是因为提供了合理方式解决创建可用计算系统的问题。&lt;/li&gt;
+&lt;li&gt;计算机系统的&lt;strong&gt;根本目的&lt;/strong&gt;是，执行用户程序并更容易解决用户问题。为实现这一目的，构造了计算机硬件。由于硬件本身并不十分容易使用，因此开发了应用程序。这些应用程序需要一些共同操作，如&lt;strong&gt;控制I/O设备。这些控制和分配I/O设备资源的共同功能&lt;/strong&gt;被组成一个软件模块：操作系统。&lt;/li&gt;
+&lt;li&gt;一个比较公认的定义是：操作系统是一直运行在计算机上的程序（通常称为&lt;strong&gt;内核&lt;/strong&gt;）。&lt;/li&gt;
+&lt;li&gt;除了内核外，还有两类程序：
+&lt;ul&gt;
+&lt;li&gt;系统程序：是与系统运行有关的程序，但不是内核的一部分&lt;/li&gt;
+&lt;li&gt;应用程序：与系统运行无关的所有其他程序
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;计算机系统的组成&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;如图：&lt;img src=&quot;./images/image-10.png&quot; alt=&quot;alt text&quot; /&gt;
+&amp;lt;br&amp;gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;计算机系统的运行&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;现代通用计算机系统包括一个或多个&lt;strong&gt;cpu&lt;/strong&gt;和若干设备控制器，通过公用&lt;strong&gt;总线&lt;/strong&gt;相连接，总线提供了共享内存的访问。&lt;/li&gt;
+&lt;li&gt;每个设备控制器负责一类特定的&lt;strong&gt;设备&lt;/strong&gt;（如磁盘驱动器、音频设备或视频显示器）。cpu与设备控制器可以并发执行，并竞争访问内存。为了确保有序访问共享内存，需要内存控制器来协调访问&lt;strong&gt;内存&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;引导程序&lt;/strong&gt;：当计算机开机运行时，需要运行一个初始程序，该程序位于计算机的固件（如&lt;strong&gt;只读内存ROM&lt;/strong&gt;或电可擦编程只读内存EEPROM）。
+&lt;ul&gt;
+&lt;li&gt;引导程序必须&lt;strong&gt;知道如何加载操作系统&lt;/strong&gt;并开始执行系统。为了完成这一目标，引导程序必须定位操作系统内核并加载到内存。&lt;/li&gt;
+&lt;li&gt;一旦&lt;strong&gt;内核加载到内存并执行&lt;/strong&gt;，它就开始为系统与用户提供服务。除了内核外，系统程序也提供一些服务，它们在启动时加到内存而成为系统程序或系统后台程序。一旦这个阶段完成，系统就完全启动了，并且等待事件发生.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;事件发生&lt;/strong&gt;通常通过硬件或软件的&lt;strong&gt;中断&lt;/strong&gt;来通知。硬件可以通过系统总线发送信号到cpu，以触发中断。软件可通过执行特别操作即&lt;strong&gt;系统调用&lt;/strong&gt;，以&lt;strong&gt;触发中断&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;当&lt;strong&gt;cpu被中断时&lt;/strong&gt;，它&lt;strong&gt;停止正在做的事&lt;/strong&gt;，并立即转到固定位置再继续执行。该固定位置通常包含&lt;strong&gt;中断服务程序&lt;/strong&gt;的开始地址。中断服务程序开始执行，在执行完后，cpu重新执行中断的计算。这一运行的时间表如图：&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-11.png&quot; alt=&quot;单个进程执行输出的中断时间表&quot; /&gt;
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;存储结构&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;内存（main memory），也称&lt;strong&gt;随机访问内存&lt;/strong&gt;（Random Access Memory，&lt;strong&gt;RAM&lt;/strong&gt;），内存通常为动态随机访问内存（Dynamic Random Access Memory，&lt;strong&gt;DRAM&lt;/strong&gt;）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;只读内存&lt;/strong&gt;（Read Only Memory，&lt;strong&gt;ROM&lt;/strong&gt;），数据不可修改，即不可写&lt;/li&gt;
+&lt;li&gt;内存特点：&lt;strong&gt;易失性&lt;/strong&gt;。掉电丢失数据。&lt;/li&gt;
+&lt;li&gt;外存：磁盘、硬盘、U盘、光碟、固态硬盘等。&lt;strong&gt;非易失性&lt;/strong&gt;，数据可&lt;strong&gt;持久化&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;存储设备层次图&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-12.png&quot; alt=&quot;存储设备层次图&quot; /&gt;
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;I/O结构&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每个通用计算机系统由一个cpu和多个&lt;strong&gt;设备控制器&lt;/strong&gt;组成，它们通过总线连接在一起。&lt;/li&gt;
+&lt;li&gt;每个设备控制器管理某一特定类型的设备。&lt;/li&gt;
+&lt;li&gt;通常，操作系统为每个设备控制器提供一个&lt;strong&gt;设备驱动程序&lt;/strong&gt;（device driver）
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;计算机系统的体系结构&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;这里我们根据通用&lt;strong&gt;处理器数量&lt;/strong&gt;来进行粗略分类。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;单处理器系统&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;只有一个cpu的系统。执行一个&lt;strong&gt;通用指令集&lt;/strong&gt;（如x86指令集），该指令集包括执行用户进程的指令。&lt;/li&gt;
+&lt;li&gt;几乎所有单处理器系统都带有其他的&lt;strong&gt;专用处理器&lt;/strong&gt;。它们为特定设备的处理器，如磁盘、键盘、图形处理器。专用处理器执行&lt;strong&gt;有限的&lt;/strong&gt;指令集，而并&lt;strong&gt;不执行用户进程&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;多处理器系统&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;多cpu系统，多核系统。集成多个计算核到&lt;strong&gt;单个芯片&lt;/strong&gt;的系统，称为&lt;strong&gt;多核&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;优点：
+&lt;ul&gt;
+&lt;li&gt;提高&lt;strong&gt;系统吞吐量&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;规模经济&lt;/li&gt;
+&lt;li&gt;增加可靠性
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;按&lt;strong&gt;处理能力&lt;/strong&gt;分类&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;非对称处理器：每个处理器都有各自特定的任务。一个主处理器控制系统，其它处理器或向主处理器要任务或处理预先规定的任务。这种称为&lt;strong&gt;主从关系&lt;/strong&gt;。主处理器调度从处理器，并安排任务。&lt;/li&gt;
+&lt;li&gt;对称处理器：每个处理器都参与完成操作系统的所有任务，处理器之间没有主从关系。如图：&lt;img src=&quot;./images/image-14.png&quot; alt=&quot;对称多处理的体系结构&quot; /&gt;
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;集群系统&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;集群系统是由多个&lt;strong&gt;独立的&lt;/strong&gt;计算机系统组成的系统，每个系统都有自己的&lt;strong&gt;本地内存&lt;/strong&gt;和&lt;strong&gt;本地磁盘&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;这种系统将多个cpu组合在一起。一般通过网络连接，提供高可用性的服务。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-15.png&quot; alt=&quot;集群系统&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;操作系统的结构&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;操作系统具有&lt;strong&gt;多道程序能力&lt;/strong&gt;。一般来说，单个程序不能让cpu和IO设备始终忙碌。&lt;/li&gt;
+&lt;li&gt;单个用户通常具有多个运行程序。&lt;strong&gt;多道程序设计&lt;/strong&gt;通过安排&lt;strong&gt;作业&lt;/strong&gt;（job），使得cpu总有一个执行作业，从而&lt;strong&gt;提高cpu利用率&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;操作系统在内存中同时保存多个任务。由于内存太小不能容纳所有作业，因此这些作业首先保存在&lt;strong&gt;磁盘的作业池&lt;/strong&gt;（job pool）上。该作业池包括磁盘上的、等待分配内存的所有&lt;strong&gt;进程&lt;/strong&gt;。
+&lt;ul&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-16.png&quot; alt=&quot;多道程序系统的内存分布&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;分时系统&lt;/strong&gt;是多道程序设计的自然延伸。对于分时系统，虽然cpu还是通过&lt;strong&gt;切换作业&lt;/strong&gt;来执行多个作业，但是由于切换频率很高，用户可以在程序运行时与其交互。&lt;/li&gt;
+&lt;li&gt;分时系统需要确保&lt;strong&gt;响应时间&lt;/strong&gt;。为每个用户提供&lt;strong&gt;一小部分&lt;/strong&gt;的分时计算机资源。加载到内地并执行的程序，称为&lt;strong&gt;进程&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;操作系统的执行&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;操作系统是&lt;strong&gt;中断&lt;/strong&gt;驱动的。&lt;strong&gt;事件&lt;/strong&gt;是由中断或陷阱（或异常）引起的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;陷阱（或异常）&lt;/strong&gt; 是一种 &lt;strong&gt;软件生成的中断&lt;/strong&gt;，或源于出错，或源于用户程序的特定请求。
+&amp;lt;br&amp;gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;双重模式与多重模式的执行&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;为确保操作系统的正确运行，必须区分&lt;strong&gt;操作系统代码&lt;/strong&gt;和&lt;strong&gt;用户代码&lt;/strong&gt;的执行。&lt;/li&gt;
+&lt;li&gt;用户模式（user mode）和内核模式（kernel mode）&lt;/li&gt;
+&lt;li&gt;计算机硬件可以通过&lt;strong&gt;模式位&lt;/strong&gt;（mode bit）来表示当前模式：内核模式（0）和用户模式（1）。&lt;/li&gt;
+&lt;li&gt;当计算机系统执行用户应用时，系统处于用户模式，当用户应用通过&lt;strong&gt;系统调用&lt;/strong&gt;，请求操作系统服务时，系统必须&lt;strong&gt;从用户模式切换到内核模式&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-17.png&quot; alt=&quot;用户模式到内核模式的转换&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;双重模式执行&lt;strong&gt;提供保护手段&lt;/strong&gt;，以便防止操作系统和用户程序受到错误用户程序的影响。&lt;/li&gt;
+&lt;li&gt;这种防护实现为：将可能引起损害的机器指令作为&lt;strong&gt;特权指令&lt;/strong&gt;，并且硬件只有&lt;strong&gt;在内核模式下&lt;/strong&gt;才允许执行特权指令。&lt;/li&gt;
+&lt;li&gt;如果在用户模式下试图执行特权指令，那么硬件并不执行该指令，而是认为该&lt;strong&gt;指令非法&lt;/strong&gt;，并将以陷阱形式通知操作系统。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;定时器&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;操作系统应该维持控制cpu，防止用户程序陷入死循环，或不调用系统服务并且不将控制返给操作系统。为了实现这一目标可以使用定时器（timer）。&lt;/li&gt;
+&lt;li&gt;定时器可设置为指定周期后中断计算机。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;进程管理&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;在未被cpu执行之前，程序做不了任何事情。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;执行中的程序称为进程&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;程序本身不是进程，程序是&lt;strong&gt;被动实体&lt;/strong&gt;，而进程是&lt;strong&gt;主动实体&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;单线程进程有一个&lt;strong&gt;程序计数器（PC）&lt;/strong&gt;，指定了下一个所要执行的指令。&lt;/li&gt;
+&lt;li&gt;进程是系统的&lt;strong&gt;工作单元&lt;/strong&gt;。系统由多个进程组成，其中有操作系统进程，也有用户进程。所有进程&lt;strong&gt;并发执行&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;操作系统负责&lt;strong&gt;进程管理&lt;/strong&gt;的以下活动：
+&lt;ul&gt;
+&lt;li&gt;在cpu上&lt;strong&gt;调度&lt;/strong&gt;进程和线程&lt;/li&gt;
+&lt;li&gt;创建和销毁用户进程和系统进程&lt;/li&gt;
+&lt;li&gt;挂起和重启进程&lt;/li&gt;
+&lt;li&gt;提供进程同步机制&lt;/li&gt;
+&lt;li&gt;提供进程通信机制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;内存管理&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;内存简单理解就是一个大的&lt;strong&gt;字节数组&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;如果cpu需要执行指令，那么这些数据必须首先通过cpu的IO调度传到内存。&lt;/li&gt;
+&lt;li&gt;为了改进cpu的利用率和用户的计算机响应速度。计算机应在&lt;strong&gt;内存中保留多个程序&lt;/strong&gt;，这就需要内存管理。&lt;/li&gt;
+&lt;li&gt;操作系统负责&lt;strong&gt;内存管理&lt;/strong&gt;的以下活动：
+&lt;ul&gt;
+&lt;li&gt;记录内存的哪部分在被使用以及谁使用&lt;/li&gt;
+&lt;li&gt;决定哪些进程会调入或调出内存&lt;/li&gt;
+&lt;li&gt;根据需要分配和释放内存空间&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;存储管理&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;操作系统提供信息存储的&lt;strong&gt;统一逻辑视图&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;操作系统对存储设备的物理属性进行了抽象，并定义了逻辑单元，即&lt;strong&gt;文件&lt;/strong&gt;（File）。操作系统映射文件到物理媒介，并通过存储设备来访问文件。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-18.png&quot; alt=&quot;各级别存储的性能&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;高速缓存（caching）一般集成在cpu中。
+&lt;ul&gt;
+&lt;li&gt;高速缓存的几个问题
+&lt;ul&gt;
+&lt;li&gt;为什么需要高速缓存&lt;/li&gt;
+&lt;li&gt;高速缓存的大致原理是什么&lt;/li&gt;
+&lt;li&gt;高速缓存的数据一致性问题&lt;/li&gt;
+&lt;li&gt;多级高速缓存&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-19.png&quot; alt=&quot;整数A从磁盘到寄存器的迁移&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;I/O系统
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;IO子系统&lt;/strong&gt;为操作系统本身隐藏了IO设备的特性。&lt;/li&gt;
+&lt;li&gt;IO子系统包括以下几个组件：
+&lt;ul&gt;
+&lt;li&gt;包括缓冲、高速缓存和假脱机的内存管理组件&lt;/li&gt;
+&lt;li&gt;设备驱动器的通用接口&lt;/li&gt;
+&lt;li&gt;特定硬件设备的驱动程序&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;只有&lt;strong&gt;设备驱动程序&lt;/strong&gt;才能知道控制设备的特性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;保护与安全&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;保护是一种机制，用于控制进程或用户访问计算机系统的资源。比如阻止用户对内核接口的非法调用等。&lt;/li&gt;
+&lt;li&gt;安全：防止系统不受外部或内部的攻击。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;内核数据结构&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;列表、堆栈、队列&lt;/li&gt;
+&lt;li&gt;树&lt;/li&gt;
+&lt;li&gt;哈希函数与哈希表&lt;/li&gt;
+&lt;li&gt;位图&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;计算环境&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;传统计算&lt;/li&gt;
+&lt;li&gt;移动计算&lt;/li&gt;
+&lt;li&gt;分布计算
+&lt;ul&gt;
+&lt;li&gt;分布式系统是&lt;strong&gt;物理上分开&lt;/strong&gt;的，通过&lt;strong&gt;网络相连&lt;/strong&gt;的一组计算机系统。&lt;/li&gt;
+&lt;li&gt;网络协议（如TCP/IP协议）、局域网、广域网、互联网&lt;/li&gt;
+&lt;li&gt;网络操作系统&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;客户机-服务器计算
+&lt;ul&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-20.png&quot; alt=&quot;客户机-服务器的通用结构&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;对等计算（P2P）
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;对等系统&lt;/strong&gt;模型（Peer-to-Peer，P2P）这个模型&lt;strong&gt;不区分客户机和服务器&lt;/strong&gt;。所有系统节点都是对等的。每个节点都可以作为客户机或服务器，这取决于它是提供请求还是提供服务。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-21.png&quot; alt=&quot;无中央控制的对等系统&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;虚拟化
+&lt;ul&gt;
+&lt;li&gt;通过虚拟化技术，操作系统可以在其他操作系统上运行应用程序。&lt;/li&gt;
+&lt;li&gt;虚拟化技术是一种软件技术，用于实现模拟。如电脑上玩安卓游戏，需要安装安卓模拟器！&lt;/li&gt;
+&lt;li&gt;如：VMware软件、JVM、阿里云服务器&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-22.png&quot; alt=&quot;VMware&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;云计算
+&lt;ul&gt;
+&lt;li&gt;云计算（cloud computing）可以通过网络提供计算、存储甚至应用程序登服务。从某些方面来看，它是&lt;strong&gt;虚拟化技术的延伸&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;云计算实际上有许多类型，包括：
+&lt;ul&gt;
+&lt;li&gt;公有云（public cloud）&lt;/li&gt;
+&lt;li&gt;私有云（private cloud）&lt;/li&gt;
+&lt;li&gt;混合云（hybrid cloud）&lt;/li&gt;
+&lt;li&gt;软件即服务（Software as a Service，SaaS）&lt;/li&gt;
+&lt;li&gt;平台即服务（Platform as a Service，PaaS）&lt;/li&gt;
+&lt;li&gt;基础设施及服务（Infrastructure as a Service，IaaS）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-23.png&quot; alt=&quot;云计算&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;实时嵌入式系统
+&lt;ul&gt;
+&lt;li&gt;如汽车、家电等都能应用到实时嵌入式系统。&lt;/li&gt;
+&lt;li&gt;嵌入式系统几乎总是采用&lt;strong&gt;实时操作系统&lt;/strong&gt;（real-time OS），比如导弹系统使用的是实时操作系统。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;开源操作系统
+&lt;ul&gt;
+&lt;li&gt;Linux、Unix开源，开放源代码&lt;/li&gt;
+&lt;li&gt;Windows闭源，不开放源代码&lt;/li&gt;
+&lt;li&gt;Google的Android开放源代码&lt;/li&gt;
+&lt;li&gt;苹果的IOS不开放源代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;第二章 操作系统结构&lt;/h2&gt;
+&lt;h3&gt;操作系统的服务&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;操作系统&lt;strong&gt;提供环境&lt;/strong&gt;以便执行程序。它为程序及程序用户提供某些服务。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-24.png&quot; alt=&quot;操作系统服务的视图&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;具体服务：
+&lt;ul&gt;
+&lt;li&gt;用户界面：有多种形式，&lt;strong&gt;命令行界面&lt;/strong&gt;、批处理界面、&lt;strong&gt;图形用户界面&lt;/strong&gt;  （Graphical User Interface，&lt;strong&gt;GUI&lt;/strong&gt;）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;程序执行&lt;/strong&gt;：系统能加载程序到内存，并加以执行。&lt;/li&gt;
+&lt;li&gt;I/O操作：可以涉及文件或外设&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;文件系统操作&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;通信：一个进程与另一个进程交换信息。包括内存共享、消息交换等。&lt;/li&gt;
+&lt;li&gt;错误检测：需要不断的检测错误和更正错误。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;资源分配&lt;/strong&gt;：当多用户或多作用同时运行时，每个都应分配资源。&lt;/li&gt;
+&lt;li&gt;记账：记录用户使用资源的类型和数量&lt;/li&gt;
+&lt;li&gt;保护与安全&lt;/li&gt;
+&lt;li&gt;cpu&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;用户与操作系统的界面&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;分为&lt;strong&gt;命令解释程序&lt;/strong&gt;（command interperter）和&lt;strong&gt;图形用户界面&lt;/strong&gt;（GUI）。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;命令解释程序&lt;/strong&gt;（command interperter）是一种用户界面，它允许用户通过输入命令来与操作系统交互。
+&lt;ul&gt;
+&lt;li&gt;如图，windows的dos命令行：&lt;img src=&quot;./images/image-25.png&quot; alt=&quot;alt text&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;图形用户界面&lt;/strong&gt;（GUI）是一种用户界面，它允许用户通过点击图标、菜单或按钮等元素来与操作系统交互。
+&lt;ul&gt;
+&lt;li&gt;采用用户友好的图形用户界面（GUI）。&lt;/li&gt;
+&lt;li&gt;优点：用户操作简单、方便&lt;/li&gt;
+&lt;li&gt;缺点：消耗系统资源，系统复杂度更高，bug更多。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;系统调用&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;系统调用提供了用户程序与操作系统之间的接口，用户程序可以通过系调用请求操作系统执行某些特权操作，如文件操作、进程管理、内存管等。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如图：&lt;img src=&quot;./images/image-26.png&quot; alt=&quot;如何使用系统调用的例子&quot; /&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;这些调用通常以c或c++编写，甚至是汇编语言编写。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通常应用开发人员根据**应用程序接口（API）**来设计程序。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;大部分程序设计语言（如c、c++、java等）都提供了&lt;strong&gt;系统调用接口&lt;/strong&gt;，开发人员可以直接调用这些接口来实现系统调用。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;例如，在c语言中，开发人员可以使用&lt;code&gt;open()&lt;/code&gt;函数来打开一个文件，使用&lt;code&gt;read()&lt;/code&gt;函数来读取文件内容，使用&lt;code&gt;write()&lt;/code&gt;函数来写入文件内容，使用&lt;code&gt;close()&lt;/code&gt;函数来关闭文件。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;系统调用的类型&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;大致分为六大类：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;进程控制
+&lt;ul&gt;
+&lt;li&gt;结束、中止&lt;/li&gt;
+&lt;li&gt;加载、执行&lt;/li&gt;
+&lt;li&gt;创建进程、终止进程&lt;/li&gt;
+&lt;li&gt;等待时间&lt;/li&gt;
+&lt;li&gt;等待事件、信号事件&lt;/li&gt;
+&lt;li&gt;分配和释放内存&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;文件管理
+&lt;ul&gt;
+&lt;li&gt;创建、删除、打开、关闭文件&lt;/li&gt;
+&lt;li&gt;读取、写入文件&lt;/li&gt;
+&lt;li&gt;重新定位文件指针&lt;/li&gt;
+&lt;li&gt;获取文件属性、设置文件属性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;设备管理
+&lt;ul&gt;
+&lt;li&gt;请求、释放设备&lt;/li&gt;
+&lt;li&gt;读取、写入设备&lt;/li&gt;
+&lt;li&gt;重新定位&lt;/li&gt;
+&lt;li&gt;获取设备属性、设置设备属性&lt;/li&gt;
+&lt;li&gt;逻辑附加或分离设备&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;信息维护
+&lt;ul&gt;
+&lt;li&gt;获取系统信息、设置系统信息&lt;/li&gt;
+&lt;li&gt;获取时间或日期、设置时间或日期&lt;/li&gt;
+&lt;li&gt;获取进程、文件或设备属性&lt;/li&gt;
+&lt;li&gt;设置进程、文件或设备属性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;通信
+&lt;ul&gt;
+&lt;li&gt;创建、删除通信连接&lt;/li&gt;
+&lt;li&gt;发送、接收消息&lt;/li&gt;
+&lt;li&gt;传送状态信息&lt;/li&gt;
+&lt;li&gt;附加或分离远程设备&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;保护
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;进程控制&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;执行程序能正常或异常停止执行。如果一个系统调用异常停止停止当前执行的程序，那么可能转存储内存到磁盘，并生成错误信息&lt;/li&gt;
+&lt;li&gt;通常，多个进程会&lt;strong&gt;共享数据&lt;/strong&gt;。为了确保共享数据的完整性，操作系统通常提供系统调用。以允许一个进程&lt;strong&gt;锁定&lt;/strong&gt;共享数据，防止其他进程同时访问或修改。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-27.png&quot; alt=&quot;进程控制&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;操作系统的结构&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;操作系统&lt;strong&gt;庞大且复杂&lt;/strong&gt;，为了正常工作，操作系统通常被&lt;strong&gt;分成子系统或模块&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;早期简单结构：
+&lt;ul&gt;
+&lt;li&gt;MS-DOS系统：没有采用复杂的结构，而是采用了简单的&lt;strong&gt;分层结构&lt;/strong&gt;，没有很好的区分功能的接口和层次。&lt;/li&gt;
+&lt;li&gt;最初的Unix系统：采用了&lt;strong&gt;有限&lt;/strong&gt;的结构。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;分层法&lt;/strong&gt;的主要优点是&lt;strong&gt;简化了构造和调试&lt;/strong&gt;。所选的层次要求&lt;strong&gt;每层只能调用更底层的功能和服务&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;微内核结构
+&lt;ul&gt;
+&lt;li&gt;随着Unix不断壮大，其内核也变得更大更难以管理。&lt;/li&gt;
+&lt;li&gt;采用&lt;strong&gt;微内核技术&lt;/strong&gt;对内核进行&lt;strong&gt;模块化&lt;/strong&gt;。即从内核中删除所有不必要的部件，将它们当作系统级与用户级的程序来实现。这样做的结构是&lt;strong&gt;内核较小&lt;/strong&gt;；&lt;/li&gt;
+&lt;li&gt;主要功能：为客户端程序和运行在用户空间的各种服务提供通信。通信是通过消息传递来实现的。&lt;/li&gt;
+&lt;li&gt;优点：
+&lt;ul&gt;
+&lt;li&gt;内核较小，易于维护和调试。&lt;/li&gt;
+&lt;li&gt;便于扩展操作系统&lt;/li&gt;
+&lt;li&gt;便于移植&lt;/li&gt;
+&lt;li&gt;提高了安全性和可靠性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;缺点：
+&lt;ul&gt;
+&lt;li&gt;增加了系统调用的开销，因为每次系统调用都需要从用户空间切换到内核空间。&lt;/li&gt;
+&lt;li&gt;微内核结构通常比分层结构更复杂，因此需要更多的开发人员来维护和调试。&lt;/li&gt;
+&lt;li&gt;性能问题，由于微内核需要在用户空间和内核空间之间进行消息传递，因此会引入一定的延迟。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;目前操作系统采用&lt;strong&gt;可加载的&lt;/strong&gt;内核模块。&lt;/li&gt;
+&lt;li&gt;混合系统结构
+&lt;ul&gt;
+&lt;li&gt;如Android分层模型。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;操作系统如何启动？&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;加载内核以启动计算机的过程，称为&lt;strong&gt;系统引导（booting）&lt;/strong&gt;。大多数计算机系统都有一小块代码，称为&lt;strong&gt;引导程序&lt;/strong&gt;。引导程序能都定位内核，加载内核到内存中，并将控制权转交给内核。&lt;/li&gt;
+&lt;li&gt;引导程序通常存储在&lt;strong&gt;只读内存（ROM）&lt;strong&gt;中，因此它是&lt;/strong&gt;不可写的&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;第三章 进程&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;引入：早期计算机一次只能执行一个程序，该程序独占系统所有资源。现代操作系统支持多道程序设计，允许将多个程序同时加载到内存中并发执行，每个&lt;strong&gt;运行的程序实例&lt;/strong&gt;称为一个&lt;strong&gt;进程&lt;/strong&gt;。进程是分时系统的工作单位，通过cpu的多路复用实现&lt;strong&gt;并发&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;进程概念&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;在讨论操作系统时，有个问题是关于如何称呼所有cpu活动。批处理系统把它叫做&lt;strong&gt;执行作业（job）&lt;/strong&gt;，而分时系统把它叫做使用用户程序或&lt;strong&gt;任务（task）&lt;/strong&gt;。即使单用户系统也可以同时运行多个任务（如文字处理、网页浏览等）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;即使用户一次只能执行一个程序，但是操作系统也需要支持本身的内部活动，如内存管理。所有的这些活动在许多方面都相似，因此统一被称为&lt;strong&gt;进程（process）&lt;/strong&gt;。
+&amp;lt;br&amp;gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;程序本身不是进程，程序只是&lt;strong&gt;被动实体&lt;/strong&gt;。如存储在磁盘上的可执行文件。而进程是&lt;strong&gt;活动实体&lt;/strong&gt;。当一个可执行文件被加载到了内存时，这个程序就成为了一个进程。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;进程是执行中的程序实例&lt;/strong&gt;。（同一个程序可以有多个进程）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;进程是操作系统进行&lt;strong&gt;资源分配和调度的基本单位&lt;/strong&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;进程是执行的程序是一种&lt;strong&gt;非正式&lt;/strong&gt;的说法。严格来说，进程还包括程序计数器、寄存器、栈、数据段、代码段等进程运行中的状态。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;进程状态&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;进程在执行时，会经历不同的状态。这些状态包括：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;新状态&lt;/strong&gt;（new）：进程正在被创建，还没有开始执行。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;就绪状态&lt;/strong&gt;（ready）：进程已经准备好执行，等待cpu分配。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;执行状态&lt;/strong&gt;（running）：进程正在cpu上执行。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;等待状态&lt;/strong&gt;（waiting）：进程正在等待某个事件发生，如I/O操作完成，也称阻塞状态。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;终止状态&lt;/strong&gt;（terminated）：进程执行完毕，或者被操作系统强制终止。&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image.png&quot; alt=&quot;进程状态转换图&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;进程控制块&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;操作系统中的每个进程采用&lt;strong&gt;进程控制块&lt;/strong&gt;（Process Control Block，&lt;strong&gt;PCB&lt;/strong&gt;）来表示。&lt;/li&gt;
+&lt;li&gt;PCB包含了进程的所有信息
+&lt;ul&gt;
+&lt;li&gt;进程状态：进程当前的执行状态（如新状态、就绪、执行、等待、终止状态等）。&lt;/li&gt;
+&lt;li&gt;程序计数器：存储进程将要执行的下一个指令的地址。&lt;/li&gt;
+&lt;li&gt;cpu寄存器：发生中断时，这些状态信息与程序计数器一起被保存起来，以备进程在稍后的时间点恢复执行。&lt;/li&gt;
+&lt;li&gt;cpu调度信息：优先级、调度队列指针等，如进程的优先数、等待时间等。&lt;/li&gt;
+&lt;li&gt;内存管理信息：包括基地址和界限寄存器的值、页表和段表等。&lt;/li&gt;
+&lt;li&gt;记账信息：cpu使用时间、时间限制等。&lt;/li&gt;
+&lt;li&gt;I/O状态信息：包括分配给进程的I/O设备列表、打开文件列表等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;简而言之，PCB包含了进程的所有必要信息，操作系统需要使用这些信息来管理进程。&lt;/li&gt;
+&lt;li&gt;扩展一下：在Linux内核中，所有活动进程的表示都采用 task_struct 的&lt;strong&gt;双向链表&lt;/strong&gt;。内核采用一个指针 current，用于指向当前正在执行的进程。通过轮询这个链表，操作系统可以切换到不同的进程。&lt;/li&gt;
+&lt;li&gt;到目前为止，讨论的模型中，每个进程是一个只能执行单个&lt;strong&gt;线程&lt;/strong&gt;的程序。这种单一控制线程使得进程一次只能执行一个任务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;进程调度&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;多道程序设计的目的是，无论何时都有进程在执行，从而最大化利用cpu资源。分时系统的目的是进程之间快速切换，以提供用户交互的感觉。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;进程调度器&lt;/strong&gt;会根据一定的策略，从就绪队列中选择一个进程，将其分配给cpu执行。单处理器系统不会同时执行多个进程，因此如果有多个进程，需要cpu空闲时才能调度。
+&amp;lt;br&amp;gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;调度队列&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;作业队列&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;就绪队列&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;设备队列&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;进程调度通常用队列图来表示。
+&amp;lt;br&amp;gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;调度程序：操作系统通过&lt;strong&gt;调度程序&lt;/strong&gt;来&lt;strong&gt;选择进程&lt;/strong&gt;，进而将其分配给cpu执行。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;长期调度程序、中期调度程序、短期调度程序
+&lt;ul&gt;
+&lt;li&gt;大致上来说，长期调度是主要将大量程序按计划移入内存，中期调度根据实际情况将程序暂时移出内存时机到了再移入内存。短期调度是根据进程的优先数和其他因素来选择进程。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;IO密集型进程、cpu密集型进程
+&lt;ul&gt;
+&lt;li&gt;IO密集型进程是指进程需要频繁进行I/O操作，如读写文件、网络通信等。而cpu密集型进程是指进程需要频繁进行计算，如数值计算、加密解密等。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;上下文切换&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;保存当前进程的状态&lt;/strong&gt;，并&lt;strong&gt;加载下一个进程的状态&lt;/strong&gt;，这个过程称为&lt;strong&gt;上下文切换&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;中断&lt;/strong&gt;：当一个进程需要等待某个事件发生时，如I/O操作完成，操作系统会&lt;strong&gt;中断&lt;/strong&gt;当前进程的执行，转而去执行其他进程。&lt;/li&gt;
+&lt;li&gt;进程的上下文采用&lt;strong&gt;PCB&lt;/strong&gt;表示。&lt;/li&gt;
+&lt;li&gt;上下文切换的时间是纯粹的开销，因为在这个过程中，cpu没有做任何有用的工作，其耗时取决于硬件支持（如寄存器数量、内存速度等）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;进程运行&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;大多数系统的进程都是&lt;strong&gt;并发执行&lt;/strong&gt;的，他们可以动态创建和删除。因此操作系统必须提供机制，以创建和终止进程。
+&amp;lt;br&amp;gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;进程创建&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;进程在执行过程中，可能会创建一个或多个新的进程。创建进程的进程被称为&lt;strong&gt;父进程&lt;/strong&gt;，而新创建的进程被称为&lt;strong&gt;子进程&lt;/strong&gt;。每个新进程都可以再创建新的进程，形成&lt;strong&gt;进程树&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;大多数操作系统对进程的识别都是通过&lt;strong&gt;唯一的进程标识符&lt;/strong&gt;（&lt;strong&gt;pid&lt;/strong&gt;）来实现的，通常是一个整数值。通过pid可以访问内核中的进程的各种属性。&lt;/li&gt;
+&lt;li&gt;当进程创建新进程时，会有两种执行可能：
+&lt;ul&gt;
+&lt;li&gt;父进程与子进程并发执行。&lt;/li&gt;
+&lt;li&gt;父进程等待子进程执行完毕后，才继续执行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;新进程的地址空间也有两种可能：
+&lt;ul&gt;
+&lt;li&gt;子进程时父进程的复制品（它具有与父进程相同的代码和数据）。&lt;/li&gt;
+&lt;li&gt;子进程加载一个新的程序&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;如Linux操作系统使用fork()系统调用创建新进程。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;进程终止&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;进程执行完毕，或者被操作系统强制终止，都会导致进程终止。&lt;/li&gt;
+&lt;li&gt;当&lt;strong&gt;进程终止&lt;/strong&gt;时，操作系统会&lt;strong&gt;释放进程占用的资源&lt;/strong&gt;，如内存、文件描述符等。&lt;/li&gt;
+&lt;li&gt;如Linux操作系统使用exit()系统调用终止进程。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;孤儿进程与僵尸进程&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;若父进程先于子进程终止，子进程成为孤儿进程，通常由 init 进程（PID=1）收养。&lt;/li&gt;
+&lt;li&gt;子进程已终止但父进程尚未调用 wait()，其PCB仍保留部分信息，此时称为僵尸进程，等待父进程收尸。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;级联终止&lt;/strong&gt;：当一个进程终止时，操作系统会终止所有子进程。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;进程间通信&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;进程可以是&lt;strong&gt;独立&lt;/strong&gt;的（不影响彼此）或&lt;strong&gt;协作&lt;/strong&gt;的（可相互影响）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;进程协作&lt;/strong&gt;的好处：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;信息共享&lt;/strong&gt;：进程可以共享内存、文件、管道等资源，以实现信息的交换。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;计算加速&lt;/strong&gt;：进程可以并行执行，以加速计算任务。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;模块化&lt;/strong&gt;：进程可以被分解为多个模块，每个模块负责完成特定的任务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;协作进程需要一种&lt;strong&gt;进程间通信机制&lt;/strong&gt;，以允许进程互相&lt;strong&gt;交换数据与信息&lt;/strong&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;进程间通信有两种基本模型：&lt;strong&gt;内存共享&lt;/strong&gt;和&lt;strong&gt;消息传递&lt;/strong&gt;。如图：&lt;img src=&quot;./images/image-1.png&quot; alt=&quot;通信模型&quot; /&gt;
+&amp;lt;br&amp;gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;共享内存&lt;/strong&gt;系统：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;采用共享内存的进程间通信，需要通信进程建立&lt;strong&gt;共享内存区域&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;通常操作系统试图阻止一个进程访问另一个进程的内存。共享内存的进程需要&lt;strong&gt;打破&lt;/strong&gt;这个规则。&lt;/li&gt;
+&lt;li&gt;进程负责确保，它们不向同一个位置&lt;strong&gt;同时写入&lt;/strong&gt;数据。&lt;/li&gt;
+&lt;li&gt;生产者进程 ---&amp;gt; 缓冲区（存储共享数据） ---&amp;gt;消费者进程&lt;/li&gt;
+&lt;li&gt;缓冲区：分为&lt;strong&gt;无界缓冲区&lt;/strong&gt;和&lt;strong&gt;有界缓冲区&lt;/strong&gt;。
+&lt;ul&gt;
+&lt;li&gt;无界缓冲区没有限制缓冲区大小，当缓冲区为空，消费者需要等待。&lt;/li&gt;
+&lt;li&gt;有界缓冲区有固定大小。当缓冲区为空，消费者需要等待，如果缓冲区满，生产者必须等待。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;消息传递&lt;/strong&gt;系统：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;采用消息传递的进程间通信，进程之间通过&lt;strong&gt;发送消息&lt;/strong&gt;和&lt;strong&gt;接收消息&lt;/strong&gt;来通信。&lt;/li&gt;
+&lt;li&gt;如互联网聊天程序：send(message)   ----&amp;gt;  receive(message)&lt;/li&gt;
+&lt;li&gt;直接通信：需要通信的每个进程必须明确指定通信的接收者和发送者。&lt;/li&gt;
+&lt;li&gt;间接通信：通过邮箱或端口来发送和接收消息。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;阻塞&lt;/strong&gt;和&lt;strong&gt;非阻塞&lt;/strong&gt;（即同步和异步）
+&lt;ul&gt;
+&lt;li&gt;阻塞发送：发送进程阻塞，直到消息由接收进程所接收&lt;/li&gt;
+&lt;li&gt;非阻塞发送：发送进程发送消息，并且恢复操作&lt;/li&gt;
+&lt;li&gt;阻塞接收：接收进程阻塞，直到消息可用&lt;/li&gt;
+&lt;li&gt;非阻塞接收：接收进程收到一个有效消息或空消息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;缓存
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;零容量队列&lt;/strong&gt;：队列长度为0，发送者阻塞，直到接收者收到消息&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;有限容量&lt;/strong&gt;：队列长度有限，队列空，消费者阻塞，队列满，生产者阻塞&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;无限容量&lt;/strong&gt;：队列长度无限，发送者从不阻塞
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;客户机-服务器模型&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;客户机-服务器模型是一种常用的进程间通信模型，它将进程分为客户机和服务器两种角色。&lt;/li&gt;
+&lt;li&gt;通信的三种策略：socket（套接字）、远程过程调用PRC、管道。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;套接字&lt;/strong&gt;：套接字是一种通信端点，它允许进程在网络上进行通信。套接字通常由IP地址和端口号组成。这是一种&lt;strong&gt;低级形式&lt;/strong&gt;的通信形式，它提供的是直接的、无结构的字节流传输。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;远程过程调用PRC&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;管道&lt;/strong&gt;：管道允许两个相关进程之间进行通信，它们之间通过&lt;strong&gt;管道&lt;/strong&gt;来传递数据。在实现管道时，应该考虑四个方面：
+&lt;ul&gt;
+&lt;li&gt;管道允许&lt;strong&gt;单向&lt;/strong&gt;通信还是&lt;strong&gt;双向&lt;/strong&gt;通信？&lt;/li&gt;
+&lt;li&gt;如果是双向通信，管道是否是半双工还是全双工？（半双工：管道的写入端和读出端是独立的，不能同时进行读写操作。全双工：管道的写入端和读出端是同时进行读写操作。）&lt;/li&gt;
+&lt;li&gt;通信进程之间是否有&lt;strong&gt;同步&lt;/strong&gt;或&lt;strong&gt;异步&lt;/strong&gt;关系？（父子关系）&lt;/li&gt;
+&lt;li&gt;管道通信能否通过网络，还是只能在本地主机上进行通信？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;普通管道&lt;/strong&gt;：普通管道允许两个进程按标准的生产者-消费者方式进行通信。生产者向管道的一端写（写入端），消费者从管道的另一端读（读出端）。因此管道是单向的，&lt;strong&gt;只允许单向通信&lt;/strong&gt;。如果需要双向通信，就要使用&lt;strong&gt;两个管道&lt;/strong&gt;，而每个管道向不同方向发送数据。只有当进程相互通信时，普通管道才存在。一旦进程通信结束，普通管道就不存在了。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;命名管道&lt;/strong&gt;：命名管道的通信是双向的，并且父子关系不是必须的。当建立了一个命名管道后，多个进程都可用它通信。当通信进程完成后，命名管道&lt;strong&gt;继续存在&lt;/strong&gt;，直到所有进程都关闭了它。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;第四章 多线程编程&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;引入：之前的进程模型假设每个进程是具有&lt;strong&gt;单个&lt;/strong&gt;控制线程的一个执行程序。几乎所有的现代操作系统都允许一个进程包含&lt;strong&gt;多个&lt;/strong&gt;线程。&lt;/li&gt;
+&lt;li&gt;线程：线程是&lt;strong&gt;cpu使用的基本单位&lt;/strong&gt;，包括线程ID、程序计数器、寄存器集合和栈。它与同一进程的其它线程共享代码段、数据段和其它操作系统资源。一个进程可以有多个线程，所以进程可以同时执行多个任务。&lt;/li&gt;
+&lt;li&gt;主线程：每个进程都有一个&lt;strong&gt;主线程&lt;/strong&gt;，它是进程的&lt;strong&gt;第一个线程&lt;/strong&gt;。主线程的&lt;strong&gt;入口点&lt;/strong&gt;是main()函数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;int main()
+{
+	printf(“hello world!”);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;./images/image-2.png&quot; alt=&quot;单线程进程和多线程进程&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;问题：一个进程为什么要创建多个线程？
+&lt;ol&gt;
+&lt;li&gt;操作系统创建多个进程比一个进程中创建多个线程的开销大&lt;/li&gt;
+&lt;li&gt;进程间通信和线程间通信更复杂。&lt;/li&gt;
+&lt;li&gt;例如，一个Web服务器需要处理多个客户端请求，每个请求可以由一个线程来处理。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;线程的优势
+&lt;ul&gt;
+&lt;li&gt;响应性：如果一个交互程序采用多线程，那么即使部分阻塞或执行冗余操作，它仍然可以继续执行，从而增加对用户的响应程度。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;资源共享&lt;/strong&gt;：进程只能通过如共享内存和消息传递之类的技术实现共享资源。而线程默认共享它们所属进程的内存和资源&lt;/li&gt;
+&lt;li&gt;经济：线程的创建和销毁比进程要快得多。&lt;/li&gt;
+&lt;li&gt;可伸缩性：对于多核处理器，&lt;strong&gt;线程可以在多个核心上并行执行&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;多核编程&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;ps：早期计算机是单核 ---&amp;gt; 现代计算机是多核&lt;/li&gt;
+&lt;li&gt;多核编程提供机制，以便更有效的使用这些多个计算核和改进&lt;strong&gt;并发性&lt;/strong&gt;。如图：
+&lt;img src=&quot;./images/image-3.png&quot; alt=&quot;多核编程&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;&amp;lt;u&amp;gt;&lt;strong&gt;重点理解------&amp;lt;并行&amp;gt;与&amp;lt;并发&amp;gt;&lt;/strong&gt;&amp;lt;/u&amp;gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;并行&lt;/strong&gt;性：并行系统可以同时执行多个任务，指多核系统，多个进程同时执行的情况。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;并发&lt;/strong&gt;性：并发系统也可以同时执行多个任务。指通过cpu上下文切换，执行多个任务的情况。&lt;/li&gt;
+&lt;li&gt;cpu调度器通过&lt;strong&gt;快速切换&lt;/strong&gt;系统内的进程，以便允许每个进程取得进展，从而提供并行假象。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;多线程编程&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;提供线程支持的两种方式&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;内核线程&lt;/strong&gt;：内核层，由操作系统内核直接支持和管理。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;用户线程&lt;/strong&gt;：用户层，位于内核之上，由用户程序直接支持和管理。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;线程模型分类&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;多对一模型
+&lt;ul&gt;
+&lt;li&gt;映射多个用户级线程到一个内核线程。线程管理是由用户空间的线程库来完成，因此效率更高。&lt;/li&gt;
+&lt;li&gt;如果一个线程执行阻塞系统调用，那么整个进程将会阻塞。&lt;/li&gt;
+&lt;li&gt;因为任一时间只有一个线程可以访问内核，所以多个线程不能并行运行在多处理核系统上。&lt;/li&gt;
+&lt;li&gt;现代操作系统基本&lt;strong&gt;不使用该模型&lt;/strong&gt;，因为它&lt;strong&gt;无法利用多个处理核&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-4.png&quot; alt=&quot;多对一模型&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;一对一模型
+&lt;ul&gt;
+&lt;li&gt;映射每个用户线程到一个内核线程。&lt;/li&gt;
+&lt;li&gt;该模型在一个线程执行阻塞系统调用时，能够允许另一个线程继续执行，所以它提供了比多对一模型更好的并发功能。&lt;/li&gt;
+&lt;li&gt;也允许多个线程并行运行在多处理器系统上。&lt;/li&gt;
+&lt;li&gt;该模型的唯一&lt;strong&gt;缺点&lt;/strong&gt;是：创建一个用户线程就要创建一个相应的内核线程，由于创建内核线程的开销会影响应用程序的性能。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-5.png&quot; alt=&quot;一对一模型&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;多对多模型
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;多路复用&lt;/strong&gt;多个用户线程到同样数量或更少数量的的内核线程。&lt;/li&gt;
+&lt;li&gt;可以创建任意多的用户线程，并且相应内核线程在多处理器系统上并发执行，当一个线程执行阻塞系统调用时，内核可以调用另一个线程来执行。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-6.png&quot; alt=&quot;多对多模型&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;双层模型&lt;/strong&gt;：是多对多模型的变种，任然多路复用多个用户线程到同样数量或更少数量的内核线程，但也允许绑定某个用户线程到一个内核线程。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-7.png&quot; alt=&quot;双层模型&quot; /&gt;
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;线程库&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;线程库是一个&lt;strong&gt;软件库&lt;/strong&gt;，它提供了创建、管理和同步线程的（API）函数。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;线程池&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;主要思想：在进程开始时创建一定数量的线程，并加到池中等待工作。当有新的任务到达时，线程池中的线程会被唤醒执行任务。任务完成后，线程会继续等待下一个任务。&lt;/li&gt;
+&lt;li&gt;线程池的优势在于：
+&lt;ul&gt;
+&lt;li&gt;可以&lt;strong&gt;重用线程&lt;/strong&gt;，避免了线程创建和销毁的开销。&lt;/li&gt;
+&lt;li&gt;可以&lt;strong&gt;限制线程的数量&lt;/strong&gt;，避免了系统资源的浪费。&lt;/li&gt;
+&lt;li&gt;将执行任务从创建任务的机制中分离出来，从而&lt;strong&gt;提高了系统的响应性&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;第五章 进程调度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;引入：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;cpu调度&lt;/strong&gt;是多道程序操作系统的基础，通过在&lt;strong&gt;进程间切换cpu&lt;/strong&gt;，操作系统可以使得多个进程并发执行，从而使计算机更加高效。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;基本概念&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;对于&lt;strong&gt;单处理器&lt;/strong&gt;系统，同一时间只有一个进程可以运行，其他的进程都等待，直到cpu空闲并可调度为止。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;多道程序的目的是，始终允许某个进程运行以最大化cpu利用率。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;当一个进程等待时，操作系统就从该进程接管cpu控制，并将cpu交给另一进程执行。即操作系统&lt;strong&gt;选择进程&lt;/strong&gt;，并交给cpu执行。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;进程执行包括周期进行&lt;strong&gt;cpu执行&lt;/strong&gt;和&lt;strong&gt;IO等待&lt;/strong&gt;。进程在这两个状态之不断交替。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;IO密集型进程 &amp;amp; cpu密集型进程&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-8.png&quot; alt=&quot;cpu执行和I/O执行执行的交替序列&quot; /&gt;
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;cpu调度程序&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每当cpu空闲时，操作系统必须从&lt;strong&gt;就绪队列&lt;/strong&gt;中选择一个进程来执行。这个选择过程由&lt;strong&gt;cpu调度程序&lt;/strong&gt;负责。&lt;/li&gt;
+&lt;li&gt;cpu调度程序也称为&lt;strong&gt;短期调度程序&lt;/strong&gt;，它的任务是从内存中处于就绪状态的进程里挑选一个合适的进程，并将cpu分配给它。&lt;/li&gt;
+&lt;li&gt;就绪队列：就绪队列包含所有准备就绪、等待cpu运行的进程。队列中的每个元素通常是一个&lt;strong&gt;进程控制块（PCB）&lt;/strong&gt;，它记录了进程的相关信息。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;抢占调度&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;cpu调度发生的时机&lt;/li&gt;
+&lt;li&gt;当以下四种情况之一发生时，操作系统需要重新进行cpu调度：
+&lt;ol&gt;
+&lt;li&gt;进程从运行状态切换到等待状态（例如发起I/O请求）&lt;/li&gt;
+&lt;li&gt;进程从运行状态切换到就绪状态（例如时钟中断）&lt;/li&gt;
+&lt;li&gt;进程从等待状态切换到就绪状态（例如I/O完成）&lt;/li&gt;
+&lt;li&gt;进程终止&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;调度方式：非抢占与抢占
+&lt;ul&gt;
+&lt;li&gt;根据调度发生的时机，可将cpu调度方案分为两类：&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;非抢占调度&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;调度仅发生在第1种和第4种情况下（即进程主动放弃cpu或终止时）。&lt;/li&gt;
+&lt;li&gt;特点：一旦进程获得cpu，它将一直运行直到终止或主动进入等待状态。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;抢占调度&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;调度可以发生在所有四种情况下，包括第2种和第3种情况。&lt;/li&gt;
+&lt;li&gt;特点：操作系统可以在进程未主动放弃cpu时强制剥夺其使用权，实现更灵活的资源分配。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;调度程序（Dispatcher）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;定义：调度程序是一个模块，负责将cpu的控制权交给由&lt;strong&gt;短期调度程序&lt;/strong&gt;选中的进程。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;主要功能&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;调度程序在执行过程中需要完成以下三个关键步骤：
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;切换上下文&lt;/strong&gt;：保存当前进程的上下文（如寄存器、程序计数器等），并加载新进程的上下文。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;切换到用户模式&lt;/strong&gt;：将cpu从内核模式切换至用户模式，以便新进程在用户态下运行。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;跳转到用户程序的合适位置&lt;/strong&gt;：设置程序计数器，使cpu能够从新进程上次中断的位置继续执行，或从其入口点开始运行。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;性能要求&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;调度程序在每次进程切换时都会被调用，因此必须&lt;strong&gt;尽可能快&lt;/strong&gt;，以减少系统开销。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;调度延迟&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;调度程序停止一个进程并启动另一个进程所需的时间称为&lt;strong&gt;调度延迟&lt;/strong&gt;。该时间直接影响系统的响应速度和整体性能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;调度算法的比较准则&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;为了评估和比较不同的cpu调度算法，通常采用以下关键性能指标。选择些指标作为衡量标准，会直接影响对“最佳”算法的判断。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;cpu使用率&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;指cpu处于忙碌状态的时间百分比。理想情况下，应使cpu尽可能忙碌，避免空闲。&lt;/li&gt;
+&lt;li&gt;实际范围：从轻负荷系统的40%到重负荷系统的90%。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;吞吐量&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;单位时间内（如每秒）完成的进程数量。该指标反映了系统的处理能力。、&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;周转时间&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;从进程提交到进程完成所经过的总时间。它包括进程进入内存、在就绪队列中等待、在cpu上执行以及进行I/O操作等所有阶段的时间之和。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;等待时间&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;进程在就绪队列中等待cpu的总时间。注意，它不包括I/O等待或其他阻塞时间。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;响应时间&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;从提交请求到系统产生第一响应所经历的时间。对于交互式系统，响应时间比周转时间更为关键。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;这些指标往往相互影响，需要在设计调度算法时根据系统目标进行权衡。例如，提高吞吐量可能会增加响应时间，而降低等待时间则可能提高公平性。&lt;/li&gt;
+&lt;li&gt;总的来说：要尽量&lt;strong&gt;最大化cpu使用率和吞吐量&lt;/strong&gt;，同时&lt;strong&gt;最小化周转时间、等待时间、和响应时间&lt;/strong&gt;。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;调度算法&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;引入：CPU调度处理的问题是，从就绪队列中选择进程以便为其分配CPU。那么按照怎样的策略或方式来选择进程，就是调度算法要处理的事情。&lt;/li&gt;
+&lt;li&gt;分类：
+&lt;ul&gt;
+&lt;li&gt;先到先服务（FCFS）
+&lt;ul&gt;
+&lt;li&gt;最简单的CPU调度算法时&lt;strong&gt;先到先服务&lt;/strong&gt;（First-Come First-Served，&lt;strong&gt;FCFS&lt;/strong&gt;）调度算法。采用这种方案，先请求CPU的进程首先分配到CPU。可以通过&lt;strong&gt;FIFO队列&lt;/strong&gt;容易地实现。&lt;/li&gt;
+&lt;li&gt;当一个进程进入就行队列时，它的PCB会被链接到队列尾部。当CPU空闲时，它会分配给位于队列头部的进程，并且这个运行进程从队列中移除。&lt;/li&gt;
+&lt;li&gt;优点：算法实现非常简单。&lt;/li&gt;
+&lt;li&gt;缺点：平均等待时间往往很长。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-28.png&quot; alt=&quot;先到先服务调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;ps：FCFS调度算法是&lt;strong&gt;非抢占的&lt;/strong&gt;。一旦CPU分配给了一个进程，该进程就会一直使用CPU直到释放CPU。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;最短作业优先（SJF）
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;最短作业优先&lt;/strong&gt;（Shortest-Job-First，&lt;strong&gt;SJF&lt;/strong&gt;）调度算法将每个进程与其下次CPU执行的长度关联起来。当CPU空闲时，它会被赋给具有最短CPU执行的进程。&lt;/li&gt;
+&lt;li&gt;SJF算法也叫也叫&lt;strong&gt;最短下次CPU执行算法&lt;/strong&gt;，因为调度取决于进程的下次CPU执行的长度，而不是其总的长度。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-29.png&quot; alt=&quot;最短作业优先调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;优点：SJF算法是&lt;strong&gt;最优的&lt;/strong&gt;，因为平均等待时间最小（即CPU更忙碌）。短进程等待时间减少，长进程等待时间增加，从而平均等待时间减少。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;问题：如何知道下次CPU执行的长度？&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;对于批处理系统的长期调度，可以将用户提交作业时指定的进程时限作为长度。SJF调度经常用于长期调度。&lt;/li&gt;
+&lt;li&gt;SJF算法不能在短期CPU调度级别上加以实现，因为没有办法知道下次CPU执行的长度。一种方法是试图近似SJF调度，即&lt;strong&gt;预测下次CPU执行长度&lt;/strong&gt;，可以认为下次CPU执行长度与以前的相似。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SJF算法可以是&lt;strong&gt;抢占式或非抢占式&lt;/strong&gt;的。当一个新进程到达就绪队列而以前进程正在执行时，就需要选择了。新进程的下次CPU执行，与当前运行进程的尚未完成的CPU执行相比，可能还要小。&lt;/li&gt;
+&lt;li&gt;抢占SJF算法会抢占当前运行进程，而非抢占SJF算法会允许当前运行进程先完成CPU执行。抢占SJF调度有时称为&lt;strong&gt;最短剩余时间优先调度&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-30.png&quot; alt=&quot;抢占式最短作业优先调度&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;优先级调度（PS）
+&lt;ul&gt;
+&lt;li&gt;每个进程都有一个&lt;strong&gt;优先级&lt;/strong&gt;与其关联，而具有最高优先级的进程会分配到CPU。具有相同优先级的进程按FCFS顺序调度。&lt;/li&gt;
+&lt;li&gt;SJF算法是优先级调度算法的一个特例。其优先级为下次CPU执行的倒数。CPU执行越长，则优先级越小。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-31.png&quot; alt=&quot;优先级调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;优先级调度可以是&lt;strong&gt;抢占的或非抢占的&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;优先级调度算法的一个主要问题是&lt;strong&gt;无穷阻塞&lt;/strong&gt;或&lt;strong&gt;饥饿&lt;/strong&gt;问题。&lt;/li&gt;
+&lt;li&gt;低优先级进程的饥饿问题的解决方案之一是&lt;strong&gt;老化&lt;/strong&gt;。老化逐渐增加在系统中等待很长时间的进程的优先级。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;轮转调度（RR）
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;轮转调度&lt;/strong&gt;（Round Robin，&lt;strong&gt;RR&lt;/strong&gt;）调度算法为每个进程分配一个固定的时间片，称为&lt;strong&gt;时间片&lt;/strong&gt;。每个进程在时间片内执行，然后被抢占，将CPU分配给就绪队列中的下一个进程。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-32.png&quot; alt=&quot;轮转调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;时间片的长度是一个重要的参数。RR算法的性能很大程度取决于时间片的大小。如果时间片很大，那么RR算法与FCFS算法一样，如果时间片很小，会导致频繁的上下文切换，从而增加了系统的开销。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-33.png&quot; alt=&quot;轮转调度时间片&quot; /&gt;!&lt;/li&gt;
+&lt;li&gt;优点：
+&lt;ul&gt;
+&lt;li&gt;简单实现。&lt;/li&gt;
+&lt;li&gt;每个进程都有机会执行，避免了饥饿问题。&lt;/li&gt;
+&lt;li&gt;响应时间较短。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;缺点：
+&lt;ul&gt;
+&lt;li&gt;平均等待时间较长。&lt;/li&gt;
+&lt;li&gt;时间片长度选择不当会导致性能问题。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;多级队列调度
+&lt;ul&gt;
+&lt;li&gt;多级队列调度算法将就绪队列&lt;strong&gt;分成多个单独队列&lt;/strong&gt;。每个队列有自己的优先级。&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-34.png&quot; alt=&quot;多级队列调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;根据进程属性，如内存大小，进程优先级、进程类型等，一个进程&lt;strong&gt;永久&lt;/strong&gt;分到一个队列。每个队列有自己的调度算法。&lt;/li&gt;
+&lt;li&gt;每个队列与更低层队列相比有绝对的优先。&lt;/li&gt;
+&lt;li&gt;优点：优先级高的进程优先执行&lt;/li&gt;
+&lt;li&gt;缺点：可能存在饥饿问题&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;多级反馈队列调度
+&lt;ul&gt;
+&lt;li&gt;使用多级队列算法时，进程进入系统时被&lt;strong&gt;永久分配&lt;/strong&gt;到某个队列。而多级反馈队列调度算法允许进程在队列之间&lt;strong&gt;迁移&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;这种算法根据不同的CPU执行的特点来区分进程。如果进程使用过多的CPU时间，那么它会被移到更低的优先级队列。&lt;/li&gt;
+&lt;li&gt;这种方案将IO密集型和交互进程放在更高优先级队列上。在较低优先级队列中等待过长的进程会被移到更高优先级队列，以&lt;strong&gt;阻止饥饿的发生&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-35.png&quot; alt=&quot;多级反馈调度&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;多处理器调度&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;之前讨论的主要是单处理器系统的CPU调度问题。如果多个CPU，则&lt;strong&gt;负载分配&lt;/strong&gt;成为可能，但是调度问题更为复杂。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;方法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;非对称多处理&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;对于多处理器系统，CPU调度的一种方法是让一个处理器（主服务器）处理所有调度决定、IO处理以及其他&lt;strong&gt;系统活动&lt;/strong&gt;，其他的处理器&lt;strong&gt;只执行用户代码&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;这种调度方式很简单，因为只有一个处理器访问系统数据结构，减少了数据共享的需要。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;对称多处理&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;多对称处理（Symmetric MultiProcessing，&lt;strong&gt;SMP&lt;/strong&gt;），即每个处理器自我调度。所有进程可能处于一个共同的就绪队列中，或处理器都有它自己的私有就绪进程队列。&lt;/li&gt;
+&lt;li&gt;调度这样进行：每个处理器的调度程序都检查共同就绪队列，以便选择执行一个进程。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;处理器亲和性&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当一个进程运行在一个特定处理器上时&lt;strong&gt;缓存&lt;/strong&gt;时。进程最近访问的数据会更新处理器的缓存。而进程的后续内存访问通常是通过缓存来满足的。&lt;/li&gt;
+&lt;li&gt;如果进程移到其他处理器上则会发生什么。第一个处理器缓存的内容变为&lt;strong&gt;无效&lt;/strong&gt;，第二个处理器缓存&lt;strong&gt;重新填充&lt;/strong&gt;。大多数系统试图避免将进程从一个处理器移到另一个处理器，而是试图让一个进程运行在同一个处理器上。这称为&lt;strong&gt;处理器亲和性&lt;/strong&gt;，即一个进程对它运行的处理器具有亲和性。&lt;/li&gt;
+&lt;li&gt;处理器的亲和性具有多种形式。当一个操作系统试图保持进程运行在同一处理器上时（但&lt;strong&gt;不保证&lt;/strong&gt;它会这么做，这个进程也可迁移到其他处理器上），这种情况称为&lt;strong&gt;软亲和性&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;有的SMP系统提供系统调用以便支持&lt;strong&gt;硬亲和性&lt;/strong&gt;，从而允许某个进程只运行在某个处理器子集上。&lt;/li&gt;
+&lt;li&gt;许多系统提供软亲和性和硬亲和性。
+&amp;lt;br&amp;gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;负载平衡&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;负载平衡是指平均分配系统资源，以防止任何一个资源&lt;strong&gt;过载&lt;/strong&gt;或者&lt;strong&gt;空闲&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;对于SMP系统，重要的是保持所有处理器的负载平衡，以便充分利用多处理器的优点。否则一个或多个处理器会空闲，而其他处理器会处于高负载状态，且有一系列进程处于等待状态。&lt;/li&gt;
+&lt;li&gt;负载平衡设法将负载平均分配到SMP系统的所有处理器。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;实时CPU调度（正在写，写到这里了）&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;实时CPU调度是指为实时系统中的进程分配CPU时间的过程。实时系统是指那些对响应时间有严格要求的系统，例如航空航天系统、医疗设备、机器人等。&lt;/li&gt;
+&lt;li&gt;一般来说，我们将其分为两种类型：软实时系统和硬实时系统。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;软实时系统&lt;/strong&gt;：在软实时系统中，进程的截止时间是一个软限制，即进程在截止时间之前完成是可选的。如果进程在截止时间之前完成，系统将为其分配额外的时间。即软实时系统不保证调度关键实时进程。而只保证这类进程会优先于非关键进程。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;硬实时系统&lt;/strong&gt;：在硬实时系统中，进程的截止时间是一个硬限制，即进程必须在截止时间之前完成。如果进程在截止时间之后完成，系统将认为该进程是失败的，等效于没有完成。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;最小化延迟
+&lt;ul&gt;
+&lt;li&gt;从事件发生到事件得到服务的这段时间称为&lt;strong&gt;事件延迟&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-36.png&quot; alt=&quot;事件延迟&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;两种类型的延时影响实时系统的性能：&lt;strong&gt;中断延时&lt;/strong&gt;和&lt;strong&gt;调度延时&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;中断延时是从CPU收到中断到中断处理程序开始的时间。当一个中断发生时，操作系统应先完成正在执行的指令，再确定发生中断的类型。然后，应保存当前进程的状态，再采用特定的中断服务程序（Interrupt Service Routine ，ISR）来处理中断。执行这些任务需要的总时间为&lt;strong&gt;中断延迟&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>常见的stl</title><link>https://qiqimora.cn/posts/%E5%B8%B8%E8%A7%81stl/</link><guid isPermaLink="true">https://qiqimora.cn/posts/%E5%B8%B8%E8%A7%81stl/</guid><description>讲一下常见的STL容器和算法</description><pubDate>Fri, 12 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;stl 核心知识点&lt;/h1&gt;
+&lt;p&gt;这部分非常重要，一定要好好学习STL，它可以代替大部分数据结构和算法的实现，可以少写很多代码。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;image1.jpg&quot; alt=&quot;最喜欢的STL酱喵&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;一、常用通用函数&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sort(a.begin(), a.end())&lt;/code&gt;：对容器&lt;code&gt;a&lt;/code&gt;进行排序，默认升序。(&lt;code&gt;sort(a, a + n)&lt;/code&gt;表示对数组&lt;code&gt;a[0]&lt;/code&gt;到&lt;code&gt;a[n-1]&lt;/code&gt;进行排序)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;reverse(a.begin(), a.end())&lt;/code&gt;：对数组/容器&lt;code&gt;a&lt;/code&gt;进行反转。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lower_bound(a.begin(), a.end(), x)&lt;/code&gt;：返回第一个大于等于&lt;code&gt;x&lt;/code&gt;的元素的位置。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unique(a.begin(), a.end())&lt;/code&gt;：去重，返回去重后的数组/容器的末尾位置。对&lt;code&gt;vector&lt;/code&gt;去重时，&lt;code&gt;a.erase(unique(a.begin(), a.end()), a.end())&lt;/code&gt;可以删除重复元素。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;prev/next&lt;/code&gt;：返回迭代器的前一个/后一个元素。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;二、string 字符串&lt;/h2&gt;
+&lt;p&gt;下标从0开始的字符串，可以直接使用下标访问字符（&lt;code&gt;s[i]&lt;/code&gt;表示第i个字符）；支持&lt;code&gt;+&lt;/code&gt;号拼接字符串（&lt;code&gt;s1 + s2&lt;/code&gt;拼接成新字符串）；可使用&lt;code&gt;==、!=、&amp;lt;、&amp;gt;&lt;/code&gt;等运算符进行字符串比较。&lt;/p&gt;
+&lt;h3&gt;常用函数&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;s.substr(l, len)&lt;/code&gt;：返回从&lt;code&gt;l&lt;/code&gt;开始的&lt;code&gt;len&lt;/code&gt;长度的子串。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;s.find(&quot;abc&quot;)&lt;/code&gt;：返回子串&quot;abc&quot;在字符串&lt;code&gt;s&lt;/code&gt;中的位置，未找到返回&lt;code&gt;-1&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;s.size()&lt;/code&gt;：返回字符串的长度。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;代码示例&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+
+using namespace std;
+
+int main() {
+    string s = &quot;hello world&quot;;
+    cout &amp;lt;&amp;lt; s[0] &amp;lt;&amp;lt; endl; // h
+    cout &amp;lt;&amp;lt; s.substr(0, 5) &amp;lt;&amp;lt; endl; // hello
+    cout &amp;lt;&amp;lt; s.find(&quot;world&quot;) &amp;lt;&amp;lt; endl; // 6
+    cout &amp;lt;&amp;lt; s.find(&quot;abc&quot;) &amp;lt;&amp;lt; endl; // -1
+    cout &amp;lt;&amp;lt; s + &quot;!&quot; &amp;lt;&amp;lt; endl; // hello world!
+
+    // 字符串比较
+    string s1 = &quot;abc&quot;;
+    string s2 = &quot;abcd&quot;;
+    cout &amp;lt;&amp;lt; (s1 &amp;lt; s2) &amp;lt;&amp;lt; endl; // 1
+    cout &amp;lt;&amp;lt; (s1 &amp;gt; s2) &amp;lt;&amp;lt; endl; // 0
+    cout &amp;lt;&amp;lt; (s1 == s2) &amp;lt;&amp;lt; endl; // 0
+    cout &amp;lt;&amp;lt; (s1 != s2) &amp;lt;&amp;lt; endl; // 1
+    
+    // 输出带空格的字符串
+    string s3;
+    // getline 会读取整行（包括空格，不包括换行符）
+    // 若上一行有残留换行符，需先调用一次getline清空
+    getline(cin, s3); // 输入一行包含空格的字符串
+    cout &amp;lt;&amp;lt; s3 &amp;lt;&amp;lt; endl; // 输出字符串 
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;三、vector/array&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;vector&lt;/code&gt;：动态数组，大小可动态改变。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;array&lt;/code&gt;：静态数组，大小编译时确定。
+两者下标均从0开始，默认比较方式为小于号。&lt;code&gt;vector&lt;/code&gt;常用于动态开数组，&lt;code&gt;array&lt;/code&gt;常用于定长数组（可替代pair/简单结构体）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;vector 常用函数&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;push_back(x)&lt;/code&gt;：在末尾添加元素&lt;code&gt;x&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pop_back()&lt;/code&gt;：删除末尾元素。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;insert(pos, x)&lt;/code&gt;：在&lt;code&gt;pos&lt;/code&gt;位置插入元素&lt;code&gt;x&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;erase(it)&lt;/code&gt;：删除迭代器&lt;code&gt;it&lt;/code&gt;指向的元素。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;clear()&lt;/code&gt;：清空容器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size()&lt;/code&gt;：返回容器大小。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;begin()&lt;/code&gt;：返回容器首地址。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;end()&lt;/code&gt;：返回容器末尾地址。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;代码示例&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+
+using namespace std;
+
+int main() {
+    vector&amp;lt;int&amp;gt; a = {1, 2, 3, 4, 5}; // 初始化vector
+    a.push_back(6); // 末尾添加6
+    a.pop_back(); // 删除末尾元素
+    a.insert(a.begin() + 2, 7); // 下标2位置插入7
+    a.erase(a.begin() + 2); // 删除下标2位置元素
+    cout &amp;lt;&amp;lt; a.size() &amp;lt;&amp;lt; endl; // 输出容器大小
+    cout &amp;lt;&amp;lt; a[0] &amp;lt;&amp;lt; endl; // 输出第一个元素
+    cout &amp;lt;&amp;lt; a.front() &amp;lt;&amp;lt; endl; // 输出第一个元素
+    cout &amp;lt;&amp;lt; a.back() &amp;lt;&amp;lt; endl; // 输出最后一个元素
+
+    array&amp;lt;int, 5&amp;gt; b = {1, 2, 3, 4, 5}; // 初始化array
+    for (int i = 0; i &amp;lt; b.size(); i++) { // 遍历array
+        cout &amp;lt;&amp;lt; b[i] &amp;lt;&amp;lt; &quot; &quot;;
+    }
+    cout &amp;lt;&amp;lt; b.size() &amp;lt;&amp;lt; endl; // 输出数组大小
+
+    int n = 5, m = 10;
+    vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; c(n, vector&amp;lt;int&amp;gt;(m)); // 初始化n*m二维数组
+    for (auto &amp;amp;x : c) { // 遍历二维数组
+        for (auto &amp;amp;y : x) { // 遍历一维数组
+            cin &amp;gt;&amp;gt; y; // 输入元素
+        }
+    }
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;四、map/unordered_map（multimap/unordered_multimap）&lt;/h2&gt;
+&lt;h3&gt;简介&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;map&lt;/code&gt;：有序、元素唯一，查找/插入时间复杂度&lt;code&gt;O(logn)&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unordered_map&lt;/code&gt;：无序、元素唯一，查找/插入均摊时间复杂度&lt;code&gt;O(1)&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;multimap/unordered_multimap&lt;/code&gt;：支持重复键值对。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;常用函数&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;insert({x, y})&lt;/code&gt;：插入键值对&lt;code&gt;(x, y)&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;erase(x)/erase(it)&lt;/code&gt;：删除键&lt;code&gt;x&lt;/code&gt;（不存在则不删）/删除迭代器&lt;code&gt;it&lt;/code&gt;指向元素。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;find(x)&lt;/code&gt;：查找键&lt;code&gt;x&lt;/code&gt;，返回迭代器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;count(x)&lt;/code&gt;：查找键&lt;code&gt;x&lt;/code&gt;，返回1/0（multimap返回个数）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lower_bound(x)&lt;/code&gt;：返回第一个≥&lt;code&gt;x&lt;/code&gt;的元素位置。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;begin()&lt;/code&gt;：返回首迭代器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;end()&lt;/code&gt;：返回末尾迭代器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;clear()&lt;/code&gt;：清空容器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size()&lt;/code&gt;：返回容器大小。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;代码示例&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+
+using namespace std;
+
+int main() {
+    map&amp;lt;int, int&amp;gt; m; // 初始化map
+    m.insert({1, 2}); // 插入键值对(1,2)
+    m[3] = 4; // 插入键值对(3,4)
+    m.erase(1); // 删除键1
+    cout &amp;lt;&amp;lt; m.size() &amp;lt;&amp;lt; endl; // 输出大小
+    cout &amp;lt;&amp;lt; m[3] &amp;lt;&amp;lt; endl; // 输出键3的值
+
+    if (m.count(3)) { // 检查键3是否存在
+        cout &amp;lt;&amp;lt; m[3] &amp;lt;&amp;lt; endl;
+    } else {
+        cout &amp;lt;&amp;lt; &quot;3 does not exist&quot; &amp;lt;&amp;lt; endl;
+    }
+
+    unordered_map&amp;lt;int, int&amp;gt; um; // 初始化unordered_map
+    um.insert({1, 2});
+    um[3] = 4;
+    um.erase(1);
+    cout &amp;lt;&amp;lt; um.size() &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; um[3] &amp;lt;&amp;lt; endl;
+
+    // 遍历并删除键为3的元素
+    for (auto it = m.begin(); it != m.end();) {
+        if (it-&amp;gt;first == 3) {
+            it = m.erase(it); // 删除后返回下一个迭代器
+        } else {
+            ++it;
+        }
+    }
+
+    for (auto [x, y] : m) { // 遍历map
+        cout &amp;lt;&amp;lt; x &amp;lt;&amp;lt; &quot; &quot; &amp;lt;&amp;lt; y &amp;lt;&amp;lt; endl;
+    }
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;五、set/unordered_set（multiset/unordered_multiset）&lt;/h2&gt;
+&lt;h3&gt;简介&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;set&lt;/code&gt;：有序集合、元素唯一，查找/插入时间复杂度&lt;code&gt;O(logn)&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unordered_set&lt;/code&gt;：无序集合、元素唯一，查找/插入均摊&lt;code&gt;O(1)&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;multiset/unordered_multiset&lt;/code&gt;：支持重复元素。
+可理解为“键值相等的map”，仅存储key。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;常用函数&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;insert(x)&lt;/code&gt;：插入元素&lt;code&gt;x&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;erase(x)/erase(it)&lt;/code&gt;：删除所有值为&lt;code&gt;x&lt;/code&gt;的元素/删除迭代器&lt;code&gt;it&lt;/code&gt;指向元素。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;find(x)&lt;/code&gt;：查找元素&lt;code&gt;x&lt;/code&gt;，返回迭代器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;count(x)&lt;/code&gt;：返回元素&lt;code&gt;x&lt;/code&gt;的个数（非multi版本返回1/0）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lower_bound(x)&lt;/code&gt;：返回第一个≥&lt;code&gt;x&lt;/code&gt;的元素位置（unordered版本无此函数）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;begin()&lt;/code&gt;：返回首迭代器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;end()&lt;/code&gt;：返回末尾迭代器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;clear()&lt;/code&gt;：清空容器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size()&lt;/code&gt;：返回容器大小。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;代码示例&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+
+using namespace std;
+
+int main() {
+    set&amp;lt;int&amp;gt; s; // 初始化set
+    s.insert(1); // 插入1
+    s.insert(2); // 插入2
+    s.erase(1); // 删除1
+    cout &amp;lt;&amp;lt; s.size() &amp;lt;&amp;lt; endl; // 输出大小
+    cout &amp;lt;&amp;lt; *s.begin() &amp;lt;&amp;lt; endl; // 输出第一个元素
+
+    if (s.count(2)) { // 检查2是否存在
+        cout &amp;lt;&amp;lt; &quot;2 exists&quot; &amp;lt;&amp;lt; endl;
+    } else {
+        cout &amp;lt;&amp;lt; &quot;2 does not exist&quot; &amp;lt;&amp;lt; endl;
+    }
+
+    // 遍历并删除值为2的元素
+    for (auto it = s.begin(); it != s.end();) {
+        if (*it == 2) {
+            it = s.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    for (auto x : s) { // 遍历set
+        cout &amp;lt;&amp;lt; x &amp;lt;&amp;lt; &quot; &quot;;
+    }
+    cout &amp;lt;&amp;lt; endl;
+
+    // 查找并删除第一个≥2的元素
+    auto it = s.lower_bound(2);
+    if (it != s.end()) {
+        cout &amp;lt;&amp;lt; *it &amp;lt;&amp;lt; endl;
+        s.erase(it);
+    } else {
+        cout &amp;lt;&amp;lt; &quot;not found&quot; &amp;lt;&amp;lt; endl;
+    }
+
+    // 查找并删除第一个≤2的元素
+    auto it2 = s.lower_bound(3);
+    if (it2 != s.begin()) {
+        --it2;
+        cout &amp;lt;&amp;lt; *it2 &amp;lt;&amp;lt; endl;
+        s.erase(it2);
+    } else {
+        cout &amp;lt;&amp;lt; &quot;not found&quot; &amp;lt;&amp;lt; endl;
+    }
+
+    unordered_set&amp;lt;int&amp;gt; us; // 初始化unordered_set
+    us.insert(1);
+    us.insert(2);
+    us.erase(1);
+    cout &amp;lt;&amp;lt; us.size() &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; *us.begin() &amp;lt;&amp;lt; endl;
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;六、priority_queue（优先队列）&lt;/h2&gt;
+&lt;h3&gt;简介&lt;/h3&gt;
+&lt;p&gt;默认是大根堆，插入/删除时间复杂度均为&lt;code&gt;O(logn)&lt;/code&gt;；可通过参数改为小根堆。&lt;/p&gt;
+&lt;h3&gt;常用函数&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;push(x)&lt;/code&gt;：插入元素&lt;code&gt;x&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pop()&lt;/code&gt;：删除堆顶元素（堆为空时调用会报错）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;top()&lt;/code&gt;：返回堆顶元素（堆为空时调用会报错）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size()&lt;/code&gt;：返回堆的大小。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;代码示例&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+
+using namespace std;
+
+int main() {
+    priority_queue&amp;lt;int&amp;gt; pq; // 初始化大根堆
+    pq.push(1);
+    pq.push(2);
+    pq.push(3);
+    cout &amp;lt;&amp;lt; pq.size() &amp;lt;&amp;lt; endl; // 输出大小
+    cout &amp;lt;&amp;lt; pq.top() &amp;lt;&amp;lt; endl; // 输出堆顶（3）
+
+    pq.pop(); // 删除堆顶
+    cout &amp;lt;&amp;lt; pq.top() &amp;lt;&amp;lt; endl; // 输出堆顶（2）
+
+    while (pq.size()) { // 遍历并输出所有元素
+        cout &amp;lt;&amp;lt; pq.top() &amp;lt;&amp;lt; &quot; &quot;;
+        pq.pop();
+    }
+
+    priority_queue&amp;lt;int, vector&amp;lt;int&amp;gt;, greater&amp;lt;int&amp;gt;&amp;gt; min_pq; // 初始化小根堆
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;七、queue/deque/stack&lt;/h2&gt;
+&lt;h3&gt;简介&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;queue&lt;/code&gt;：队列（先进先出），插入/删除&lt;code&gt;O(1)&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;deque&lt;/code&gt;：双端队列（两端可插入/删除），插入/删除&lt;code&gt;O(1)&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;stack&lt;/code&gt;：栈（后进先出），插入/删除&lt;code&gt;O(1)&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;常用函数&lt;/h3&gt;
+&lt;h4&gt;queue&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;push(x)&lt;/code&gt;：队尾插入&lt;code&gt;x&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pop()&lt;/code&gt;：删除队头（队列空时调用报错）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;front()&lt;/code&gt;：返回队头（队列空时调用报错）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size()&lt;/code&gt;：返回队列大小。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;stack&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;push(x)&lt;/code&gt;：栈顶插入&lt;code&gt;x&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pop()&lt;/code&gt;：删除栈顶（栈空时调用报错）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;top()&lt;/code&gt;：返回栈顶（栈空时调用报错）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size()&lt;/code&gt;：返回栈大小。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;deque&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;push_front(x)&lt;/code&gt;：队头插入&lt;code&gt;x&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;push_back(x)&lt;/code&gt;：队尾插入&lt;code&gt;x&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pop_front()&lt;/code&gt;：删除队头（队列空时调用报错）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pop_back()&lt;/code&gt;：删除队尾（队列空时调用报错）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;front()&lt;/code&gt;：返回队头。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;back()&lt;/code&gt;：返回队尾。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size()&lt;/code&gt;：返回队列大小。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;代码示例&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+
+using namespace std;
+
+int main() {
+    queue&amp;lt;int&amp;gt; q; // 初始化队列
+    q.push(1);
+    q.push(2);
+    cout &amp;lt;&amp;lt; q.size() &amp;lt;&amp;lt; endl; // 输出大小
+    cout &amp;lt;&amp;lt; q.front() &amp;lt;&amp;lt; endl; // 输出队头（1）
+    q.pop(); // 删除队头
+    cout &amp;lt;&amp;lt; q.front() &amp;lt;&amp;lt; endl; // 输出队头（2）
+
+    stack&amp;lt;int&amp;gt; s; // 初始化栈
+    s.push(1);
+    s.push(2);
+    cout &amp;lt;&amp;lt; s.size() &amp;lt;&amp;lt; endl; // 输出大小
+    cout &amp;lt;&amp;lt; s.top() &amp;lt;&amp;lt; endl; // 输出栈顶（2）
+    s.pop(); // 删除栈顶
+    cout &amp;lt;&amp;lt; s.top() &amp;lt;&amp;lt; endl; // 输出栈顶（1）
+
+    deque&amp;lt;int&amp;gt; d; // 初始化双端队列
+    d.push_front(1);
+    d.push_back(2);
+    cout &amp;lt;&amp;lt; d.size() &amp;lt;&amp;lt; endl; // 输出大小
+    cout &amp;lt;&amp;lt; d.front() &amp;lt;&amp;lt; endl; // 输出队头（1）
+    cout &amp;lt;&amp;lt; d.back() &amp;lt;&amp;lt; endl; // 输出队尾（2）
+    d.pop_front(); // 删除队头
+    cout &amp;lt;&amp;lt; d.front() &amp;lt;&amp;lt; endl; // 输出队头（2）
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;八、数组模拟栈和队列&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+
+using namespace std;
+
+#define MAXN 100000 // 定义最大容量
+
+int stk[MAXN]; // 模拟栈
+int top = -1; // 栈顶指针（初始-1表示空栈）
+
+int que[MAXN]; // 模拟队列
+int hh = 0, tt = -1; // hh=队头，tt=队尾
+
+int main() {
+    // 模拟栈
+    stk[++top] = 1; // 入栈1
+    stk[++top] = 2; // 入栈2
+    cout &amp;lt;&amp;lt; stk[top--] &amp;lt;&amp;lt; endl; // 出栈，输出2
+
+    while (top &amp;gt;= 0) { // 遍历栈并输出
+        cout &amp;lt;&amp;lt; stk[top--] &amp;lt;&amp;lt; &quot; &quot;;
+    }
+    cout &amp;lt;&amp;lt; endl;
+
+    // 模拟队列
+    hh = 0, tt = -1; // 重置队列指针
+    que[++tt] = 1; // 入队1
+    que[++tt] = 2; // 入队2
+    cout &amp;lt;&amp;lt; que[hh++] &amp;lt;&amp;lt; endl; // 出队，输出1
+
+    while (hh &amp;lt;= tt) { // 遍历队列并输出
+        cout &amp;lt;&amp;lt; que[hh++] &amp;lt;&amp;lt; &quot; &quot;;
+    }
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>一元三次方程求解</title><link>https://qiqimora.cn/posts/%E4%B8%80%E5%85%83%E4%B8%89%E6%AC%A1%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/</link><guid isPermaLink="true">https://qiqimora.cn/posts/%E4%B8%80%E5%85%83%E4%B8%89%E6%AC%A1%E6%96%B9%E7%A8%8B%E6%B1%82%E8%A7%A3/</guid><description>一道关于一元三次方程的的二分题解</description><pubDate>Tue, 09 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&amp;lt;!-- 管理图片和其他资源
+使用这种方法，你可以将文章相关的所有资源都放在同一个文件夹中，便于管理：&lt;/p&gt;
+&lt;p&gt;src/content/posts/my-complex-post/
+├── index.md
+├── image1.png
+├── image2.jpg
+└── data.json
+在文章中引用图片时，可以直接使用相对路径：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;image1.png&quot; alt=&quot;图片描述&quot; /&gt;
+注意像这样直接填写文件的名字,这样才能让RSS正常构建图片的路径
+--&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;!-- 下面是正文 --&amp;gt;&lt;/p&gt;
+&lt;h1&gt;题解：P1024 [NOIP2001 提高组] 一元三次方程求解&lt;/h1&gt;
+&lt;h2&gt;题目描述&lt;/h2&gt;
+&lt;p&gt;给出一个形如 $ax^3 + bx^2 + cx + d = 0$ 的一元三次方程，系数均为实数。已知该方程在 $[-100, 100]$ 范围内存在三个不同的实根，且根与根之差的绝对值 $\ge 1$。要求从小到大输出这三个实根，精确到小数点后 2 位。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;方法一：求导分区间法（我的解法）&lt;/h2&gt;
+&lt;h3&gt;1. 算法思路&lt;/h3&gt;
+&lt;p&gt;一元三次函数 $f(x)$ 的图像通常呈“N”字形或倒“N”字形。为了找到三个根，我们需要确定函数的&lt;strong&gt;单调区间&lt;/strong&gt;。
+单调性的转折点就是函数的&lt;strong&gt;极值点&lt;/strong&gt;。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;求导&lt;/strong&gt;：对原函数求导得到二次函数 $f&apos;(x) = 3ax^2 + 2bx + c$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;求极值点&lt;/strong&gt;：令 $f&apos;(x) = 0$，利用求根公式 $x = \frac{-B \pm \sqrt{B^2 - 4AC}}{2A}$ 求出两个极值点 $x_1, x_2$。
+&lt;ul&gt;
+&lt;li&gt;注意系数对应关系：$A=3a, B=2b, C=c$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;划分区间&lt;/strong&gt;：两个极值点将数轴（在题目范围内）划分为三个单调区间：
+&lt;ul&gt;
+&lt;li&gt;$[-100, x_1]$&lt;/li&gt;
+&lt;li&gt;$[x_1, x_2]$&lt;/li&gt;
+&lt;li&gt;$[x_2, 100]$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;二分查找&lt;/strong&gt;：由于题目保证有三个不同的实根，根据函数的连续性和单调性，这三个区间内必然各有一个根。我们只需要在每个区间内分别进行二分查找即可。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;2. 代码实现&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;cmath&amp;gt;
+#include &amp;lt;algorithm&amp;gt;
+#include &amp;lt;iomanip&amp;gt;
+#include &amp;lt;vector&amp;gt;
+
+using namespace std;
+
+#define IOS ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+
+typedef pair&amp;lt;double, double&amp;gt; PDD; 
+
+double a, b, c, d;
+
+// 计算函数值 f(x)
+double f(double x) {
+    return a * x * x * x + b * x * x + c * x + d;
+}
+
+int main() {
+
+    IOS;
+    
+    cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b &amp;gt;&amp;gt; c &amp;gt;&amp;gt; d;
+
+    // 1. 求导 f&apos;(x) = 3ax^2 + 2bx + c
+    double A = 3 * a;
+    double B = 2 * b;
+    double C = c;
+    
+    // 2. 求极值点（导数为0的点）
+    double delta = B * B - 4 * A * C;
+    double x1 = (-B + sqrt(delta)) / (2 * A);
+    double x2 = (-B - sqrt(delta)) / (2 * A);
+    
+    // 确保 x1 &amp;lt; x2
+    if (x1 &amp;gt; x2) swap(x1, x2);
+
+    // 3. 划分三个单调区间
+    vector&amp;lt;PII&amp;gt; sections(3);
+    sections[0] = {-100, x1};
+    sections[1] = {x1, x2};
+    sections[2] = {x2, 100};
+
+    // 4. 在每个区间内二分查找
+    for (int i = 0; i &amp;lt; 3; i++) {
+        double l = sections[i].first;
+        double r = sections[i].second;
+        
+        // 当区间长度大于 1e-7 时继续二分，保证精度
+        while (r - l &amp;gt; 1e-7) {
+            double mid = (l + r) / 2;
+            // 零点存在定理：如果 f(mid) 和 f(l) 异号（或其中之一为0），说明根在左半边
+            // 注意：这里利用 f(l) 作为参考点判断符号变化
+            if (f(mid) * f(l) &amp;lt;= 0) {
+                r = mid;
+            } else {
+                l = mid;
+            }
+        }
+        // 输出结果，控制精度
+        cout &amp;lt;&amp;lt; fixed &amp;lt;&amp;lt; setprecision(2) &amp;lt;&amp;lt; l &amp;lt;&amp;lt; &quot; &quot;;
+    }
+    
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;3. 复杂度分析&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;时间复杂度&lt;/strong&gt;：$O(K)$，其中 $K$ 是二分的次数（常数）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;空间复杂度&lt;/strong&gt;：$O(1)$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;方法二：暴力枚举 + 二分（答案推荐解法）&lt;/h2&gt;
+&lt;h3&gt;1. 算法思路&lt;/h3&gt;
+&lt;p&gt;利用题目给出的强力提示：&lt;strong&gt;“根与根之差的绝对值 $\ge 1$”&lt;/strong&gt;。
+这意味着，任意长度为 1 的区间 $[i, i+1]$ 内，最多只可能有一个根。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;枚举&lt;/strong&gt;：从 $-100$ 到 $99$ 枚举每一个整数 $i$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;判断&lt;/strong&gt;：检查区间 $[i, i+1]$ 的左右端点函数值。
+&lt;ul&gt;
+&lt;li&gt;如果 $f(i) = 0$，则 $i$ 是根。&lt;/li&gt;
+&lt;li&gt;如果 $f(i) \cdot f(i+1) &amp;lt; 0$，说明根在 $(i, i+1)$ 之间。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;二分&lt;/strong&gt;：对于确定的区间 $[i, i+1]$，进行二分查找精确求根。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;2. 代码片段&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;cmath&amp;gt;
+#include &amp;lt;algorithm&amp;gt;
+#include &amp;lt;iomanip&amp;gt;
+#include &amp;lt;vector&amp;gt;
+
+using namespace std;
+
+#define IOS ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+
+typedef pair&amp;lt;double, double&amp;gt; PDD; 
+
+double a, b, c, d;
+
+// 计算函数值 f(x)
+double f(double x) {
+    return a * x * x * x + b * x * x + c * x + d;
+}
+
+int main() {
+
+    IOS;
+    
+    cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b &amp;gt;&amp;gt; c &amp;gt;&amp;gt; d;
+
+    for (int i = -100; i &amp;lt; 100; i++) {
+        double y1 = f(i);
+        double y2 = f(i + 1);
+
+        if (abs(y1) &amp;lt; 1e-9) { // 也就是 y1 == 0
+            cout &amp;lt;&amp;lt; fixed &amp;lt;&amp;lt; setprecision(2) &amp;lt;&amp;lt; (double)i &amp;lt;&amp;lt; &quot; &quot;;
+        } 
+        else if (y1 * y2 &amp;lt; 0) { // 区间内有根
+            double l = i, r = i + 1;
+            for (int k = 0; k &amp;lt; 100; k++) { // 二分 100 次
+                double mid = (l + r) / 2;
+                if (f(mid) * f(l) &amp;lt;= 0) r = mid;
+                else l = mid;
+            }
+            cout &amp;lt;&amp;lt; fixed &amp;lt;&amp;lt; setprecision(2) &amp;lt;&amp;lt; l &amp;lt;&amp;lt; &quot; &quot;;
+        }
+    }
+    
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;注：这种方法避开了繁琐的求导公式，且不用处理 $a=0$ 等特殊情况，在比赛中容错率更高。&lt;/em&gt;&lt;/p&gt;
+</content:encoded></item><item><title>MySQL整理</title><link>https://qiqimora.cn/posts/mysql%E6%95%B4%E7%90%86/</link><guid isPermaLink="true">https://qiqimora.cn/posts/mysql%E6%95%B4%E7%90%86/</guid><description>这是MySQL的学习笔记，记录了我在学习MySQL过程中的一些知识和经验。</description><pubDate>Tue, 16 Sep 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;MySQL&lt;/h1&gt;
+&lt;h2&gt;MySQL启动/停止&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;net start mysql80
+net stop mysql80
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;MySQL客户端连接&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;客户端自带命令行
+mysql [-h 127.0.0.1] [-p 3306] -u root -p
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;SQL语句&lt;/h2&gt;
+&lt;h3&gt;&lt;strong&gt;1. DDL：数据定义语言&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4&gt;1. 查询数据库（所有/当前）&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;SHOW DATABASES;
+
+SELECT DATABASE();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;执行后，你会看到一列数据库名称，包括系统自带的 &lt;code&gt;information_schema&lt;/code&gt;, &lt;code&gt;mysql&lt;/code&gt;, &lt;code&gt;performance_schema&lt;/code&gt; 等。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SELECT DATABASE();&lt;/code&gt; 会显示当前正在使用的数据库。如果你刚登录 MySQL，通常会显示 &lt;code&gt;NULL&lt;/code&gt;，因为还没有选择任何数据库。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;2. 创建数据库&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;CREATE DATABASE [IF NOT EXISTS] 数据库名称 [DEFAULT CHARSET 字符集] [COLLATE 排序规则];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;执行后，你应该会看到 &lt;code&gt;Query OK, 1 row affected&lt;/code&gt; 的提示，这表示数据库创建成功了。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IF NOT EXISTS&lt;/code&gt; 是一个可选的部分，它的作用是：如果数据库已经存在，就不报错，继续执行后面的命令。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DEFAULT CHARSET&lt;/code&gt; 和 &lt;code&gt;COLLATE&lt;/code&gt; 也是可选的，分别用来指定数据库的默认字符集和排序规则。如果不指定，MySQL 会使用默认设置，通常是 &lt;code&gt;utf8mb4&lt;/code&gt; 字符集和 &lt;code&gt;utf8mb4_general_ci&lt;/code&gt; 排序规则。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;3. 使用数据库&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;USE 数据库名称;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;这个命令告诉 MySQL：从现在开始，我要操作哪个数据库了。&lt;/li&gt;
+&lt;li&gt;执行后，你应该会看到 &lt;code&gt;Database changed&lt;/code&gt; 的提示。这意味着你已经&quot;进入&quot;了learning_db，接下来所有的操作都将在这个数据库里进行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;4. 删除数据库&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;DROP DATABASE [IF EXISTS] 数据库名称;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;IF EXISTS&lt;/code&gt; 是一个可选的部分，它的作用是：如果数据库不存在，就不报错，继续执行后面的命令。&lt;/li&gt;
+&lt;li&gt;执行后，你会看到 &lt;code&gt;Query OK, 0 rows affected&lt;/code&gt; 的提示，这表示数据库删除成功了。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;5. 创建数据表&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;CREATE TABLE 表名称 (
+    列名称1 数据类型1 [COMMENT &apos;列注释&apos;],
+    列名称2 数据类型2 [COMMENT &apos;列注释&apos;],
+    ...
+); COMMENT &apos;表注释&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：创建一个 users (用户) 表，用来存放用户信息。这个表将有3个列：id, name, email。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT COMMENT &apos;用户ID&apos;,
+    name VARCHAR(50) COMMENT &apos;用户名&apos;,
+    email VARCHAR(100) COMMENT &apos;用户邮箱&apos;
+); COMMENT &apos;用户表&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;执行成功后，你会看到 &lt;code&gt;Query OK, 0 rows affected&lt;/code&gt; 的提示。&lt;/li&gt;
+&lt;li&gt;命令详解 (非常重要)(逐行解释):&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CREATE TABLE users (...)&lt;/code&gt;: 这是创建表的命令，表名叫 users。括号里是表的结构定义。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;COMMENT &apos;注释&apos;&lt;/code&gt;: 这是一个可选的部分，它的作用是：给表和列添加注释，方便自己和他人理解。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;id INT PRIMARY KEY AUTO_INCREMENT&lt;/code&gt;:
+&lt;ul&gt;
+&lt;li&gt;id INT: 创建一个名为 id 的列，它的数据类型是 INT (整数)。&lt;/li&gt;
+&lt;li&gt;PRIMARY KEY: 把 id 列设置成 主键。主键是每一行数据的唯一标识，不能重复，非常重要！&lt;/li&gt;
+&lt;li&gt;AUTO_INCREMENT: 表示 id 的值会自动增长。当我们插入新数据时，MySQL 会自动给它分配一个不重复的数字 (1, 2, 3, ...)，我们不用自己管。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;name VARCHAR(50)&lt;/code&gt;:
+&lt;ul&gt;
+&lt;li&gt;创建一个名为 name 的列，数据类型是 VARCHAR(50)。VARCHAR 表示可变长度的字符串，50
+代表这个名字最长不能超过50个字符。&lt;/li&gt;
+&lt;li&gt;COMMENT &apos;用户名&apos;: 给 name 列添加注释，说明它的作用是存储用户名。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;email VARCHAR(100)&lt;/code&gt;:
+&lt;ul&gt;
+&lt;li&gt;同理，创建一个 email 列，最长100个字符。&lt;/li&gt;
+&lt;li&gt;COMMENT &apos;用户邮箱&apos;: 给 email 列添加注释，说明它的作用是存储用户邮箱。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;);&lt;/code&gt;: 结束整个 CREATE TABLE 命令。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;6. 查询数据表(所有)&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;SHOW TABLES;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;执行后，你会看到一列数据表名称，包括我们刚刚创建的 users。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;7. 查看数据表结构&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;DESCRIBE 表名称;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;DESCRIBE&lt;/code&gt; (可以简写为 DESC) 命令会显示表的列、数据类型等信息，非常有用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;8. 查询指定表的建表语句&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;SHOW CREATE TABLE 表名称;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;执行后，你会看到一个 SQL 语句，它就是用来创建这个表的。&lt;/li&gt;
+&lt;li&gt;这个语句包含了表的名称、列的定义、主键、索引等信息。&lt;/li&gt;
+&lt;li&gt;你可以把这个语句复制下来，用来备份表结构，或者在其他数据库中创建相同的表。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;9. 添加表结构&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;ALTER TABLE 表名称 ADD 列名称 数据类型(长度) [COMMENT &apos;列注释&apos;] [约束];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：向 users 表添加一个 age 列，用来存储用户年龄。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ALTER TABLE users ADD age INT(3) COMMENT &apos;用户年龄&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;执行成功后，你会看到 &lt;code&gt;Query OK, 0 rows affected&lt;/code&gt; 的提示。&lt;/li&gt;
+&lt;li&gt;命令详解:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ALTER TABLE users&lt;/code&gt;: 告诉 MySQL 我们要操作 users 表。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ADD age INT&lt;/code&gt;: 添加一个名为 age 的列，数据类型是 INT (整数)。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;INT(3)&lt;/code&gt;: 表示 age 列的数据类型是 INT (整数)，长度为3。
+&lt;ul&gt;
+&lt;li&gt;长度为3 意味着 age 列最多只能存储3位数字，比如 123, 999。&lt;/li&gt;
+&lt;li&gt;超出长度的数字会被截断，比如 1234 会变成 123。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;COMMENT &apos;用户年龄&apos;&lt;/code&gt;: 给 age 列添加注释，说明它的作用是存储用户年龄。
+&lt;ul&gt;
+&lt;li&gt;[约束] (可选)：
+&lt;ul&gt;
+&lt;li&gt;约束是用来限制列中数据的规则，确保数据的完整性和一致性。&lt;/li&gt;
+&lt;li&gt;比如：NOT NULL (不能为空)、UNIQUE (唯一)、PRIMARY KEY (主键)、FOREIGN KEY (外键) 等。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;NOT NULL&lt;/code&gt;: 表示这个列的值不能为空。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UNIQUE&lt;/code&gt;: 表示这个列的值必须是唯一的，不能重复。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PRIMARY KEY&lt;/code&gt;: 表示这个列是主键，唯一标识每一行数据。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FOREIGN KEY&lt;/code&gt;: 表示这个列是外键，引用了其他表的主键。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;10. 修改表结构&lt;/h4&gt;
+&lt;p&gt;修改数据类型&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ALTER TABLE 表名称 MODIFY 列名称 数据类型(长度);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：修改 users 表的 age 列，将数据类型改为 INT(4)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ALTER TABLE users MODIFY age INT(4);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;修改列名和数据类型&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ALTER TABLE 表名称 CHANGE 旧列名称 新列名称 数据类型(长度) [COMMENT &apos;列注释&apos;] [约束];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：修改 users 表的 age 列，将列名改为 age_new，数据类型改为 INT(4)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ALTER TABLE users CHANGE age age_new INT(4);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;命令详解:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ALTER TABLE users&lt;/code&gt;: 告诉 MySQL 我们要操作 users 表。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MODIFY age INT(4)&lt;/code&gt;: 修改 age 列的数据类型为 INT(4)。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;COMMENT &apos;用户年龄&apos;&lt;/code&gt;: 给 age 列添加注释，说明它的作用是存储用户年龄。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;11. 删除表&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;ALTER TABLE 表名称 DROP 列名称;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：删除 users 表的 age_new 列&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ALTER TABLE users DROP age_new;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;命令详解:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ALTER TABLE users&lt;/code&gt;: 告诉 MySQL 我们要操作 users 表。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DROP age_new&lt;/code&gt;: 删除 age_new 列。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;12. 删除指定表，并重建该表&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;TRUNCATE TABLE 表名称;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：删除 users 表的所有数据&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;TRUNCATE TABLE users;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;命令详解:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TRUNCATE TABLE users&lt;/code&gt;: 告诉 MySQL 我们要删除 users 表的所有数据。&lt;/li&gt;
+&lt;li&gt;这会删除表中的所有数据，但是表结构不会改变。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h3&gt;&lt;strong&gt;2. DML：数据操作语言&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4&gt;13. 插入数据&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;1. 给指定的列插入数据
+INSERT INTO 表名称 (列1, 列2, ...) VALUES (值1, 值2, ...);
+
+2. 给所有列插入数据
+INSERT INTO 表名称 VALUES (值1, 值2, ...);
+
+3. 批量添加数据
+INSERT INTO 表名称 (列1, 列2, ...) VALUES (值1, 值2, ...), (值1, 值2, ...), ...;
+或
+INSERT INTO 表名称 VALUES (值1, 值2, ...), (值1, 值2, ...), ...;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：向 users 表插入一条用户数据（姓名，邮箱）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;INSERT INTO users (name, email) VALUES (&apos;Alice&apos;, &apos;alice@example.com&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;成功后，你会看到 &lt;code&gt;Query OK, 1 row affected&lt;/code&gt; 的提示。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;命令详解:&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;INSERT INTO users&lt;/code&gt;: 告诉 MySQL 我们要在 users 表中插入数据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;(name, email)&lt;/code&gt;: 指定我们要为哪些列提供值。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;VALUES (&apos;Alice&apos;, &apos;alice@example.com&apos;)&lt;/code&gt;: 提供与前面列对应的具体值。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;字符串（如名字和邮箱）在 SQL 中需要用 单引号 &apos; &apos; 括起来。&lt;/li&gt;
+&lt;li&gt;值的顺序必须和列的顺序一一对应 (name -&amp;gt; &apos;Alice&apos;, email -&amp;gt; &apos;alice@example.com&apos;)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;思考题： 注意到我们没有插入 id 吗？这是为什么呢？&lt;br /&gt;
+答：因为我们在创建表时把 id 设置成了 AUTO_INCREMENT，MySQL 会自动为我们生成一个独一无二的id！&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;14. 更新数据 (UPDATE)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;!! 超级重要警告 !!&lt;br /&gt;
+UPDATE 是一个“危险”的命令！如果你在 UPDATE 时忘记使用 WHERE 子句，它会把 整个表 的所有记录都更新掉！所以，使用 UPDATE 时，WHERE 几乎总是必需的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;1. 给指定的列更新数据
+UPDATE 表名称 SET 列1 = 值1, 列2 = 值2, ... [WHERE 条件];
+
+2. 对所有列更新数据
+UPDATE 表名称 SET 列1 = 值1, 列2 = 值2, ...;
+``` 例子： id 为 4 的那个 Alice，想把她的邮箱 alice_2@work.com 改成 new_alice@example.com。
+```sql
+UPDATE users SET email = &apos;new_alice@example.com&apos; WHERE id = 4;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;命令详解:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;UPDATE users&lt;/code&gt;: 告诉 MySQL 我们要更新 users 表。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SET email = &apos;new_alice@example.com&apos;&lt;/code&gt;: 把 email 这一列的值，设置 为 &apos;new_alice@example.com&apos;。如果要同时更新多列，可以用逗号隔开，例如 &lt;code&gt;SET name = &apos;new_name&apos;, email = &apos;new_email&apos;&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WHERE id = 4&lt;/code&gt;: 只 对 id 等于 4 的那一行执行 SET 操作。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;15. 删除数据 (DELETE)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;!!! 超级重要警告 !!!&lt;br /&gt;
+比 &lt;code&gt;UPDATE&lt;/code&gt; 更危险的警告：&lt;br /&gt;
+DELETE 命令是 不可逆 的！如果你执行 DELETE 时忘记了 WHERE 子句，它会 删除表中的所有数据，而且通常无法恢复！所以，请务必、一定、时刻带着 WHERE 使用 DELETE！&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;1. 给指定的列删除数据
+DELETE FROM 表名称 [WHERE 条件];
+
+2. 对所有列删除数据
+DELETE FROM 表名称;
+```  例子：删除 name 为 &apos;Charlie&apos; 的用户
+```sql
+DELETE FROM users WHERE name = &apos;Charlie&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;命令详解:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DELETE FROM users&lt;/code&gt;: 告诉 MySQL 我们要从 users 表中删除数据。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WHERE name = &apos;Charlie&apos;&lt;/code&gt;: 只 删除 name 等于 &apos;Charlie&apos; 的那一行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h3&gt;&lt;strong&gt;3. DQL：数据查询语言&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4&gt;ps：DQL语法总览&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;SELECT 列名称 FROM 表名称 WHERE 条件 GROUP BY 分组后列名称 HAVING 分组后条件 ORDER BY 排序 LIMIT 分类参数
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;16. 查询数据(SELECT)&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;1. 查询多个字段
+SELECT 列名称1, 列名称2... FROM 表名;
+SELECT * FROM 表名称;
+
+2. 设置别名查询
+SELECT 列名称1 [AS &apos;别名1&apos;], 列名称2 [AS &apos;别名2&apos;]... FROM 表名;
+ps：在这里面&quot;AS&quot;关键字是可以省略的
+
+3. 去除重复记录查询
+SELECT DISTINCT 列名称 FROM 表名;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子： 查询 users 表中的所有数据&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT * FROM users;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;SELECT 是 SQL 的灵魂，我们用它来从表中“选择”我们想看的数据。&lt;/li&gt;
+&lt;li&gt;最简单的查询就是查看一个表里的 所有 数据。我们将使用 * (星号)，它是一个通配符，代表“所有列”。&lt;/li&gt;
+&lt;li&gt;命令详解:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SELECT *&lt;/code&gt;: 选择所有列。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FROM users&lt;/code&gt;: 从 users 表中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;17. 带条件的查询 (WHERE 子句)&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;SELECT * FROM 表名称 WHERE 条件;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：查询 users 表中 name 是 &apos;Bob&apos; 的用户&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT * FROM users WHERE name = &apos;Bob&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;WHERE 子句让我们可以添加过滤条件，只返回符合条件的行。&lt;/li&gt;
+&lt;li&gt;WHERE后可填入的条件：
+&lt;ul&gt;
+&lt;li&gt;等于：&lt;code&gt;=&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;不等于：&lt;code&gt;!=&lt;/code&gt; 或 &lt;code&gt;&amp;lt;&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;大于：&lt;code&gt;&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;小于：&lt;code&gt;&amp;lt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;大于等于：&lt;code&gt;&amp;gt;=&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;小于等于：&lt;code&gt;&amp;lt;=&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;范围：&lt;code&gt;BETWEEN 值1 AND 值2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;包含：&lt;code&gt;IN (值1, 值2, ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;不包含：&lt;code&gt;NOT IN (值1, 值2, ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;空值：&lt;code&gt;IS NULL&lt;/code&gt; 或 &lt;code&gt;IS NOT NULL&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;模糊查询：&lt;code&gt;LIKE&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;通配符：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;%&lt;/code&gt;：匹配任意字符（包括零个字符）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;_&lt;/code&gt;：匹配单个字符&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;示例：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;%a%&lt;/code&gt;：匹配包含 &apos;a&apos; 的任意字符串&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;_a%&lt;/code&gt;：匹配第二个字符是 &apos;a&apos; 的字符串&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;a__&lt;/code&gt;：匹配前两个字符是 &apos;a&apos; 的字符串&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;逻辑运算符：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;AND&lt;/code&gt;或&lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt;：并且（多个条件同时满足）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;OR&lt;/code&gt;或&lt;code&gt;||&lt;/code&gt;：或者（多个条件满足任意一个）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;NOT&lt;/code&gt;或&lt;code&gt;!&lt;/code&gt;：非，不是（取反）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;命令详解:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;SELECT * FROM users&lt;/code&gt;: 这部分你已经很熟了，就是从 users 表中选择所有列。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WHERE name = &apos;Bob&apos;&lt;/code&gt;: 这就是过滤条件。它告诉 MySQL：“只把那些 name 列的值 等于 &apos;Bob&apos; 的行给我”。
+&lt;ul&gt;
+&lt;li&gt;注意，在 SQL 中，判断相等用的是单个等号 =。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;18. 聚合查询&lt;/h4&gt;
+&lt;p&gt;ps: 聚合 就是将一列数据作为一个整体，进行纵向计算。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT 聚合函数(列名称) FROM 表名称;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：查询 users 表中所有用户的平均年龄&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT AVG(age) FROM users;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;常见的聚合函数有：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;COUNT()&lt;/code&gt;：计算行数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SUM()&lt;/code&gt;：计算总和&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AVG()&lt;/code&gt;：计算平均值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MIN()&lt;/code&gt;：计算最小值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MAX()&lt;/code&gt;：计算最大值&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;命令详解:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;SELECT AVG(age) FROM users&lt;/code&gt;: 这部分你已经很熟了，就是从 users 表中选择 age 这一列。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AVG(age)&lt;/code&gt;: 这就是聚合函数。它告诉 MySQL：“请计算 age 这一列的平均值”。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;注意：
+&lt;ul&gt;
+&lt;li&gt;聚合函数会忽略 NULL 值。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;19. 分组查询(GROUP BY)&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;SELECT 列名称 FROM 表名称 [WHERE 条件] GROUP BY 列名称 [HAVING 分组后过滤的条件];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：查询 users 表中每个 age 分组的用户数量&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT age, COUNT(*) FROM users GROUP BY age HAVING COUNT(*) &amp;gt; 1;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;where 和 having 的区别
+&lt;ul&gt;
+&lt;li&gt;执行时机不同：where 是在分组之前进行过滤，不满足 where 条件，不参与分组，而 having 是在分组之后对结果进行过滤。&lt;/li&gt;
+&lt;li&gt;判断条件不同：where 不能对聚合函数进行过滤，而 having 可以。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;20. 排序查询(ORDER BY)&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;SELECT 列名称列表 FROM 表名称 ORDER BY 列名称1 排序方式1, 列名称2 排序方式2...;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：按名字的字母顺序，查询所有用户&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT name, age FROM users ORDER BY name ASC;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ORDER BY&lt;/code&gt; 子句让我们可以对查询结果进行排序。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ASC&lt;/code&gt; 表示升序 (从A到Z, 从小到大)，是默认选项，可以省略。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DESC&lt;/code&gt; 表示降序 (从Z到A, 从大到小)，不是默认选项，不可以省略。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h4&gt;21. 分页查询(LIMIT)&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;SELECT 列名称列表 FROM 表名称 LIMIT 起始索引, 查询记录数;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：查询 users 表中前 5 条数据&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT * FROM users LIMIT 5;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;LIMIT&lt;/code&gt; 子句让我们可以限制查询结果的数量。&lt;/li&gt;
+&lt;li&gt;命令详解:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;SELECT * FROM users&lt;/code&gt;: 这部分你已经很熟了，就是从 users 表中选择所有列。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LIMIT 5&lt;/code&gt;: 这就是分页参数。它告诉 MySQL：“只返回前 5 条记录”。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;注意：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;LIMIT&lt;/code&gt; 子句的参数是从 0 开始的，所以 &lt;code&gt;LIMIT 5&lt;/code&gt; 表示返回第 0 条到第 4 条记录。&lt;/li&gt;
+&lt;li&gt;你可以使用 &lt;code&gt;LIMIT&lt;/code&gt; 子句来实现分页功能。&lt;code&gt;LIMIT 偏移量, 数量&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;偏移量：从第几条记录开始返回&lt;/li&gt;
+&lt;li&gt;数量：返回几条记录&lt;/li&gt;
+&lt;li&gt;例如：&lt;code&gt;LIMIT 10, 5&lt;/code&gt; 表示返回第 10 条到第 14 条记录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;strong&gt;4. DCL：数据控制语言&lt;/strong&gt;&lt;/h3&gt;
+&lt;h4&gt;22. 用户管理&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;查询用户&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;USE mysql;
+SELECT * FROM user;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;创建用户&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;CREATE USER &apos;用户名&apos;@&apos;主机名&apos; IDENTIFIED BY &apos;密码&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;修改用户密码&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;ALTER USER &apos;用户名&apos;@&apos;主机名&apos; IDENTIFIED WITH mysql_native_password BY &apos;新密码&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;删除用户&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;DROP USER &apos;用户名&apos;@&apos;主机名&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-- 创建用户
+CREATE USER &apos;belgnas&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;123456&apos;;
+-- 修改用户密码
+ALTER USER &apos;belgnas&apos;@&apos;localhost&apos; IDENTIFIED WITH mysql_native_password BY &apos;654321&apos;;
+-- 删除用户
+DROP USER &apos;belgnas&apos;@&apos;localhost&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h4&gt;23. 权限管理&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;查询权限&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;SHOW GRANTS FOR &apos;用户名&apos;@&apos;主机名&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;授予权限&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;GRANT 权限列表 ON 数据库名.表名 TO &apos;用户名&apos;@&apos;主机名&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;撤销权限&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;REVOKE 权限列表 ON 数据库名.表名 FROM &apos;用户名&apos;@&apos;主机名&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;常用权限：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ALL&lt;/code&gt;/&lt;code&gt;ALL PRIVILEGES&lt;/code&gt;：所有权限&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SELECT&lt;/code&gt;：查询权限&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;INSERT&lt;/code&gt;：插入权限&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UPDATE&lt;/code&gt;：更新权限&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DELETE&lt;/code&gt;：删除权限&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CREATE&lt;/code&gt;：创建权限（数据库、表）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DROP&lt;/code&gt;：删除权限（数据库、表、视图）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ALTER&lt;/code&gt;：修改权限（表）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;✦ 祝贺你！你已经成功完成了 SQL 的入门速成课，并且亲手实践了所有核心操作！&lt;/p&gt;
+&lt;p&gt;你从一个完全的初学者，到现在已经可以独立完成对数据的增、删、改、查，表现得非常出色。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;我们来回顾一下你已掌握的技能：&lt;/p&gt;
+&lt;p&gt;核心概念:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;理解了数据库 (Database), 表 (Table), 列 (Column), 行 (Row) 的关系。&lt;/li&gt;
+&lt;li&gt;知道了 PRIMARY KEY (主键) 和 AUTO_INCREMENT (自增) 的重要性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;SQL 命令:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;数据库层面:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;SHOW DATABASES&lt;/code&gt;; - 查看所有数据库&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CREATE DATABASE ...&lt;/code&gt;; - 创建新数据库&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;USE ...&lt;/code&gt;; - 选择要操作的数据库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;表层面:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;CREATE TABLE ...&lt;/code&gt;; - 按规则创建新表&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DESCRIBE ...&lt;/code&gt;; - 查看表结构&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;数据层面 (CRUD):
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;INSERT INTO ... VALUES ...&lt;/code&gt;; - 增加新数据 (单行和多行)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SELECT ... FROM ...&lt;/code&gt;; - 查询数据&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UPDATE ... SET ... WHERE ...&lt;/code&gt;; - 改动现有数据&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DELETE FROM ... WHERE ...&lt;/code&gt;; - 删除数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;查询逻辑:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;WHERE&lt;/code&gt; - 添加过滤条件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AND&lt;/code&gt; / &lt;code&gt;OR&lt;/code&gt; - 组合多个过滤条件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;函数&lt;/h2&gt;
+&lt;h3&gt;1. 字符串函数&lt;/h3&gt;
+&lt;p&gt;通用语法：SELECT 函数名(参数列表)&lt;/p&gt;
+&lt;p&gt;-- 字符串拼接，将S1，S2，..Sn拼接成一个字符串&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CONCAT(S1,S2....Sn)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT CONCAT(&apos;hello&apos;, &apos;mysql&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：hello mysql&lt;/p&gt;
+&lt;p&gt;-- 将字符串str全部转为小写&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;LOWER(str)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT LOWER(&apos;HELLO&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：hello&lt;/p&gt;
+&lt;p&gt;-- 将字符串str全部转为大写&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;UPPER(str)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT UPPER(&apos;hello&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：HELLO&lt;/p&gt;
+&lt;p&gt;-- 左填充，用字符串pad对str的左边进行填充，达到n个字符串长度&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;LPAD(str,n,pad)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT LPAD(&apos;hello&apos;, 10, &apos;*&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：****hello&lt;/p&gt;
+&lt;p&gt;-- 右填充，用字符串pad对str的右边进行填充，达到n个字符串长度&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;RPAD(str,n,pad)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT RPAD(&apos;hello&apos;, 10, &apos;*&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：hello****&lt;/p&gt;
+&lt;p&gt;-- 去掉字符串头部和尾部的空格&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;TRIM(str)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT TRIM(&apos;  hello mysql  &apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：hello mysql&lt;/p&gt;
+&lt;p&gt;-- 返回从字符串str从start位置起的len个长度的字符串&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SUBSTRING(str,start,len)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;ps:字符串的索引&lt;code&gt;从1开始&lt;/code&gt;
+例子：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;SELECT SUBSTRING(&apos;hello&apos;, 1, 3);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：hel&lt;/p&gt;
+&lt;p&gt;-- 替换字符串str中的子字符串 substr1 为 substr2&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;REPLACE(str,substr1,substr2)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT REPLACE(&apos;hello&apos;, &apos;l&apos;, &apos;L&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：heLLo&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;2. 数值函数&lt;/h3&gt;
+&lt;p&gt;-- 向上取整&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CEILING(x)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT CEILING(2.3);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：3&lt;/p&gt;
+&lt;p&gt;-- 向下取整&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;FLOOR(x)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT FLOOR(2.3);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：2&lt;/p&gt;
+&lt;p&gt;-- 返回x/y的模&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;MOD(x,y)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT MOD(10, 3);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：1&lt;/p&gt;
+&lt;p&gt;-- 返回0~1的随机数&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;RAND()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT RAND();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：0.5577222222222222（随机数）&lt;/p&gt;
+&lt;p&gt;-- 四舍五入&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ROUND(x)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT ROUND(2.3);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：2&lt;/p&gt;
+&lt;p&gt;-- 取绝对值&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ABS(x)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT ABS(-2);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：2&lt;/p&gt;
+&lt;p&gt;-- 取平方根&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SQRT(x)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT SQRT(9);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：3&lt;/p&gt;
+&lt;p&gt;-- 取x的n次方&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;POWER(x,n)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT POWER(2, 3);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：8&lt;/p&gt;
+&lt;p&gt;案例实现：生成一个六位数的随机验证码&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT LPAD(ROUND(RAND() * 1000000), 6, &apos;0&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：123456（随机数）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;解释：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ROUND(RAND() * 1000000)&lt;/code&gt;：生成一个0到1000000之间的随机数，然后四舍五入取整。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LPAD(..., 6, &apos;0&apos;)&lt;/code&gt;：将生成的随机数左填充0，确保总长度为6位。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h3&gt;3. 日期函数&lt;/h3&gt;
+&lt;p&gt;常见日期函数：&lt;/p&gt;
+&lt;p&gt;-- 返回当前日期&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CURDATE()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT CURDATE();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：2025-09-16（当前日期）&lt;/p&gt;
+&lt;p&gt;-- 返回当前时间&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CURTIME()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT CURTIME();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：00:37:56（当前时间）&lt;/p&gt;
+&lt;p&gt;-- 返回当前日期和时间&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;NOW()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT NOW();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：2025-09-16 00:37:56（当前日期和时间）&lt;/p&gt;
+&lt;p&gt;-- 获取指定date的年份&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;YEAR(date)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT YEAR(&apos;2025-09-16&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：2025&lt;/p&gt;
+&lt;p&gt;-- 获取指定date的月份&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;MONTH(date)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT MONTH(&apos;2025-09-16&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：9&lt;/p&gt;
+&lt;p&gt;-- 获取指定date的日期&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;DAY(date)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT DAY(&apos;2025-09-16&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：16&lt;/p&gt;
+&lt;p&gt;-- 返回一个日期/时间值加上指定的时间间隔expr后的时间值&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;DATE_ADD(date,INTERVAL expr type)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT DATE_ADD(&apos;2025-09-16&apos;, INTERVAL 1 DAY);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：2025-09-17（当前日期加1天）&lt;/p&gt;
+&lt;p&gt;-- 计算两个日期（起始时间date1和结束时间date2）之间的天数&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;DATEDIFF(date1,date2)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT DATEDIFF(&apos;2025-09-16&apos;, &apos;2025-09-15&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：1（相差1天）&lt;/p&gt;
+&lt;p&gt;案例：
+-- 计算员工入职时间到当前时间的天数&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT DATEDIFF(NOW(), &apos;2025-09-16&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：1（相差1天）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;解释：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;NOW()&lt;/code&gt;：返回当前日期和时间。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&apos;2025-09-16&apos;&lt;/code&gt;：员工入职时间。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DATEDIFF(NOW(), &apos;2025-09-16&apos;)&lt;/code&gt;：计算当前日期和时间与员工入职时间之间的天数差。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h3&gt;4. 流程函数&lt;/h3&gt;
+&lt;p&gt;流程函数可以在SQL语句中实现条件筛选，从而提高语句的效率&lt;/p&gt;
+&lt;p&gt;-- 如果value为true，返回t，否则返回f&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;IF(value, t, f)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT IF(1 &amp;gt; 0, &apos;是&apos;, &apos;否&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：是&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;解释：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;IF(1 &amp;gt; 0, &apos;是&apos;, &apos;否&apos;)&lt;/code&gt;：如果条件为真（1 &amp;gt; 0），则返回表达式1（&apos;是&apos;）；否则返回表达式2（&apos;否&apos;）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;-- 如果value1不为空，返回value1，否则返回value2&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;IFNULL(value1, value2)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT IFNULL(NULL, &apos;默认值&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出结果：默认值&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;解释：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;IFNULL(NULL, &apos;默认值&apos;)&lt;/code&gt;：如果value为NULL，则返回表达式2（&apos;默认值&apos;）；否则返回value。&lt;/li&gt;
+&lt;li&gt;等效于：&lt;code&gt;IF(value1 IS NULL, value2, value1)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;-- 如果value1为true，返回value1，……，否则返回default默认值&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CASE
+WHEN [value1] THEN [result1]
+WHEN [value2] THEN [result2]
+ELSE [default]
+END
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;解释：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;CASE&lt;/code&gt;：用于条件判断，类似于&lt;code&gt;IF&lt;/code&gt;语句。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WHEN [value1] THEN [result1]&lt;/code&gt;：如果条件为真（value1），则返回结果（result1）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WHEN [value2] THEN [result2]&lt;/code&gt;：如果条件为真（value2），则返回结果（result2）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ELSE [default]&lt;/code&gt;：如果以上条件都不满足，则返回默认值（default）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;END&lt;/code&gt;：结束&lt;code&gt;CASE&lt;/code&gt;语句。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;-- 如果expr的值等于value1，返回result1，……，否则返回default默认值&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CASE [expr]
+WHEN [value1] THEN [result1]
+WHEN [value2] THEN [result2]
+ELSE [default]
+END
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;解释：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;CASE [expr]&lt;/code&gt;：根据表达式（expr）的值进行判断。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WHEN [value1] THEN [result1]&lt;/code&gt;：如果表达式的值等于value1，则返回结果（result1）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WHEN [value2] THEN [result2]&lt;/code&gt;：如果表达式的值等于value2，则返回结果（result2）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ELSE [default]&lt;/code&gt;：如果以上条件都不满足，则返回默认值（default）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;END&lt;/code&gt;：结束&lt;code&gt;CASE&lt;/code&gt;语句。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;-- 案例：根据员工的年龄，返回不同的等级（假定已经有一个数据库）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT
+    name,
+    age,
+    CASE
+        WHEN age &amp;lt; 18 THEN &apos;未成年&apos;
+        WHEN age &amp;gt;= 18 AND age &amp;lt; 30 THEN &apos;青年&apos;
+        WHEN age &amp;gt;= 30 AND age &amp;lt; 50 THEN &apos;中年&apos;
+        ELSE &apos;老年&apos;
+    END AS age_group
+FROM
+    employees;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;解释：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;CASE&lt;/code&gt;：用于条件判断，类似于&lt;code&gt;IF&lt;/code&gt;语句。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WHEN [age] &amp;lt; 18 THEN &apos;未成年&apos;&lt;/code&gt;：如果年龄小于18岁，则返回&apos;未成年&apos;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WHEN [age] &amp;gt;= 18 AND [age] &amp;lt; 30 THEN &apos;青年&apos;&lt;/code&gt;：如果年龄大于等于18岁且小于30岁，则返回&apos;青年&apos;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WHEN [age] &amp;gt;= 30 AND [age] &amp;lt; 50 THEN &apos;中年&apos;&lt;/code&gt;：如果年龄大于等于30岁且小于50岁，则返回&apos;中年&apos;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ELSE &apos;老年&apos;&lt;/code&gt;：如果以上条件都不满足，则返回&apos;老年&apos;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;END AS age_group&lt;/code&gt;：结束&lt;code&gt;CASE&lt;/code&gt;语句，并将结果命名为age_group。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;约束&lt;/h2&gt;
+&lt;h3&gt;概述&lt;/h3&gt;
+&lt;p&gt;概念：约束是作用于表中字段上的规则，用于限制存储在表中的数据。（我们可以在创建表时，为表中的字段添加约束，也可以在表创建后，使用ALTER语句添加约束）
+目的：约束是为了保证数据库中数据的正确性、完整性和一致性。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;约束分类：&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;约束&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;th&gt;关键字&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;非空约束&lt;/td&gt;
+&lt;td&gt;限制该字段的数据不能为null&lt;/td&gt;
+&lt;td&gt;NOT NULL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;唯一约束&lt;/td&gt;
+&lt;td&gt;保证该字段的所有数据都是唯一、不重复的&lt;/td&gt;
+&lt;td&gt;UNIQUE&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;主键约束&lt;/td&gt;
+&lt;td&gt;主键是一行数据的唯一标识，要求非空且唯一&lt;/td&gt;
+&lt;td&gt;PRIMARY KEY&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;默认约束&lt;/td&gt;
+&lt;td&gt;保存数据时，如果未指定该字段的值，则采用默认值&lt;/td&gt;
+&lt;td&gt;DEFAULT&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;检查约束（8.0.1版本后）&lt;/td&gt;
+&lt;td&gt;保证字段值满足某一个条件&lt;/td&gt;
+&lt;td&gt;CHECK&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;外键约束&lt;/td&gt;
+&lt;td&gt;用来让两张表的数据之间建立连接，保证数据的一致性和完整性&lt;/td&gt;
+&lt;td&gt;FOREIGN KEY&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ps：&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;约束是作用于表中字段上的，可以再创建表/修改表的时候添加约束。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h3&gt;常用约束&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;约束条件&lt;/th&gt;
+&lt;th&gt;关键字&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;主键&lt;/td&gt;
+&lt;td&gt;PRIMARY KEY&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;自动增长&lt;/td&gt;
+&lt;td&gt;AUTO_INCREMENT&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;不为空&lt;/td&gt;
+&lt;td&gt;NOT NULL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;唯一&lt;/td&gt;
+&lt;td&gt;UNIQUE&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;逻辑条件&lt;/td&gt;
+&lt;td&gt;CHECK&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;默认值&lt;/td&gt;
+&lt;td&gt;DEFAULT&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;案例演示
+&lt;ul&gt;
+&lt;li&gt;例子：
+| 字段名 | 字段含义   | 字段类型    | 约束条件                | 约束关键字                  |
+| ------ | ---------- | ----------- | ----------------------- | --------------------------- |
+| id     | ID唯一标识 | int         | 主键，并且自动增长      | PRIMARY KEY, AUTO_INCREMENT |
+| name   | 姓名       | varchar(10) | 不为空，并且唯一        | NOT NULL, UNIQUE            |
+| age    | 年龄       | int         | 大于0，并且小于等于120  | CHECK                       |
+| status | 状态       | char(1)     | 如果没有指定值，默认为1 | DEFAULT                     |
+| gender | 性别       | char(1)     | 无                      |                             |&lt;/li&gt;
+&lt;li&gt;代码：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;create table if not exists t_user(
+    id int primary key auto_increment comment &apos;主键，并且自动增长&apos;,
+    name varchar(10) not null unique comment &apos;姓名，不为空，并且唯一&apos;,
+    age int check (age &amp;gt; 0 and age &amp;lt;= 120) comment &apos;年龄，大于0，并且小于等于120&apos;,
+    status char(1) default &apos;1&apos; comment &apos;状态，默认值为1&apos;,
+    gender char(1) comment &apos;性别&apos;
+);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;测试：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 插入数据
+insert into t_user(name, age, status, gender) values(&apos;张三&apos;, 18, &apos;1&apos;, &apos;男&apos;);
+insert into t_user(name, age, status, gender) values(&apos;李四&apos;, 20, &apos;1&apos;, &apos;女&apos;);
+insert into t_user(name, age, status, gender) values(&apos;王五&apos;, 22, &apos;1&apos;, &apos;男&apos;);
+
+-- 插入失败，因为name重复
+insert into t_user(name, age, status, gender) values(&apos;张三&apos;, 23, &apos;1&apos;, &apos;男&apos;);
+......（其他的省略）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;外键约束&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;概念：外键约束是作用于表中字段上的规则，用于让两张表的数据之间建立连接，保证数据的一致性和完整性。&lt;/li&gt;
+&lt;li&gt;关键字：&lt;code&gt;FOREIGN KEY&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;添加外键&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;语法：（添加外键）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;CREATE TABLE 表名(
+  字段名 数据类型,
+  ...
+  [CONSTRAINT] [外键名称] FOREIGN KEY(外键字段名) REFERENCES 主表(表列名)
+);
+
+ALTER TABLE 表名 ADD CONSTRAINT 外键名称 FOREIGN KEY (外键字段名) REFERENCES 主表(主表列名);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例子&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;alter table emp add constraint fk_emp_dept_id foreign key(dept_id) references dept(id);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;解释：往emp表添加一个外键约束，约束名称为fk_emp_dept_id，外键字段为dept_id，引用的主表为dept，引用的主表字段为id。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;删除外键&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;语法：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;ALTER TABLE 表名 DROP FOREIGN KEY 外键名称;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例子：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 删除emp表的外键约束
+alter table emp drop foreign key fk_emp_dept_id;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;解释：删除emp表的外键约束，约束名称为fk_emp_dept_id。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h3&gt;删除/更新行为&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;行为&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;NO ACTION&lt;/td&gt;
+&lt;td&gt;当在父表中删除/更新对应记录时，首先检查该记录是否有对应外键，如果有则不允许删除/更新（与RESTRICT一致）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;RESTRICT&lt;/td&gt;
+&lt;td&gt;当在父表中删除/更新对应记录时，首先检查该记录是否有对应外键，如果有则不允许删除/更新（与NO ACTION一致）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CASCADE&lt;/td&gt;
+&lt;td&gt;当在父表中删除/更新对应记录时，首先检查该记录是否有对应外键，如果有则也删除/更新外键在子表中的记录&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SET NULL&lt;/td&gt;
+&lt;td&gt;当在父表中删除/更新对应记录时，首先检查该记录是否有对应外键，如果有则设置子表中该外键值为null（要求该外键允许为null）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SET DEFAULT&lt;/td&gt;
+&lt;td&gt;父表有变更时，子表将外键设为一个默认值（Innodb不支持）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;语法（更改删除/更新行为）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;ALTER TABLE 表名 ADD CONSTRAINT 外键名称 FOREIGN KEY (外键字段) REFERENCES 主表名(主表字段名) ON UPDATE 行为 ON DELETE 行为;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例子：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 更改emp表的外键约束，约束名称为fk_emp_dept_id，删除/更新行为为CASCADE
+alter table emp add constraint fk_emp_dept_id foreign key(dept_id) references dept(id) on update cascade on delete cascade;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;解释：更改emp表的外键约束，约束名称为fk_emp_dept_id，删除/更新行为为CASCADE，当在dept表中删除/更新对应记录时，也会删除/更新emp表中对应记录。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;多表查询&lt;/h2&gt;
+&lt;h3&gt;多表关系(创建)&lt;/h3&gt;
+&lt;h4&gt;一对多（多对一）关系&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;案例：部门与员工&lt;/li&gt;
+&lt;li&gt;关系：一个部门可以有多个员工，一个员工只归属于一个部门&lt;/li&gt;
+&lt;li&gt;实现：在多的一方建立外键，指向少的一方的主键&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 部门表
+create table if not exists dept(
+    id int primary key auto_increment comment &apos;主键，并且自动增长&apos;,
+    name varchar(10) not null unique comment &apos;部门名称，不为空，并且唯一&apos;
+)comment &apos;部门表&apos;;
+
+-- 员工表
+create table if not exists emp(
+    id int primary key auto_increment comment &apos;主键，并且自动增长&apos;,
+    name varchar(10) not null comment &apos;姓名，不为空&apos;,
+    age int check (age &amp;gt; 0 and age &amp;lt;= 120) comment &apos;年龄，大于0，并且小于等于120&apos;,
+    status char(1) default &apos;1&apos; comment &apos;状态，默认值为1&apos;,
+    gender char(1) comment &apos;性别&apos;,
+    dept_id int comment &apos;部门ID，外键，引用部门表的主键&apos;
+)comment &apos;员工表&apos;;
+
+-- 为员工表添加外键约束
+alter table emp add constraint fk_emp_dept_id foreign key(dept_id) references dept(id) on update cascade on delete cascade;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;多对多关系&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;案例：学生与课程&lt;/li&gt;
+&lt;li&gt;关系：一个学生可以选多门课程，一门课程也可以供多个学生选修&lt;/li&gt;
+&lt;li&gt;实现：建立第三张中间表，中间表至少包含两个外键，分别关联两方主键&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;lt;center&amp;gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;学生表(tb_student)&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;序 id&lt;/th&gt;
+&lt;th&gt;name&lt;/th&gt;
+&lt;th&gt;no&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;张三&lt;/td&gt;
+&lt;td&gt;20200101&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;李四&lt;/td&gt;
+&lt;td&gt;20200102&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;王五&lt;/td&gt;
+&lt;td&gt;20200103&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;课程表(tb_course)&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;序 id&lt;/th&gt;
+&lt;th&gt;name&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;语文&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;数学&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;英语&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;学生与课程关系表(tb_student_course)&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;序 id&lt;/th&gt;
+&lt;th&gt;student_id&lt;/th&gt;
+&lt;th&gt;course_id&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;lt;/center&amp;gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre&gt;&lt;code&gt;-- 学生表 
+create table if not exists student( 
+    id int primary key auto_increment comment &apos;主键，并且自动增长&apos;, 
+    name varchar(10) not null comment &apos;姓名，不为空&apos;, 
+    no varchar(10) not null unique comment &apos;学号，不为空，并且唯一&apos; 
+) comment &apos;学生表&apos;; 
+
+insert into student(name, no) values(&apos;张三&apos;, &apos;20200101&apos;), (&apos;李四&apos;, &apos;20200102&apos;), (&apos;王五&apos;, &apos;20200103&apos;); 
+
+-- 课程表 
+create table if not exists course( 
+    id int primary key auto_increment comment &apos;主键，并且自动增长&apos;, 
+    name varchar(10) not null comment &apos;课程名称，不为空&apos; 
+) comment &apos;课程表&apos;; 
+
+insert into course(name) values(&apos;语文&apos;), (&apos;数学&apos;), (&apos;英语&apos;); 
+
+-- 中间表 
+create table if not exists student_course( 
+    id int primary key auto_increment comment &apos;主键，并且自动增长&apos;, 
+    student_id int comment &apos;学生ID，外键，引用学生表的主键&apos;, 
+    course_id int comment &apos;课程ID，外键，引用课程表的主键&apos;, 
+    constraint fk_student_course_student_id foreign key(student_id) references student(id) on update cascade on delete cascade, 
+    constraint fk_student_course_course_id foreign key(course_id) references course(id) on update cascade on delete cascade 
+) comment &apos;学生课程关联表&apos;; 
+
+insert into student_course(student_id, course_id) values(1, 1), (1, 2), (2, 2), (2, 3), (3, 1), (3, 3);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;一对一关系&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;案例：用户与用户详情&lt;/li&gt;
+&lt;li&gt;关系：一对一关系，多用于单表拆分，将一张表的基础字段放在一张表中，其他详情字段放在另一张表中，以提升操作效率&lt;/li&gt;
+&lt;li&gt;实现：在任意一方加入外键，关联另外一方的主键，并且设置外键为唯一的（UNIQUE）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;lt;center&amp;gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;用户基本信息表(tb_user)&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;序 id&lt;/th&gt;
+&lt;th&gt;name&lt;/th&gt;
+&lt;th&gt;age&lt;/th&gt;
+&lt;th&gt;gender&lt;/th&gt;
+&lt;th&gt;phone&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;黄渤&lt;/td&gt;
+&lt;td&gt;45&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;18800001111&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;冰冰&lt;/td&gt;
+&lt;td&gt;35&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;18800002222&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;阿云&lt;/td&gt;
+&lt;td&gt;55&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;18800008888&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;李彦宏&lt;/td&gt;
+&lt;td&gt;50&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;18800099999&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;用户教育信息表(tb_user_edu)&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;序 id&lt;/th&gt;
+&lt;th&gt;degree&lt;/th&gt;
+&lt;th&gt;major&lt;/th&gt;
+&lt;th&gt;primary school&lt;/th&gt;
+&lt;th&gt;middle school&lt;/th&gt;
+&lt;th&gt;university&lt;/th&gt;
+&lt;th&gt;userid&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;本科&lt;/td&gt;
+&lt;td&gt;舞蹈&lt;/td&gt;
+&lt;td&gt;静安区第一小学&lt;/td&gt;
+&lt;td&gt;静安区第一中学&lt;/td&gt;
+&lt;td&gt;北京舞蹈学院&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;硕士&lt;/td&gt;
+&lt;td&gt;表演&lt;/td&gt;
+&lt;td&gt;朝阳区第一小学&lt;/td&gt;
+&lt;td&gt;朝阳区第一中学&lt;/td&gt;
+&lt;td&gt;北京电影学院&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;本科&lt;/td&gt;
+&lt;td&gt;英语&lt;/td&gt;
+&lt;td&gt;杭州市第一小学&lt;/td&gt;
+&lt;td&gt;杭州市第一中学&lt;/td&gt;
+&lt;td&gt;杭州师范大学&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;本科&lt;/td&gt;
+&lt;td&gt;应用数学&lt;/td&gt;
+&lt;td&gt;阳泉第一小学&lt;/td&gt;
+&lt;td&gt;阳泉区第一中学&lt;/td&gt;
+&lt;td&gt;清华大学&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;lt;/center&amp;gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre&gt;&lt;code&gt;create table if not exists tb_user(
+    id int primary key auto_increment comment &apos;主键，并且自动增长&apos;,
+    name varchar(10) not null comment &apos;姓名，不为空&apos;,
+    age int check (age &amp;gt; 0 and age &amp;lt;= 120) comment &apos;年龄，大于0，并且小于等于120&apos;,
+    status char(1) default &apos;1&apos; comment &apos;状态，默认值为1&apos;,
+    gender char(1) comment &apos;性别&apos;,
+    phone varchar(11) not null unique comment &apos;手机号，不为空，并且唯一&apos;
+)comment &apos;用户基本信息表&apos;;
+
+create table if not exists tb_user_edu(
+    id int primary key auto_increment comment &apos;主键，并且自动增长&apos;,
+    degree varchar(10) comment &apos;学历&apos;,
+    major varchar(10) comment &apos;专业&apos;,
+    primary_school varchar(10) comment &apos;小学&apos;,
+    middle_school varchar(10) comment &apos;中学&apos;,
+    university varchar(10) comment &apos;大学&apos;,
+    userid int comment &apos;用户ID，外键，引用用户基本信息表的主键&apos;,
+    constraint fk_user_edu_userid foreign key(userid) references tb_user(id) on update cascade on delete cascade
+)comment &apos;用户教育信息表&apos;;
+
+insert into tb_user(name, age, status, gender, phone) values
+    (&apos;黄渤&apos;, 45, 1, 1, &apos;18800001111&apos;), 
+    (&apos;冰冰&apos;, 35, 1, 2, &apos;18800002222&apos;), 
+    (&apos;阿云&apos;, 55, 1, 1, &apos;18800008888&apos;), 
+    (&apos;李彦宏&apos;, 50, 1, 1, &apos;18800099999&apos;);
+
+insert into tb_user_edu(degree, major, primary_school, middle_school, university, userid) values
+    (&apos;本科&apos;, &apos;舞蹈&apos;, &apos;静安区第一小学&apos;, &apos;静安区第一中学&apos;, &apos;北京舞蹈学院&apos;, 1), 
+    (&apos;硕士&apos;, &apos;表演&apos;, &apos;朝阳区第一小学&apos;, &apos;朝阳区第一中学&apos;, &apos;北京电影学院&apos;, 2), 
+    (&apos;本科&apos;, &apos;英语&apos;, &apos;杭州市第一小学&apos;, &apos;杭州市第一中学&apos;, &apos;杭州师范大学&apos;, 3), 
+    (&apos;本科&apos;, &apos;应用数学&apos;, &apos;阳泉第一小学&apos;, &apos;阳泉区第一中学&apos;, &apos;清华大学&apos;, 4);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;查询&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;概述：指从多张表中查询数据&lt;/li&gt;
+&lt;li&gt;相关术语：
+&lt;ul&gt;
+&lt;li&gt;笛卡尔积：指在关系数据库中，返回两个或多个表的所有可能的行组合，即所有可能的行的乘积。（在多表查询中，需要使用连接条件来消除无效的笛卡尔积）&lt;/li&gt;
+&lt;li&gt;连接查询：
+&lt;ul&gt;
+&lt;li&gt;内连接：只返回两个表中匹配的行（相当于查询A、B交集部分的数据）&lt;/li&gt;
+&lt;li&gt;外连接
+&lt;ul&gt;
+&lt;li&gt;左外连接：查询左表所有数据，以及两张表中交集部分的数据&lt;/li&gt;
+&lt;li&gt;右外连接：查询右表所有数据，以及两张表中交集部分的数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;自连接：当前表与自身的连接查询，自连接必须使用表别名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;子查询：在一个查询语句中嵌套另一个查询语句，称为子查询。子查询可以出现在SELECT、FROM、WHERE、HAVING子句中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;内连接查询&lt;/h4&gt;
+&lt;p&gt;&amp;lt;u&amp;gt;强烈推荐使用显式内连接 &lt;strong&gt;&lt;code&gt;JOIN ... ON&lt;/code&gt;&lt;/strong&gt;&amp;lt;/u&amp;gt;&lt;/p&gt;
+&lt;p&gt;复习：内连接查询的是两张表中交集部分&lt;/p&gt;
+&lt;p&gt;内连接查询语法：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-- 隐式内连接
+SELECT 字段列表 FROM 表1, 表2 WHERE 连接条件 ...;
+
+-- 显式内连接
+SELECT 字段列表 FROM 表1 [INNER] JOIN 表2 ON 连接条件 ...;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;解释：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;工作原理：
+&lt;ul&gt;
+&lt;li&gt;隐式内连接：
+&lt;ul&gt;
+&lt;li&gt;使用逗号隔开的表名，在WHERE子句中使用连接条件&lt;/li&gt;
+&lt;li&gt;数据库首先会对 table1 和 table2 做一个笛卡尔积 (Cartesian Product)，即将第一张表的每一行与第二张表的每一行都组合一遍，生成一个非常庞大的临时表。然后，再用 WHERE 子句从这个庞大的结果中筛选出符合条件的行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;显式内连接：
+&lt;ul&gt;
+&lt;li&gt;使用JOIN关键字连接表，在ON子句中使用连接条件&lt;/li&gt;
+&lt;li&gt;数据库直接根据 ON 子句中指定的条件来查找并组合匹配的行，逻辑更清晰，执行效率通常也更高（或至少不会更差），因为它避免了先生成庞大的笛卡尔积。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例子：查询每个员工的姓名，及关联的部门的名称&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;隐式内连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;select emp.name, dept.name from emp, dept where emp.deptid = dept.id;
+
+这样直接使用会完整的表名比较繁琐，所以可以使用表的别名来简化查询
+
+select e.name, d.name from emp e, dept d where e.deptid = d.id;
+ps：如果使用了表的别名，那么在查询字段中，就需要使用表的别名来引用字段，不能直接使用表的全名了
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;显式内连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;select e.name, d.name from emp e inner join dept d on e.deptid = d.id;
+
+或（省略inner）
+
+select e.name, d.name from emp e join dept d on e.deptid = d.id;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h4&gt;外连接查询&lt;/h4&gt;
+&lt;p&gt;复习：外连接查询的是两张表中并集部分&lt;/p&gt;
+&lt;p&gt;外连接查询语法：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-- 左外连接
+SELECT 字段列表 FROM 表1 LEFT [OUTER] JOIN 表2 ON 连接条件 ...;
+
+-- 右外连接
+SELECT 字段列表 FROM 表1 RIGHT [OUTER] JOIN 表2 ON 连接条件 ...;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;解释：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;左外连接：查询左表所有数据，以及两张表中交集部分的数据&lt;/li&gt;
+&lt;li&gt;右外连接：查询右表所有数据，以及两张表中交集部分的数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;例1：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;左外连接：查询所有员工的姓名，及关联的部门的名称（如果员工没有部门，也会显示出来）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;select e.name, d.name from emp e left outer join dept d on e.deptid = d.id;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例2：
+&lt;ul&gt;
+&lt;li&gt;右外连接：查询所有部门的名称，及关联的员工的姓名（如果部门没有员工，也会显示出来）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;select d.name, e.name from emp e right join dept d on e.deptid = d.id;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;ps：左外连接和右外连接是可以互换的，想要互换的话，只需要将左外连接的表和右外连接的表交换一下位置即可&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;自连接查询&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;概述：指当前表与自身的连接查询，自连接必须使用表别名&lt;/li&gt;
+&lt;li&gt;语法：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;SELECT 字段列表 FROM 表1 别名1 JOIN 表1 别名2 ON 连接条件 ...;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;ps：自连接查询，可以是内连接查询，也可以是外连接查询&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;复习：
+&lt;ul&gt;
+&lt;li&gt;内连接查询：查询当前表中匹配的行（相当于查询A、B交集部分的数据）&lt;/li&gt;
+&lt;li&gt;外连接查询：查询当前表中所有数据，以及两张表中交集部分的数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;例1：内连接查询&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查询所有员工的姓名，及关联的领导的名称&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名
+-- emp 表：员工表
+-- e: 员工表的别名
+-- m: 领导表的别名
+-- managerid 是员工表中的一个字段，用来表示员工的领导id
+select e.name, m.name from emp e join emp m on e.managerid = m.id;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例2：外连接查询
+&lt;ul&gt;
+&lt;li&gt;查询所有员工的姓名，及其关联的领导的姓名（如果员工没有领导，也会显示出来）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名
+-- emp 表：员工表
+-- e: 员工表的别名
+-- m: 领导表的别名
+-- managerid 是员工表中的一个字段，用来表示员工的领导id
+select e.name &apos;员工姓名&apos;, m.name &apos;领导姓名&apos; from emp e left join emp m on e.managerid = m.id;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;联合查询(UNION, UNION ALL)&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;概述：对于union查询，会将多个查询的结果合并起来，形成一个新的结果集&lt;/li&gt;
+&lt;li&gt;语法：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;SELECT 字段列表 FROM 表1
+UNION [ALL]
+SELECT 字段列表 FROM 表2 ...;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;解释：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;UNION：合并两个或多个查询的结果集，会自动去除重复的行&lt;/li&gt;
+&lt;li&gt;UNION ALL：合并两个或多个查询的结果集，不会自动去除重复的行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ps：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对于联合查询的多张表的列数和字段类型，必须保持一致，否则会报错&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;例1：union查询&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;查询薪资低于 5000 的员工姓名，和年龄大于 30 的员工姓名&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;select name from emp where salary &amp;lt; 5000
+union
+select name from emp where age &amp;gt; 30;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例2：union all查询&lt;/li&gt;
+&lt;li&gt;查询薪资低于 5000 的员工姓名，和年龄大于 30 的员工姓名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;select name from emp where salary &amp;lt; 5000
+union all
+select name from emp where age &amp;gt; 30;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;子查询&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;概述：&lt;code&gt;SQL语句&lt;/code&gt;中嵌套SELECT语句，称为嵌套查询，又称为子查询&lt;/li&gt;
+&lt;li&gt;ps：子查询外部的语句可以是 SELECT、INSERT、UPDATE、DELETE 等语句&lt;/li&gt;
+&lt;li&gt;语法：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名
+-- t1: 子查询的表
+-- t2: 主查询的表
+-- column1: 子查询的字段
+-- column2: 主查询的字段
+-- condition: 子查询的条件
+SELECT FROM t1 WHERE column1 = (SELECT column1 FROM t2 WHERE condition);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;分类1：（根据子查询返回的结果）
+&lt;ul&gt;
+&lt;li&gt;标量子查询：子查询返回的结果是一个值（一行一列）&lt;/li&gt;
+&lt;li&gt;列子查询：子查询返回的结果是一列（多行一列）&lt;/li&gt;
+&lt;li&gt;行子查询：子查询返回的结果是一行（多行多列）&lt;/li&gt;
+&lt;li&gt;表子查询：子查询返回的结果是一个表（多行多列）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;分类2：（根据子查询的位置）
+&lt;ul&gt;
+&lt;li&gt;出现在WHERE、SELECT、FROM语句的子查询中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5&gt;标量子查询&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;概述：子查询返回的结果是一个值（一行一列）&lt;/li&gt;
+&lt;li&gt;常用的操作符：=、&amp;lt;&amp;gt;、&amp;gt;、&amp;lt;、&amp;gt;=、&amp;lt;=&lt;/li&gt;
+&lt;li&gt;语法：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;SELECT FROM t1 WHERE column1 = (SELECT column1 FROM t2 WHERE condition);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例1：查询“销售部”所有员工的姓名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名：
+-- emp 表：员工表
+-- e: 员工表的别名
+-- dept 表：部门表
+-- d: 部门表的别名
+-- dept_id 是员工表中的一个字段，用来表示员工所属的部门id
+
+-- 第一步：查询“销售部”的部门id
+select id from dept where name = &apos;销售部&apos;;
+
+-- 第二步：根据部门id查询员工姓名
+select name from emp where dept_id = (select id from dept where name = &apos;销售部&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例2：查询在“奇奇莫拉”入职之后的员工的姓名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名：
+-- emp 表：员工表
+-- e: 员工表的别名
+-- hiredate 是员工表中的一个字段，用来表示员工的入职时间
+
+-- 第一步：查询“奇奇莫拉”的入职时间
+select hiredate from emp where name = &apos;奇奇莫拉&apos;;
+
+-- 第二步：根据入职时间查询员工姓名
+select name from emp where hiredate &amp;gt; (select hiredate from emp where name = &apos;奇奇莫拉&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h5&gt;列子查询&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;概述：子查询返回的结果是一列（多行一列）&lt;/li&gt;
+&lt;li&gt;常用的操作符
+&lt;ul&gt;
+&lt;li&gt;IN：在主查询中&lt;/li&gt;
+&lt;li&gt;NOT IN：不在主查询中&lt;/li&gt;
+&lt;li&gt;ANY：子查询返回的结果中，有任意一个值满足条件即可&lt;/li&gt;
+&lt;li&gt;SOME：子查询返回的结果中，有任意一个值满足条件即可（与ANY等同，使用ANY的地方都可以用SOME）&lt;/li&gt;
+&lt;li&gt;ALL：子查询返回的结果中，所有值都满足条件即可&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;语法：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;SELECT FROM t1 WHERE column1 IN (SELECT column1 FROM t2 WHERE condition);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例1：查询 “销售部” 和 “市场部” 所有员工的姓名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名：
+-- emp 表：员工表
+-- e: 员工表的别名
+-- dept 表：部门表
+-- d: 部门表的别名
+-- dept_id 是员工表中的一个字段，用来表示员工所属的部门id
+
+-- 第一步：查询“销售部”和“市场部”的部门id
+select id from dept where name in (&apos;销售部&apos;,&apos;市场部&apos;);
+-- 或者写成：select id from dept where name =&apos;销售部&apos; or name =&apos;市场部&apos;; 这2者是等价的
+
+-- 第二步：根据部门id查询员工姓名
+select name from emp where dept_id in (select id from dept where name in (&apos;销售部&apos;,&apos;市场部&apos;));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例2：查询比“销售部”所有员工薪资高的员工姓名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名：
+-- emp 表：员工表
+-- e: 员工表的别名
+-- dept 表：部门表
+-- d: 部门表的别名
+-- dept_id 是员工表中的一个字段，用来表示员工所属的部门id
+-- salary 是员工表中的一个字段，用来表示员工的薪资
+
+-- 第一步：查询“销售部”所有员工的薪资
+select salary from emp where dept_id = (select id from dept where name = &apos;销售部&apos;);
+
+-- 第二步：根据薪资查询员工姓名
+select name from emp where salary &amp;gt; all (select salary from emp where dept_id = (select id from dept where name = &apos;销售部&apos;));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例3：查询比“研发部”任意一人薪资高的员工姓名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名：
+-- emp 表：员工表
+-- e: 员工表的别名
+-- dept 表：部门表
+-- d: 部门表的别名
+-- dept_id 是员工表中的一个字段，用来表示员工所属的部门id
+-- salary 是员工表中的一个字段，用来表示员工的薪资
+
+-- 第一步：查询“研发部”所有员工的薪资
+select salary from emp where dept_id = (select id from dept where name = &apos;研发部&apos;);
+
+-- 第二步：根据薪资查询员工姓名
+select name from emp where salary &amp;gt; any (select salary from emp where dept_id = (select id from dept where name = &apos;研发部&apos;));
+-- any 替换成 some 也完全可以
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h5&gt;行子查询&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;概述：子查询返回的结果是一行（一行多列）&lt;/li&gt;
+&lt;li&gt;常用的操作符：=、&amp;lt;&amp;gt;、IN、NOT IN&lt;/li&gt;
+&lt;li&gt;语法：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;SELECT FROM t1 WHERE (column1, column2) = (SELECT column1, column2 FROM t2 WHERE condition);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例：查询“奇奇莫拉”的薪资及直属领导相同的员工姓名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名：
+-- emp 表：员工表
+-- e: 员工表的别名
+-- salary 是员工表中的一个字段，用来表示员工的薪资
+-- manager_id 是员工表中的一个字段，用来表示员工的直属领导id
+
+-- 第一步：查询“奇奇莫拉”的薪资及直属领导id
+select salary, manager_id from emp where name = &apos;奇奇莫拉&apos;;
+
+-- 第二步：查询“奇奇莫拉”的薪资及直属领导相同的员工姓名
+select name from emp where (salary, manager_id) = (select salary, manager_id from emp where name = &apos;奇奇莫拉&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h5&gt;表子查询&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;概述：子查询返回的结果是一个表（多行多列）&lt;/li&gt;
+&lt;li&gt;常用的操作符：IN&lt;/li&gt;
+&lt;li&gt;语法：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;SELECT FROM t1 WHERE column1 IN (SELECT column1 FROM t2 WHERE condition);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例1：查询与 “奇奇莫拉”，“贝格纳斯” 的职位和薪资相同的员工姓名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名：
+-- emp 表：员工表
+-- e: 员工表的别名
+-- job 是员工表中的一个字段，用来表示员工的职位
+-- salary 是员工表中的一个字段，用来表示员工的薪资
+
+-- 第一步：查询“奇奇莫拉”，“贝格纳斯” 的职位和薪资
+select job, salary from emp where name in (&apos;奇奇莫拉&apos;,&apos;贝格纳斯&apos;);
+
+-- 第二步：根据职位和薪资查询员工姓名
+select name from emp where (job, salary) in (select job, salary from emp where name in (&apos;奇奇莫拉&apos;,&apos;贝格纳斯&apos;));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例2：查询入职时间是“2025-01-01”之后的员工姓名，及其对应的部门信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名：
+-- emp 表：员工表
+-- e: 员工表的别名
+-- dept 表：部门表
+-- d: 部门表的别名
+-- dept_id 是员工表中的一个字段，用来表示员工所属的部门id
+-- join_date 是员工表中的一个字段，用来表示员工的入职时间
+
+-- 第一步：查询入职时间是“2025-01-01”之后的员工姓名
+select name from emp where join_date &amp;gt; &apos;2025-01-01&apos;;
+
+-- 第二步：根据部门id查询部门信息
+select e.*, d.* from dept d where d.id in (select e.dept_id from emp e where e.join_date &amp;gt; &apos;2025-01-01&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;事务&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;概述：事务是一个数据库操作序列，这些操作要么全部成功执行，要么全部失败回滚。&lt;/li&gt;
+&lt;li&gt;ps：默认MySQL的事务是自动提交的，也就是说，当执行一条DML语句，MySQL会立即隐性的提交事务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;事务操作&lt;/h3&gt;
+&lt;p&gt;方式一：通过修改事务的提交方式来控制事务的提交&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;查看/设置事务提交方式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 查看事务提交方式
+SELECT @@autocommit;
+
+-- 设置事务提交方式为手动提交
+SET @@autocommit = 0;
+
+ps: @ 可以省略
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;提交事务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;commit;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;回滚事务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;rollback;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例子：转账操作（贝格纳斯 给 奇奇莫拉 转账 1000元）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名：
+-- account 表：账户表
+-- name 是账户表中的一个字段，用来表示账户的名称
+-- money 是账户表中的一个字段，用来表示账户的余额
+
+-- 查看事务提交方式
+select @@autocommit;
+-- 设置事务提交方式为手动提交
+SET @@autocommit = 0;
+
+-- 第一步：查询贝格纳斯的余额
+select money from account where name = &apos;贝格纳斯&apos;;
+
+-- 第二步：将贝格纳斯的余额减去 1000
+update account set money = money - 1000 where name = &apos;贝格纳斯&apos;;
+
+-- 第三步：将奇奇莫拉的余额加上 1000
+update account set money = money + 1000 where name = &apos;奇奇莫拉&apos;;
+
+-- 第四步：提交事务
+commit;
+
+-- 第五步：回滚事务
+rollback;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;解释：
+&lt;ul&gt;
+&lt;li&gt;用docx来模拟的话，commit 就好比是&lt;strong&gt;保存&lt;/strong&gt;，rollback 就好比是&lt;strong&gt;撤销&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;方式二：通过显式的 BEGIN、COMMIT、ROLLBACK 语句来控制事务的提交&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;语法：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 开启事务
+BEGIN; /*或*/START TRANSACTION;
+
+-- 提交事务
+COMMIT;
+
+-- 回滚事务
+ROLLBACK;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;例子：转账操作（贝格纳斯 给 奇奇莫拉 转账 1000元）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 命名：
+-- account 表：账户表
+-- name 是账户表中的一个字段，用来表示账户的名称
+-- money 是账户表中的一个字段，用来表示账户的余额
+
+-- 查看事务提交方式
+select @@autocommit;
+
+-- 开启事务
+start transaction;
+
+-- 第一步：查询贝格纳斯的余额
+select money from account where name = &apos;贝格纳斯&apos;;
+
+-- 第二步：将贝格纳斯的余额减去 1000
+update account set money = money - 1000 where name = &apos;贝格纳斯&apos;;
+
+-- 第三步：将奇奇莫拉的余额加上 1000
+update account set money = money + 1000 where name = &apos;奇奇莫拉&apos;;
+
+-- 第四步：提交事务
+commit;
+
+-- 第五步：回滚事务
+rollback;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;区别：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;方式一：通过修改事务的提交方式来控制事务的提交
+&lt;ul&gt;
+&lt;li&gt;优点：简单方便，不需要显式的开启事务、提交事务、回滚事务&lt;/li&gt;
+&lt;li&gt;缺点：不能在一个SQL语句中执行多个操作，只能在一个SQL语句中执行一个操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;方式二：通过显式的 BEGIN、COMMIT、ROLLBACK 语句来控制事务的提交
+&lt;ul&gt;
+&lt;li&gt;优点：可以在一个SQL语句中执行多个操作，灵活性高&lt;/li&gt;
+&lt;li&gt;缺点：需要显式的开启事务、提交事务、回滚事务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;四大特性（ACID）&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;原子性（Atomicity）
+&lt;ul&gt;
+&lt;li&gt;事务是一个不可分割的操作单位，事务中的所有操作要么全部成功执行，要么全部失败回滚。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;一致性（Consistency）
+&lt;ul&gt;
+&lt;li&gt;事务执行前和执行后，数据库的完整性约束没有被破坏，就是说事务完成时，所有的数据都必须保持一致状态，比如说，转账前后总额是不变的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;隔离性（Isolation）
+&lt;ul&gt;
+&lt;li&gt;数据库系统提供的隔离机制，事务并发执行时，每个事务都好像在独立运行，不会被其他事务的操作所干扰。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;持久性（Durability）
+&lt;ul&gt;
+&lt;li&gt;事务一旦提交，其对数据库的改变就会永久保存，即使系统发生故障也不会丢失。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;并发事务问题&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;问题（可以开2个命令行（cmd）来模拟 问题的出现）
+&lt;ul&gt;
+&lt;li&gt;问题一：脏读
+&lt;ul&gt;
+&lt;li&gt;一个事务读取了另一个事务未提交的修改数据，导致读取到的数据是脏数据。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;问题二：不可重复读
+&lt;ul&gt;
+&lt;li&gt;一个事务先后读取了两次相同的记录，但是在两次读取之间，另一个事务修改了这些记录，导致两次读取的结果不一致。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;问题三：幻读
+&lt;ul&gt;
+&lt;li&gt;一个事务在查询数据时，没有对应的数据行，但是在插入数据时，又发现这行数据已经存在了（查询后插入前被另一个事务插入了），好像出现了&quot;幻影&quot;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;事务的隔离级别&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;隔离级别&lt;/th&gt;
+&lt;th&gt;脏读&lt;/th&gt;
+&lt;th&gt;不可重复读&lt;/th&gt;
+&lt;th&gt;幻读&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Read uncommitted : 读未提交&lt;/td&gt;
+&lt;td&gt;√&lt;/td&gt;
+&lt;td&gt;√&lt;/td&gt;
+&lt;td&gt;√&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Read committed : 读提交&lt;/td&gt;
+&lt;td&gt;×&lt;/td&gt;
+&lt;td&gt;√&lt;/td&gt;
+&lt;td&gt;√&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Repeatable Read(默认) : 可重复读&lt;/td&gt;
+&lt;td&gt;×&lt;/td&gt;
+&lt;td&gt;×&lt;/td&gt;
+&lt;td&gt;√&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Serializable : 串行化&lt;/td&gt;
+&lt;td&gt;×&lt;/td&gt;
+&lt;td&gt;×&lt;/td&gt;
+&lt;td&gt;×&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;隔离级别：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Read uncommitted : 读未提交
+&lt;ul&gt;
+&lt;li&gt;事务可以读取其他事务未提交的修改数据，导致读取到的数据是脏数据。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Read committed : 读提交
+&lt;ul&gt;
+&lt;li&gt;事务只能读取其他事务已提交的修改数据，避免了脏读问题。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Repeatable Read(默认) : 可重复读
+&lt;ul&gt;
+&lt;li&gt;事务在一个范围内多次读取数据时，保证读取到的数据是一致的，避免了不可重复读问题。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Serializable : 串行化
+&lt;ul&gt;
+&lt;li&gt;事务按照顺序执行，避免了并发事务的问题，但是性能较低。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ps：从上到下，隔离级别从低到高，性能从强到弱&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;-- 查看事务的隔离级别
+SELECT @@TRANSACTION_ISOLATION;
+
+-- 设置事务的隔离级别
+SET [SESSION | GLOBAL] TRANSACTION ISOLATION LEVEL {READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;存储引擎&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;概述：指数据库管理系统（DBMS）用于存储和管理数据的底层机制。&lt;/li&gt;
+&lt;li&gt;相关术语：
+&lt;ul&gt;
+&lt;li&gt;引擎：存储引擎的名称，例如 InnoDB、MyISAM、MEMORY 等。&lt;/li&gt;
+&lt;li&gt;表类型：表的存储方式，例如 MyISAM 表、InnoDB 表等。&lt;/li&gt;
+&lt;li&gt;索引类型：索引的存储方式，例如 B-tree 索引、哈希索引等。&lt;/li&gt;
+&lt;li&gt;锁类型：锁的存储方式，例如行锁、表锁等。&lt;/li&gt;
+&lt;li&gt;缓存类型：缓存的存储方式，例如内存缓存、磁盘缓存等。&lt;/li&gt;
+&lt;li&gt;日志类型：日志的存储方式，例如二进制日志、事务日志等。&lt;/li&gt;
+&lt;li&gt;配置参数：存储引擎的配置参数，例如缓冲区大小、缓存池大小等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;MySQL 存储结构&lt;/h3&gt;
+&lt;h3&gt;存储引擎简介&lt;/h3&gt;
+&lt;p&gt;存储引擎就是存储数据、建立索引、更新/查询数据等技术的实现方式。存储引擎是基于裵的，而不是基于库的，所以存储引擎也可被称为表类型。&lt;/p&gt;
+&lt;h2&gt;索引&lt;/h2&gt;
+&lt;h2&gt;SQL优化&lt;/h2&gt;
+&lt;h2&gt;视图/存储过程/触发器&lt;/h2&gt;
+&lt;h2&gt;锁&lt;/h2&gt;
+&lt;h2&gt;InnoDB引擎&lt;/h2&gt;
+&lt;h2&gt;MySQL管理&lt;/h2&gt;
+&lt;h1&gt;补充篇&lt;/h1&gt;
+&lt;h2&gt;SQL分类&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;DDL: 数据定义语言，用来定义数据库对象（数据库、表、字段）
+DML: 数据操作语言，用来对数据库表中的数据进行增删改
+DQL: 数据查询语言，用来查询数据库中表的记录
+DCL: 数据控制语言，用来创建数据库用户、控制数据库的控制权限
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;MySQL数值类型&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;分类&lt;/th&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;大小&lt;/th&gt;
+&lt;th&gt;有符号范围&lt;/th&gt;
+&lt;th&gt;无符号范围&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;整数类型&lt;/td&gt;
+&lt;td&gt;TINYINT&lt;/td&gt;
+&lt;td&gt;1字节&lt;/td&gt;
+&lt;td&gt;-128 到 127&lt;/td&gt;
+&lt;td&gt;0 到 255&lt;/td&gt;
+&lt;td&gt;小整数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;整数类型&lt;/td&gt;
+&lt;td&gt;SMALLINT&lt;/td&gt;
+&lt;td&gt;2字节&lt;/td&gt;
+&lt;td&gt;-32,768 到 32,767&lt;/td&gt;
+&lt;td&gt;0 到 65,535&lt;/td&gt;
+&lt;td&gt;小整数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;整数类型&lt;/td&gt;
+&lt;td&gt;MEDIUMINT&lt;/td&gt;
+&lt;td&gt;3字节&lt;/td&gt;
+&lt;td&gt;-8,388,608 到 8,388,607&lt;/td&gt;
+&lt;td&gt;0 到 16,777,215&lt;/td&gt;
+&lt;td&gt;中等整数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;整数类型&lt;/td&gt;
+&lt;td&gt;INT 或 INTEGER&lt;/td&gt;
+&lt;td&gt;4字节&lt;/td&gt;
+&lt;td&gt;-2,147,483,648 到 2,147,483,647&lt;/td&gt;
+&lt;td&gt;0 到 4,294,967,295&lt;/td&gt;
+&lt;td&gt;标准整数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;整数类型&lt;/td&gt;
+&lt;td&gt;BIGINT&lt;/td&gt;
+&lt;td&gt;8字节&lt;/td&gt;
+&lt;td&gt;-9,223,372,036,854,775,808 到 9,223,372,036,854,775,807&lt;/td&gt;
+&lt;td&gt;0 到 18,446,744,073,709,551,615&lt;/td&gt;
+&lt;td&gt;大整数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;浮点类型&lt;/td&gt;
+&lt;td&gt;FLOAT&lt;/td&gt;
+&lt;td&gt;4字节&lt;/td&gt;
+&lt;td&gt;-3.402823466E+38 到 3.402823466E+38&lt;/td&gt;
+&lt;td&gt;0 到 3.402823466E+38&lt;/td&gt;
+&lt;td&gt;单精度浮点数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;浮点类型&lt;/td&gt;
+&lt;td&gt;DOUBLE 或 REAL&lt;/td&gt;
+&lt;td&gt;8字节&lt;/td&gt;
+&lt;td&gt;-1.7976931348623157E+308 到 1.7976931348623157E+308&lt;/td&gt;
+&lt;td&gt;0 到 1.7976931348623157E+308&lt;/td&gt;
+&lt;td&gt;双精度浮点数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;浮点类型&lt;/td&gt;
+&lt;td&gt;DECIMAL(M,D)&lt;/td&gt;
+&lt;td&gt;可变&lt;/td&gt;
+&lt;td&gt;-10^M-1 到 10^M-1&lt;/td&gt;
+&lt;td&gt;0 到 10^M-1&lt;/td&gt;
+&lt;td&gt;精确小数，M是总位数，D是小数位数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;MySQL字符串类型&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;分类&lt;/th&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;大小&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;字符串类型&lt;/td&gt;
+&lt;td&gt;CHAR(M)&lt;/td&gt;
+&lt;td&gt;0-255字节&lt;/td&gt;
+&lt;td&gt;固定长度字符串，M是字符数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;字符串类型&lt;/td&gt;
+&lt;td&gt;VARCHAR(M)&lt;/td&gt;
+&lt;td&gt;0-65535字节&lt;/td&gt;
+&lt;td&gt;可变长度字符串，M是字符数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;字符串类型&lt;/td&gt;
+&lt;td&gt;TINYBLOB&lt;/td&gt;
+&lt;td&gt;0-255字节&lt;/td&gt;
+&lt;td&gt;不超过255个字符的短二进制字符串&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;字符串类型&lt;/td&gt;
+&lt;td&gt;TINYTEXT&lt;/td&gt;
+&lt;td&gt;0-255字节&lt;/td&gt;
+&lt;td&gt;短文本字符串&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;字符串类型&lt;/td&gt;
+&lt;td&gt;BLOB&lt;/td&gt;
+&lt;td&gt;0-65535字节&lt;/td&gt;
+&lt;td&gt;长二进制字符串&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;字符串类型&lt;/td&gt;
+&lt;td&gt;TEXT&lt;/td&gt;
+&lt;td&gt;0-65535字节&lt;/td&gt;
+&lt;td&gt;长文本字符串&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;字符串类型&lt;/td&gt;
+&lt;td&gt;MEDIUMBLOB&lt;/td&gt;
+&lt;td&gt;0-16777215字节&lt;/td&gt;
+&lt;td&gt;中等长二进制字符串&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;字符串类型&lt;/td&gt;
+&lt;td&gt;MEDIUMTEXT&lt;/td&gt;
+&lt;td&gt;0-16777215字节&lt;/td&gt;
+&lt;td&gt;中等长文本字符串&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;字符串类型&lt;/td&gt;
+&lt;td&gt;LONGBLOB&lt;/td&gt;
+&lt;td&gt;0-4294967295字节&lt;/td&gt;
+&lt;td&gt;非常长的二进制字符串&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;字符串类型&lt;/td&gt;
+&lt;td&gt;LONGTEXT&lt;/td&gt;
+&lt;td&gt;0-4294967295字节&lt;/td&gt;
+&lt;td&gt;非常长的文本字符串&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;日期和时间类型&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;分类&lt;/th&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;大小&lt;/th&gt;
+&lt;th&gt;范围&lt;/th&gt;
+&lt;th&gt;格式&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;日期类型&lt;/td&gt;
+&lt;td&gt;DATE&lt;/td&gt;
+&lt;td&gt;3字节&lt;/td&gt;
+&lt;td&gt;1000-01-01 到 9999-12-31&lt;/td&gt;
+&lt;td&gt;YYYY-MM-DD&lt;/td&gt;
+&lt;td&gt;日期值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;日期类型&lt;/td&gt;
+&lt;td&gt;TIME&lt;/td&gt;
+&lt;td&gt;3字节&lt;/td&gt;
+&lt;td&gt;-838:59:59 到 838:59:59&lt;/td&gt;
+&lt;td&gt;HH:MM:SS&lt;/td&gt;
+&lt;td&gt;时间值或时间间隔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;日期类型&lt;/td&gt;
+&lt;td&gt;YEAR&lt;/td&gt;
+&lt;td&gt;1字节&lt;/td&gt;
+&lt;td&gt;1901 到 2155&lt;/td&gt;
+&lt;td&gt;YYYY&lt;/td&gt;
+&lt;td&gt;年份值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;日期类型&lt;/td&gt;
+&lt;td&gt;DATETIME&lt;/td&gt;
+&lt;td&gt;8字节&lt;/td&gt;
+&lt;td&gt;1000-01-01 00:00:00 到 9999-12-31 23:59:59&lt;/td&gt;
+&lt;td&gt;YYYY-MM-DD HH:MM:SS&lt;/td&gt;
+&lt;td&gt;混合日期和时间值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;日期类型&lt;/td&gt;
+&lt;td&gt;TIMESTAMP&lt;/td&gt;
+&lt;td&gt;4字节&lt;/td&gt;
+&lt;td&gt;1970-01-01 00:00:01 UTC 到 2038-01-19 03:14:07 UTC&lt;/td&gt;
+&lt;td&gt;YYYY-MM-DD HH:MM:SS&lt;/td&gt;
+&lt;td&gt;混合日期和时间值 时间戳&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</content:encoded></item></channel></rss>

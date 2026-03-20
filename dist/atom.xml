@@ -5,7 +5,7 @@
   <link href="https://qiqimora.cn/" rel="alternate" type="text/html"/>
   <link href="https://qiqimora.cn/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://qiqimora.cn/</id>
-  <updated>2026-03-19T17:03:07.984Z</updated>
+  <updated>2026-03-20T16:55:39.402Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>清单（待完成）</title>
@@ -546,8 +546,7 @@ git commit -m "2026-03-07 第一件事简短描述 + 第二件事简短描述 + 
     <published>2026-03-13T00:00:00.000Z</published>
     <updated>2026-03-13T00:00:00.000Z</updated>
     <summary>计算机经典书籍，咱要努力啃掉，嗷呜！</summary>
-    <content type="html"><![CDATA[<h1>1212</h1>
-<p><img src="./images/image-9.png" alt="操作系统概论原书第9版" /></p>
+    <content type="html"><![CDATA[<p><img src="./images/image-9.png" alt="操作系统概论原书第9版" /></p>
 <h1>概论</h1>
 <ul>
 <li>操作系统（<strong>Operating System，OS</strong>）位于计算机用户与计算机<strong>硬件</strong>之间。</li>
@@ -1638,28 +1637,36 @@ git commit -m "2026-03-07 第一件事简短描述 + 第二件事简短描述 + 
 </ul>
 <h2>实时CPU调度</h2>
 <ul>
-<li>实时CPU调度是指为实时系统中的进程分配CPU时间的过程。实时系统是指那些对响应时间有严格要求的系统，例如航空航天系统、医疗设备、机器人等。</li>
-<li>实时cpu调度与普通调度的区别
+<li>
+<p>实时CPU调度是指为实时系统中的进程分配CPU时间的过程。实时系统是指那些对响应时间有严格要求的系统，例如航空航天系统、医疗设备、机器人等。</p>
+</li>
+<li>
+<p>实时cpu调度与普通调度的区别</p>
 <ul>
 <li>普通调度追求周转时间短、公平、吞吐量高；</li>
-<li>实时调度只追求一件事：任务必须在规定的截止时间（deadline）内完成，否则系统失效。。</li>
+<li>实时调度只追求一件事：任务必须在规定的截止时间（deadline）内完成，否则系统失效。</li>
 </ul>
 </li>
-<li>实时任务一般都有明确的时间约束，分为两类：<strong>软实时任务</strong>和<strong>硬实时任务</strong>。
+<li>
+<p>实时任务一般都有明确的时间约束，分为两类：<strong>软实时任务</strong>和<strong>硬实时任务</strong>。</p>
 <ul>
 <li><strong>软实时任务</strong>：在软实时任务中，进程的截止时间是一个软限制，即进程在截止时间之前完成是可选的。如果进程在截止时间之前完成，系统将为其分配额外的时间。即软实时系统不保证调度关键实时进程。而只保证这类进程会优先于非关键进程。翻译一下：&lt;u&gt;希望尽量按时完成，偶尔轻微超时可以接受。&lt;/u&gt;</li>
-<li><strong>硬实时任务</strong>：在硬实时任务中，进程的截止时间是一个硬限制，即进程必须在截止时间之前完成。如果进程在截止时间之后完成，系统将认为该进程是失败的，等效于没有完成。&lt;u&gt;必须绝对在 deadline 之前完成，超时就是严重事故。&lt;/u&gt;</li>
+<li><strong>硬实时任务</strong>：在硬实时任务中，进程的截止时间是一个硬限制，即进程必须在截止时间之前完成。如果进程在截止时间之后完成，系统将认为该进程是失败的，等效于没有完成。&lt;u&gt;必须绝对在 deadline 之前完成，超时就是严重事故。&lt;/u&gt;
+&lt;br&gt;</li>
 </ul>
 </li>
-<li>最小化延迟
+<li>
+<p>最小化延迟</p>
 <ul>
-<li>事件延迟概念：从事件发生到事件得到服务的这段时间称为<strong>事件延迟</strong>。
+<li>
+<p>事件延迟概念：从事件发生到事件得到服务的这段时间称为<strong>事件延迟</strong>。</p>
 <ul>
 <li>如图：<img src="./images/image-36.png" alt="事件延迟" /></li>
 <li>实时系统对「事件延迟」很敏感，因为如汽车刹车、工业控制、航天发动机控制，事件延迟一旦超过允许上限，导致错过 deadline，可能直接导致事故。而普通pc只是会略有延迟和卡顿。</li>
 </ul>
 </li>
-<li>常见的2种事件延迟：<strong>中断延时</strong>和<strong>调度延时</strong>。
+<li>
+<p>常见的2种事件延迟：<strong>中断延时</strong>和<strong>调度延时</strong>。</p>
 <ul>
 <li>中断延时
 <ul>
@@ -1680,23 +1687,430 @@ git commit -m "2026-03-07 第一件事简短描述 + 第二件事简短描述 + 
 <li>中断只是 “通知系统该切换了”，但系统要完成：保存旧进程 ---&gt; 调度选择 ---&gt; 加载新进程，这一整套操作花的时间，就是调度延迟。所以不可能 “中断一完立刻执行”。</li>
 </ul>
 </li>
-<li>调度延迟的产生往往来自<strong>操作系统内核</strong>。</li>
+<li>调度延迟的产生往往来自<strong>操作系统内核</strong>。
+&lt;br&gt;</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>优先权调度
+<li>
+<p>优先权调度</p>
 <ul>
 <li>实时操作系统最重要的功能是：当一个实时进程需要CPU时，立即响应。因此，用于实时操作系统的调度程序应支持<strong>抢占的、基于优先权的</strong>算法。</li>
 <li>基于优先级的调度算法根据每个进程的重要性而分配优先级。进程越重要，它分配的优先级也越高。</li>
 <li>如果调度程序还支持抢占，并且有一个更高优先级的进程处于就绪，那么正在运行的、低优先级的进程被抢占。</li>
 <li>提供抢占的、基于优先级的调度程序<strong>仅保证软实时</strong>功能。</li>
 <li>硬实时系统应进一步保证实时任务应在<strong>截止期限内</strong>得到服务，做出这样的保证需要<strong>附加的调度特征</strong>。</li>
+<li><strong>调度进程</strong>的一些补充知识
+<ul>
+<li><strong>周期性</strong>：进程是周期性的，也就是说，它们定期需要cpu。一旦周期性进程获得cpu，它具有固定的处理时间t、cpu应处理的截止期限d和周期p。</li>
+<li>周期任务的速率为1/p。</li>
+<li>处理时间t、截止期限d和周期p之间的关系为：0 ≤ t ≤ d ≤ p</li>
+<li>下图描述了一个周期性进程随时间的执行情况，调度程序可以利用这些特性，根据进程的<strong>截止期限</strong>或<strong>速率</strong>要求来分配优先级。</li>
+<li><img src="./images/image-39.png" alt="周期任务" /></li>
+<li>调度程序只会做2件事：承认进程，<strong>保证进程完成</strong>；如果它不能保证任务能在截止期限之前得到服务，<strong>拒绝请求</strong>。
+&lt;br&gt;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>单调速率调度</strong></p>
+<ul>
+<li>&lt;u&gt; 核心规则：<strong>任务的周期越短 ---&gt; 速率越快 ---&gt; 优先级越高</strong> &lt;/u&gt;</li>
+<li>并且：&lt;u&gt; <strong>优先级一旦分配，运行时永远不变</strong>（静态优先级）。&lt;/u&gt;</li>
+<li>单调速率(rate-monotonic) 调度算法采用<strong>抢占的</strong>、<strong>静态优先级</strong>的策略， 调度周期性任务。</li>
+<li>当较低优先级的进程正在运行并且较高优先级的进程可以运行时，较高优先级进程将会抢占低优先级。</li>
+<li>调度策略：更频繁地需要 CPU 的任务应分配更高的优先级，此外，单调速率调度假定：对于每次CPU执行，周期性进程的处理时间是相同的。
+<ul>
+<li>逐句拆解分析：
+<ul>
+<li>「更频繁需要 CPU」 = 周期短、速率快
+举例：
+<ul>
+<li>任务 A：每 10ms 要运行一次</li>
+<li>任务 B：每 100ms 要运行一次
+A 明显更频繁。</li>
+</ul>
+</li>
+<li>为什么要给 A 更高优先级？
+理由：
+<ul>
+<li>频繁的任务，<strong>deadline</strong> 来得快、来得密；</li>
+<li>如果不给它高优先级，让它被别的任务打断太久，它很容易就超时；</li>
+<li>而周期长的任务，时间宽裕得多，晚一点跑也不容易出事。</li>
+</ul>
+</li>
+<li>核心逻辑：RMS 的设计思想是「谁更着急、谁来得更勤，谁就优先」，这也是“速率单调”的由来。</li>
+<li>假定条件解读：同一个周期性进程，每次占用CPU执行的处理时间固定不变（无波动），这是RMS能提前计算利用率、保证实时性的前提。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&lt;u&gt; <strong>利用率上限</strong> &lt;/u&gt;
+<ul>
+<li><strong>核心公式</strong>（n为任务个数）
+<ul>
+<li>RMS的最坏情况（最容易超时）利用率上限为：</li>
+<li>$$U_{max} = n \times \left( 2^{\frac{1}{n}} - 1 \right)$$</li>
+<li>说明：该公式是“充分条件”——只要总利用率≤U_max，RMS一定能调度成功（无超时）；若总利用率&gt;U_max，不保证调度成功（大概率超时）。</li>
+</ul>
+</li>
+<li>常用n值对应的<strong>上限</strong>（直接背就行）
+<ul>
+<li>
+<table>
+<thead>
+<tr>
+<th>任务个数（n）</th>
+<th>RMS利用率上限（≈）</th>
+<th>关键说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>100%</td>
+<td>单个任务可完全占用CPU，无抢占，必不超时</td>
+</tr>
+<tr>
+<td>2</td>
+<td>82.84%（常记83%）</td>
+<td>最常用场景，重点记忆</td>
+</tr>
+<tr>
+<td>3</td>
+<td>78%</td>
+<td>任务数增加，上限降低</td>
+</tr>
+<tr>
+<td>4</td>
+<td>75.7%</td>
+<td></td>
+</tr>
+<tr>
+<td>n→∞（很多任务）</td>
+<td>69.3%</td>
+<td>课本常说的“RMS上限≈69.3%”，指多任务场景</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>利用率上限的<strong>推导逻辑</strong>（理解不用背）
+<ul>
+<li>核心思路：推导“最坏情况”（t=0时刻所有任务同时到达，高优先级疯狂抢占低优先级）下，低优先级任务刚好能在截止期前跑完的极限利用率。</li>
+<li>以n=2为例：设P2=2P1（抢占最密集的极限比例），总CPU时间=P1跑2次+P2跑1次=P2，代入公式算出U_max=2×(√2-1)≈82.84%。</li>
+<li>结论：只要总利用率≤82.84%，哪怕最极端的抢占场景，低优先级任务也能凑齐碎片时间跑完，绝对不超时（数学严格证明）。</li>
+</ul>
+</li>
+<li>调度可行性判断步骤（做题必用）
+<ol>
+<li>确定任务个数n，查对应RMS利用率上限U_max；</li>
+<li>计算每个任务的利用率： $U_i = \frac{C_i}{P_i}$ （C=处理时间，P=周期）；</li>
+<li>计算总利用率： $U_{total} = \sum_{i=1}^{n} U_i$ ；</li>
+<li>判断：若 $U_{total} \le U_{max}$  → 一定能调度成功；若 $U_{total} &gt; U_{max}$  → 不保证，大概率超时。</li>
+</ol>
+</li>
+<li>RMS 的<strong>优缺点</strong>
+<ul>
+<li><strong>优点</strong>
+<ul>
+<li>算法简单，运行开销极小（静态优先级，无需动态计算）；</li>
+<li>稳定性强，可预测性高（优先级固定，调度逻辑清晰）；</li>
+<li>适合嵌入式、硬实时系统（资源有限，对开销敏感）；</li>
+<li>有严格的数学证明，≤上限时绝对安全。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>
+<ul>
+<li>CPU利用率上限低（最多≈69.3%），资源浪费；</li>
+<li>不如EDF（<strong>最早截止期限优先</strong>）高效（EDF利用率可达100%）；</li>
+<li>不适合任务周期、处理时间频繁变动的场景（静态优先级无法调整）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2个例图
+<ul>
+<li><img src="./images/image-40.png" alt="单调速率调度" /></li>
+<li><img src="./images/image-41.png" alt="错过截止期限的单调速率调度" />
+&lt;br&gt;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>最早截止期限优先调度</strong></p>
+<ul>
+<li>&lt;u&gt; 核心规则：<strong>任务的截止期限越早 ---&gt; 优先级越高</strong> &lt;/u&gt;</li>
+<li>并且：&lt;u&gt; <strong>优先级动态调整，运行时会根据截止期限实时变化</strong>（动态优先级）。&lt;/u&gt;</li>
+<li>最早截止期限优先(EDF, Earliest-Deadline-First)调度算法采用<strong>抢占的</strong>、<strong>动态优先级</strong>的策略，可调度周期性/非周期性任务。</li>
+<li>调度时会实时比较所有可运行进程的截止期限，截止期限更早的进程可随时抢占当前运行的进程。</li>
+<li>调度策略：根据进程的截止期限动态分配优先级，截止期限越早优先级越高；进程变为可运行时需向系统声明自身截止期限，系统会据此重新调整优先级。
+<ul>
+<li>逐句拆解分析：
+<ul>
+<li>「动态分配优先级」= 优先级不是固定的，会随任务截止期限变化
+举例：
+<ul>
+<li>任务 P1：当前截止期限 100</li>
+<li>任务 P2：当前截止期限 80
+此时 P2 优先级更高，哪怕 P1 周期更短也会被 P2 抢占。</li>
+</ul>
+</li>
+<li>为什么要按截止期限定优先级？
+理由：
+<ul>
+<li>实时系统的核心目标是<strong>满足截止期限</strong>，而非单纯看任务频率；</li>
+<li>谁的截止期限更近，谁就更紧急，必须优先执行避免超时；</li>
+<li>动态调整能灵活应对任务执行顺序变化，最大化利用CPU。</li>
+</ul>
+</li>
+<li>核心逻辑：EDF 的设计思想是「谁的 deadline 更近，谁就优先」，优先级实时变动，这是和 RMS 最本质的区别。</li>
+<li>适用前提解读：EDF 不要求任务是周期性的，也不要求每次处理时间固定，只需任务就绪时声明截止期限即可，适用场景更广。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>与<strong>RMS调度</strong>的核心<strong>区别</strong>（对比）
+<ul>
+<li>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>单调速率调度(RMS)</th>
+<th>最早截止期限优先(EDF)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>优先级类型</td>
+<td>静态优先级（固定不变）</td>
+<td>动态优先级（实时调整）</td>
+</tr>
+<tr>
+<td>优先级依据</td>
+<td>任务周期（周期越短优先级越高）</td>
+<td>任务截止期限（越早到优先级越高）</td>
+</tr>
+<tr>
+<td>任务要求</td>
+<td>必须是周期性、处理时间固定</td>
+<td>无强制要求，周期/非周期均可</td>
+</tr>
+<tr>
+<td>CPU利用率上限</td>
+<td>理论最高≈69.3%</td>
+<td>理论可达100%</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>经典实例分析（RMS失败但EDF成功）
+<ul>
+<li>任务参数：P1（周期p1=50，处理时间t1=25），P2（周期p2=80，处理时间t2=35）</li>
+<li>调度时间线+核心分析：
+<ol>
+<li>初始阶段：P1截止期限更早，优先级更高，先运行至25时刻结束；</li>
+<li>25~50时刻：P2开始运行，50时刻P1新周期到来；</li>
+<li>关键区别：RMS会让P1抢占P2，但EDF比较截止期限→P2截止80早于P1的100，<strong>P2继续运行</strong>；</li>
+<li>P2在60时刻前完成，P1在60~85运行，均满足各自截止期限；</li>
+<li>后续周期同理，动态调整优先级，所有任务均不超时。</li>
+</ol>
+</li>
+<li>核心结论：RMS因静态优先级导致抢占不合理而超时，EDF靠动态优先级灵活调度，成功满足截止期限。</li>
+</ul>
+</li>
+<li>&lt;u&gt; <strong>CPU利用率特点</strong> &lt;/u&gt;
+<ul>
+<li><strong>理论上限</strong>
+<ul>
+<li>EDF 是<strong>理论最优</strong>的实时调度算法，CPU利用率<strong>可达到100%</strong>；</li>
+<li>只要任务总利用率≤100%，EDF 就能保证所有进程满足截止期限。</li>
+</ul>
+</li>
+<li><strong>实际限制</strong>
+<ul>
+<li>实际使用中无法达到100%利用率，受<strong>上下文切换开销</strong>、<strong>中断处理代价</strong>影响；</li>
+<li>系统调度本身需要消耗资源，过高负载会导致调度延迟增大。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>EDF 的<strong>优缺点</strong>
+<ul>
+<li><strong>优点</strong>
+<ul>
+<li>理论最优，CPU利用率可接近100%，资源利用更充分；</li>
+<li>适用范围广，支持周期性、非周期性任务，不要求处理时间固定；</li>
+<li>动态优先级调度，应对复杂任务场景的能力远强于RMS；</li>
+<li>能调度RMS无法满足的任务组合，容错性更强。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>
+<ul>
+<li>调度开销更大，需实时计算、调整优先级，运行时成本高于RMS；</li>
+<li>实现更复杂，系统设计难度高于静态优先级的RMS；</li>
+<li>高负载下上下文切换频繁，可能影响系统稳定性；</li>
+<li>实际无法达到理论100%的利用率，存在性能损耗。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>例图
+<ul>
+<li><img src="./images/image-42.png" alt="最早截止期限优先调度" />
+&lt;br&gt;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>比例分享调度</strong></p>
+<ul>
+<li>&lt;u&gt; 核心规则：<strong>按持股比例分配CPU时间，持股占比 = 获得的处理器时间占比</strong> &lt;/u&gt;</li>
+<li>比例分享（proportional share）调度属于<strong>公平共享型调度</strong>，不关注优先级/截止时间，核心是按预设份额均分CPU资源。</li>
+<li>调度策略：将CPU总处理时间划分为固定的T股，为每个进程分配N股，进程最终获得的CPU时间比例严格等于 <code>N/T</code>。
+<ul>
+<li>逐句拆解分析：
+<ul>
+<li>「按股分配」本质：把CPU总时间当成可拆分的“股份”，分发给不同进程
+核心逻辑：持股数量直接决定CPU使用份额，比例固定、不随意变动</li>
+<li>这种分配方式的意义：
+<ul>
+<li>保证进程拿到<strong>稳定、固定比例</strong>的CPU资源，不会被其他进程挤占；</li>
+<li>避免出现进程饥饿，每个进程都有明确的资源保障；</li>
+<li>适合需要稳定带宽/算力的场景（如视频播放、虚拟化、流媒体）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>核心保障机制：<strong>准入控制策略</strong>
+<ul>
+<li>规则：只有新进程请求的股数 ≤ 系统剩余可用股数时，才允许该进程进入系统</li>
+<li>作用：从源头避免总股数超额，确保所有已运行进程都能足额拿到预设的CPU比例，不会出现分配失效。</li>
+</ul>
+</li>
+<li>实例分析
+<ul>
+<li>总股数 T = 100</li>
+<li>进程A：50股 → 占用<strong>50%</strong> CPU时间</li>
+<li>进程B：15股 → 占用<strong>15%</strong> CPU时间</li>
+<li>进程C：20股 → 占用<strong>20%</strong> CPU时间</li>
+<li>剩余可用股数：100 - (50+15+20) = <strong>15股</strong></li>
+<li>新进程D请求30股：30 ＞ 15，准入控制器直接拒绝D进入，保证原有进程分配不受影响。</li>
+</ul>
+</li>
+<li>比例分享调度的<strong>优缺点</strong>
+<ul>
+<li>优点
+<ul>
+<li>资源分配公平、可预测，严格按比例分配，无进程饥饿；</li>
+<li>准入控制机制可靠，不会出现超额分配导致调度失效；</li>
+<li>实现简单，调度逻辑直观，适合对资源配额有固定要求的场景；</li>
+<li>能稳定保障各进程的最低资源需求。</li>
+</ul>
+</li>
+<li>缺点
+<ul>
+<li>不考虑实时性、截止期限，<strong>不适用于硬实时系统</strong>；</li>
+<li>股数需提前分配，灵活性差，无法适配突发任务；</li>
+<li>准入控制会直接拒绝新进程，可能影响新任务执行；</li>
+<li>只保证比例公平，不追求CPU总利用率最大化。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>总结表格</p>
+<ul>
+<li>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>单调速率调度（RMS）</th>
+<th>最早截止期限优先（EDF）</th>
+<th>比例分享调度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>调度依据</td>
+<td><strong>任务周期</strong>（周期越短优先级越高）</td>
+<td><strong>截止期限</strong>（截止越早优先级越高）</td>
+<td><strong>持股比例</strong>（持股越多时间越多）</td>
+</tr>
+<tr>
+<td>优先级类型</td>
+<td><strong>静态优先级（固定不变）</strong></td>
+<td><strong>动态优先级（运行中实时调整）</strong></td>
+<td><strong>无优先级</strong>，按比例分配</td>
+</tr>
+<tr>
+<td>CPU 利用率</td>
+<td>最高约 <strong>69.3%</strong></td>
+<td>理论可达 <strong>100%</strong></td>
+<td>按配额分配，不追求最大化</td>
+</tr>
+<tr>
+<td>适用任务类型</td>
+<td><strong>周期性、处理时间固定</strong></td>
+<td><strong>周期性/非周期性均可</strong></td>
+<td>无限制，注重资源配额</td>
+</tr>
+<tr>
+<td>核心目标</td>
+<td><strong>保证硬实时任务不超时</strong></td>
+<td><strong>满足截止期限+充分利用 CPU</strong></td>
+<td><strong>保证资源分配公平，避免饥饿</strong></td>
+</tr>
+<tr>
+<td>调度方式</td>
+<td><strong>抢占式</strong></td>
+<td><strong>抢占式</strong></td>
+<td>多按时间片轮转，非抢占为主</td>
+</tr>
+<tr>
+<td>准入/保障机制</td>
+<td>利用率上限判断</td>
+<td>无固定准入，动态调度保障</td>
+<td><strong>严格准入控制</strong>，总股数不可超额</td>
+</tr>
+<tr>
+<td>典型应用场景</td>
+<td><strong>简单嵌入式硬实时系统</strong></td>
+<td><strong>复杂实时系统</strong></td>
+<td><strong>虚拟化、流媒体、固定资源配额场景</strong></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+<h1>第六章 同步</h1>
+<ul>
+<li>引入
+<ul>
+<li><strong>协作进程</strong>能与系统内的其他执行进程相互影响。协作进程或能直接共享逻辑地址空间（即代码和数据），或能通过文件或消息来共享数据。而<strong>共享数据的并发访问可能导致数据的不一致</strong>。</li>
+<li>本章讨论多种机制，以便确保共享同一逻辑地址空的协作进程的有序进行，从而维护数据的一致性。</li>
+</ul>
+</li>
 <li><strong>未完待续喵 ~</strong></li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
 ]]></content>
     <author>

@@ -5,7 +5,7 @@
   <link href="https://qiqimora.cn/" rel="alternate" type="text/html"/>
   <link href="https://qiqimora.cn/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://qiqimora.cn/</id>
-  <updated>2026-03-20T16:55:39.402Z</updated>
+  <updated>2026-04-13T17:26:28.729Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>清单（待完成）</title>
@@ -31,6 +31,2818 @@
       <name>キキモラ-奇奇莫拉</name>
     </author>
     <category term="其他"></category>
+  </entry>
+  <entry>
+    <title>Claude Code 使用教程</title>
+    <link href="https://qiqimora.cn/posts/claude_helper/" rel="alternate" type="text/html"/>
+    <id>https://qiqimora.cn/posts/claude_helper/</id>
+    <published>2026-04-14T00:00:00.000Z</published>
+    <updated>2026-04-14T00:00:00.000Z</updated>
+    <summary>Claude Code 官方文档整理，用来给自己查阅喵</summary>
+    <content type="html"><![CDATA[<h1>Claude Code 完整使用教程</h1>
+<blockquote>
+<p>本教程基于 Claude Code 官方文档全面整理，涵盖所有常用和高级操作命令。</p>
+</blockquote>
+<hr />
+<h2>目录</h2>
+<ol>
+<li><a href="#1-cli-%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%8F%82%E6%95%B0">CLI 命令与参数</a></li>
+<li><a href="#2-%E6%96%9C%E6%9D%A0%E5%91%BD%E4%BB%A4">斜杠命令</a></li>
+<li><a href="#3-%E9%94%AE%E7%9B%98%E5%BF%AB%E6%8D%B7%E9%94%AE">键盘快捷键</a></li>
+<li><a href="#4-%E6%9D%83%E9%99%90%E6%A8%A1%E5%BC%8F">权限模式</a></li>
+<li><a href="#5-%E8%AE%BE%E7%BD%AE%E4%B8%8E%E9%85%8D%E7%BD%AE">设置与配置</a></li>
+<li><a href="#6-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a></li>
+<li><a href="#7-mcp-%E6%9C%8D%E5%8A%A1%E5%99%A8">MCP 服务器</a></li>
+<li><a href="#8-%E9%92%A9%E5%AD%90%E7%B3%BB%E7%BB%9F">钩子系统</a></li>
+<li><a href="#9-%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F">技能系统</a></li>
+<li><a href="#10-%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F">记忆系统</a></li>
+<li><a href="#11-git-worktree">Git Worktree</a></li>
+<li><a href="#12-%E5%AD%90%E4%BB%A3%E7%90%86">子代理</a></li>
+<li><a href="#13-%E5%B7%A5%E5%85%B7%E5%8F%82%E8%80%83">工具参考</a></li>
+<li><a href="#14-%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F">交互模式</a></li>
+<li><a href="#15-%E6%A3%80%E6%9F%A5%E7%82%B9%E4%B8%8E%E5%9B%9E%E6%BA%AF">检查点与回溯</a></li>
+<li><a href="#16-%E6%B2%99%E7%AE%B1%E5%AE%89%E5%85%A8">沙箱安全</a></li>
+</ol>
+<hr />
+<h2>1. CLI 命令与参数</h2>
+<h3>基本 CLI 命令</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude</code></td>
+<td>启动交互式会话</td>
+<td><code>claude</code></td>
+</tr>
+<tr>
+<td><code>claude "任务"</code></td>
+<td>启动会话并附带初始提示</td>
+<td><code>claude "解释这个项目"</code></td>
+</tr>
+<tr>
+<td><code>claude -p "查询"</code></td>
+<td>执行一次性查询后退出</td>
+<td><code>claude -p "解释这个函数"</code></td>
+</tr>
+<tr>
+<td><code>claude -c</code></td>
+<td>继续最近的对话</td>
+<td><code>claude -c</code></td>
+</tr>
+<tr>
+<td><code>claude -r &lt;会话&gt;</code></td>
+<td>按名称或ID恢复会话</td>
+<td><code>claude -r "auth-refactor"</code></td>
+</tr>
+<tr>
+<td><code>claude --worktree &lt;名称&gt;</code></td>
+<td>在隔离的 git worktree 中启动</td>
+<td><code>claude -w feature-auth</code></td>
+</tr>
+<tr>
+<td><code>claude --permission-mode plan</code></td>
+<td>以计划模式启动（只读）</td>
+<td><code>claude --permission-mode plan</code></td>
+</tr>
+<tr>
+<td><code>claude --verbose</code></td>
+<td>启用详细日志</td>
+<td><code>claude --verbose</code></td>
+</tr>
+<tr>
+<td><code>claude update</code></td>
+<td>更新到最新版本</td>
+<td><code>claude update</code></td>
+</tr>
+<tr>
+<td><code>claude auth login</code></td>
+<td>登录账户</td>
+<td><code>claude auth login --console</code></td>
+</tr>
+<tr>
+<td><code>claude auth logout</code></td>
+<td>登出账户</td>
+<td><code>claude auth logout</code></td>
+</tr>
+<tr>
+<td><code>claude auth status</code></td>
+<td>显示认证状态</td>
+<td><code>claude auth status --text</code></td>
+</tr>
+<tr>
+<td><code>claude agents</code></td>
+<td>列出所有配置的子代理</td>
+<td><code>claude agents</code></td>
+</tr>
+<tr>
+<td><code>claude mcp</code></td>
+<td>配置 MCP 服务器</td>
+<td><code>claude mcp add &lt;name&gt; &lt;command&gt;</code></td>
+</tr>
+<tr>
+<td><code>claude sandbox</code></td>
+<td>启用/配置沙箱</td>
+<td><code>claude sandbox</code></td>
+</tr>
+<tr>
+<td><code>claude --help</code></td>
+<td>显示帮助信息</td>
+<td><code>claude --help</code></td>
+</tr>
+</tbody>
+</table>
+<h3>会话管理参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--continue</code>, <code>-c</code></td>
+<td>加载最近的对话</td>
+</tr>
+<tr>
+<td><code>--resume</code>, <code>-r &lt;id/name&gt;</code></td>
+<td>恢复指定会话</td>
+</tr>
+<tr>
+<td><code>--fork-session</code></td>
+<td>创建新会话 ID</td>
+</tr>
+<tr>
+<td><code>--session-id &lt;uuid&gt;</code></td>
+<td>使用特定会话 ID</td>
+</tr>
+<tr>
+<td><code>--name</code>, <code>-n &lt;name&gt;</code></td>
+<td>设置会话显示名称</td>
+</tr>
+<tr>
+<td><code>--from-pr &lt;number&gt;</code></td>
+<td>恢复链接到 PR 的会话</td>
+</tr>
+<tr>
+<td><code>--no-session-persistence</code></td>
+<td>禁用会话保存</td>
+</tr>
+</tbody>
+</table>
+<h3>输出模式参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--print</code>, <code>-p</code></td>
+<td>非交互模式打印响应</td>
+</tr>
+<tr>
+<td><code>--output-format</code></td>
+<td>输出格式：<code>text</code>, <code>json</code>, <code>stream-json</code></td>
+</tr>
+<tr>
+<td><code>--input-format</code></td>
+<td>输入格式：<code>text</code>, <code>stream-json</code></td>
+</tr>
+<tr>
+<td><code>--json-schema &lt;schema&gt;</code></td>
+<td>获取匹配 schema 的验证 JSON 输出</td>
+</tr>
+<tr>
+<td><code>--max-budget-usd &lt;amount&gt;</code></td>
+<td>停止前的最大花费</td>
+</tr>
+<tr>
+<td><code>--max-turns &lt;n&gt;</code></td>
+<td>限制代理轮次</td>
+</tr>
+</tbody>
+</table>
+<h3>模型配置参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--model &lt;model&gt;</code></td>
+<td>设置会话模型</td>
+</tr>
+<tr>
+<td><code>--effort &lt;level&gt;</code></td>
+<td>努力级别：<code>low</code>, <code>medium</code>, <code>high</code>, <code>max</code></td>
+</tr>
+<tr>
+<td><code>--fallback-model &lt;model&gt;</code></td>
+<td>默认模型过载时的备用</td>
+</tr>
+<tr>
+<td><code>--betas &lt;headers&gt;</code></td>
+<td>API 请求的 beta 头</td>
+</tr>
+</tbody>
+</table>
+<h3>权限参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--permission-mode &lt;mode&gt;</code></td>
+<td>权限模式</td>
+</tr>
+<tr>
+<td><code>--allow-dangerously-skip-permissions</code></td>
+<td>将 bypassPermissions 添加到 Shift+Tab 循环</td>
+</tr>
+<tr>
+<td><code>--dangerously-skip-permissions</code></td>
+<td>跳过权限提示</td>
+</tr>
+<tr>
+<td><code>--allowedTools &lt;tools&gt;</code></td>
+<td>无需提示即可执行的工具</td>
+</tr>
+<tr>
+<td><code>--disallowedTools &lt;tools&gt;</code></td>
+<td>从上下文中移除的工具</td>
+</tr>
+</tbody>
+</table>
+<h3>系统提示参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--system-prompt &lt;text&gt;</code></td>
+<td>替换整个系统提示</td>
+</tr>
+<tr>
+<td><code>--system-prompt-file &lt;path&gt;</code></td>
+<td>从文件加载系统提示</td>
+</tr>
+<tr>
+<td><code>--append-system-prompt &lt;text&gt;</code></td>
+<td>追加到默认提示</td>
+</tr>
+<tr>
+<td><code>--append-system-prompt-file &lt;path&gt;</code></td>
+<td>追加文件内容</td>
+</tr>
+<tr>
+<td><code>--exclude-dynamic-system-prompt-sections</code></td>
+<td>将per-machine部分移至首条用户消息</td>
+</tr>
+</tbody>
+</table>
+<h3>文件与目录参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--add-dir &lt;path&gt;</code></td>
+<td>添加文件访问的工作目录</td>
+</tr>
+<tr>
+<td><code>--worktree</code>, <code>-w [name]</code></td>
+<td>在 git worktree 中启动</td>
+</tr>
+<tr>
+<td><code>--tmux</code></td>
+<td>为 worktree 创建 tmux 会话</td>
+</tr>
+<tr>
+<td><code>--plugin-dir &lt;path&gt;</code></td>
+<td>从目录加载插件</td>
+</tr>
+</tbody>
+</table>
+<h3>工具与扩展参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--mcp-config &lt;file&gt;</code></td>
+<td>从 JSON 加载 MCP 服务器</td>
+</tr>
+<tr>
+<td><code>--strict-mcp-config</code></td>
+<td>仅使用 --mcp-config 服务器</td>
+</tr>
+<tr>
+<td><code>--chrome</code></td>
+<td>启用 Chrome 浏览器集成</td>
+</tr>
+<tr>
+<td><code>--no-chrome</code></td>
+<td>禁用 Chrome 集成</td>
+</tr>
+<tr>
+<td><code>--agent &lt;name&gt;</code></td>
+<td>指定会话的代理</td>
+</tr>
+<tr>
+<td><code>--agents &lt;json&gt;</code></td>
+<td>动态定义自定义子代理</td>
+</tr>
+<tr>
+<td><code>--tools &lt;tools&gt;</code></td>
+<td>限制内置工具（用 <code>""</code> 禁用全部）</td>
+</tr>
+</tbody>
+</table>
+<h3>交互功能参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ide</code></td>
+<td>启动时自动连接到 IDE</td>
+</tr>
+<tr>
+<td><code>--init</code></td>
+<td>运行 init 钩子并启动交互</td>
+</tr>
+<tr>
+<td><code>--init-only</code></td>
+<td>运行 init 钩子并退出</td>
+</tr>
+<tr>
+<td><code>--maintenance</code></td>
+<td>运行维护钩子并启动</td>
+</tr>
+<tr>
+<td><code>--disable-slash-commands</code></td>
+<td>禁用所有技能和命令</td>
+</tr>
+</tbody>
+</table>
+<h3>调试与开发参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--debug [category]</code></td>
+<td>启用调试模式，可选过滤器</td>
+</tr>
+<tr>
+<td><code>--debug-file &lt;path&gt;</code></td>
+<td>将调试日志写入文件</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td>启用详细日志</td>
+</tr>
+<tr>
+<td><code>--include-hook-events</code></td>
+<td>在输出中包含钩子生命周期</td>
+</tr>
+<tr>
+<td><code>--include-partial-messages</code></td>
+<td>包含部分流式事件</td>
+</tr>
+</tbody>
+</table>
+<h3>远程与 Web 参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--remote &lt;task&gt;</code></td>
+<td>在 claude.ai 上创建新 web 会话</td>
+</tr>
+<tr>
+<td><code>--remote-control</code>, <code>--rc</code></td>
+<td>启用远程控制</td>
+</tr>
+<tr>
+<td><code>--teleport</code></td>
+<td>在终端中恢复 web 会话</td>
+</tr>
+</tbody>
+</table>
+<h3>其他参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--bare</code></td>
+<td>最小模式，跳过自动发现</td>
+</tr>
+<tr>
+<td><code>--setting-sources &lt;list&gt;</code></td>
+<td>逗号分隔：<code>user</code>, <code>project</code>, <code>local</code></td>
+</tr>
+<tr>
+<td><code>--settings &lt;path/json&gt;</code></td>
+<td>从文件或 JSON 字符串加载设置</td>
+</tr>
+<tr>
+<td><code>--version</code>, <code>-v</code></td>
+<td>输出版本号</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 斜杠命令</h2>
+<p>输入 <code>/</code> 可查看所有可用命令。</p>
+<h3>内置命令</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/agents</code></td>
+<td>列出和管理子代理</td>
+</tr>
+<tr>
+<td><code>/auto-mode</code></td>
+<td>配置自动模式设置</td>
+</tr>
+<tr>
+<td><code>/btw</code></td>
+<td>快速提问（不增加历史）</td>
+</tr>
+<tr>
+<td><code>/clear</code></td>
+<td>清除对话（重新开始）</td>
+</tr>
+<tr>
+<td><code>/compact</code></td>
+<td>压缩对话历史</td>
+</tr>
+<tr>
+<td><code>/config</code></td>
+<td>打开设置界面</td>
+</tr>
+<tr>
+<td><code>/doctor</code></td>
+<td>检查配置问题</td>
+</tr>
+<tr>
+<td><code>/env</code></td>
+<td>显示环境信息</td>
+</tr>
+<tr>
+<td><code>/feedback</code></td>
+<td>提交关于 Claude Code 的反馈</td>
+</tr>
+<tr>
+<td><code>/hooks</code></td>
+<td>浏览钩子配置</td>
+</tr>
+<tr>
+<td><code>/init</code></td>
+<td>初始化 CLAUDE.md 和项目设置</td>
+</tr>
+<tr>
+<td><code>/keybindings</code></td>
+<td>创建/编辑键盘快捷键</td>
+</tr>
+<tr>
+<td><code>/memory</code></td>
+<td>查看和管理记忆文件</td>
+</tr>
+<tr>
+<td><code>/mcp</code></td>
+<td>管理 MCP 服务器配置</td>
+</tr>
+<tr>
+<td><code>/model</code></td>
+<td>切换模型</td>
+</tr>
+<tr>
+<td><code>/permissions</code></td>
+<td>管理权限规则</td>
+</tr>
+<tr>
+<td><code>/plan</code></td>
+<td>进入计划模式</td>
+</tr>
+<tr>
+<td><code>/plugin</code></td>
+<td>管理插件</td>
+</tr>
+<tr>
+<td><code>/powerup</code></td>
+<td>交互式课程演示</td>
+</tr>
+<tr>
+<td><code>/pr-comments</code></td>
+<td>获取 GitHub PR 评论</td>
+</tr>
+<tr>
+<td><code>/remote</code></td>
+<td>启动 web 会话</td>
+</tr>
+<tr>
+<td><code>/rename &lt;name&gt;</code></td>
+<td>重命名当前会话</td>
+</tr>
+<tr>
+<td><code>/resume &lt;session&gt;</code></td>
+<td>恢复之前的会话</td>
+</tr>
+<tr>
+<td><code>/review</code></td>
+<td>审查 pull request</td>
+</tr>
+<tr>
+<td><code>/security-review</code></td>
+<td>完成安全审查</td>
+</tr>
+<tr>
+<td><code>/sandbox</code></td>
+<td>配置沙箱</td>
+</tr>
+<tr>
+<td><code>/simplify</code></td>
+<td>审查代码重用/质量/效率</td>
+</tr>
+<tr>
+<td><code>/statusline</code></td>
+<td>设置状态栏 UI</td>
+</tr>
+<tr>
+<td><code>/theme</code></td>
+<td>选择输出主题</td>
+</tr>
+<tr>
+<td><code>/throttle</code></td>
+<td>限制 token 使用</td>
+</tr>
+<tr>
+<td><code>/upgrade</code></td>
+<td>升级 Claude Code（Pro/Max）</td>
+</tr>
+<tr>
+<td><code>/web-setup</code></td>
+<td>配置 web 会话设置</td>
+</tr>
+</tbody>
+</table>
+<h3>捆绑技能（斜杠命令）</h3>
+<table>
+<thead>
+<tr>
+<th>技能</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/batch</code></td>
+<td>跨并行 worktree 代理研究和执行大规模更改</td>
+</tr>
+<tr>
+<td><code>/claude-api</code></td>
+<td>使用 Claude API 构建应用</td>
+</tr>
+<tr>
+<td><code>/debug</code></td>
+<td>诊断和修复问题</td>
+</tr>
+<tr>
+<td><code>/insights</code></td>
+<td>生成 Claude Code 会话分析报告</td>
+</tr>
+<tr>
+<td><code>/loop</code></td>
+<td>按 recurring 间隔运行提示/命令</td>
+</tr>
+<tr>
+<td><code>/update-config</code></td>
+<td>通过 settings.json 配置 Claude Code</td>
+</tr>
+</tbody>
+</table>
+<h3>创建自定义命令/技能</h3>
+<p>技能文件放置位置：</p>
+<ul>
+<li><code>~/.claude/skills/&lt;name&gt;/SKILL.md</code>（个人）</li>
+<li><code>.claude/skills/&lt;name&gt;/SKILL.md</code>（项目）</li>
+<li><code>.claude/commands/&lt;name&gt;.md</code>（旧版，仍可用）</li>
+</ul>
+<hr />
+<h2>3. 键盘快捷键</h2>
+<h3>通用控制</h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl+C</code></td>
+<td>取消当前输入或生成</td>
+</tr>
+<tr>
+<td><code>Ctrl+D</code></td>
+<td>退出 Claude Code 会话</td>
+</tr>
+<tr>
+<td><code>Ctrl+G</code> 或 <code>Ctrl+X Ctrl+E</code></td>
+<td>在外部编辑器中打开</td>
+</tr>
+<tr>
+<td><code>Ctrl+L</code></td>
+<td>清除提示输入</td>
+</tr>
+<tr>
+<td><code>Ctrl+O</code></td>
+<td>切换转录查看器</td>
+</tr>
+<tr>
+<td><code>Ctrl+R</code></td>
+<td>反向搜索命令历史</td>
+</tr>
+<tr>
+<td><code>Ctrl+B</code></td>
+<td>后台运行任务（tmux 中按两次）</td>
+</tr>
+<tr>
+<td><code>Ctrl+T</code></td>
+<td>切换任务列表</td>
+</tr>
+<tr>
+<td><code>Ctrl+X Ctrl+K</code></td>
+<td>终止所有后台代理</td>
+</tr>
+<tr>
+<td><code>Shift+Tab</code> 或 <code>Alt+M</code></td>
+<td>循环切换权限模式</td>
+</tr>
+<tr>
+<td><code>Option+P</code> (macOS) / <code>Alt+P</code> (Win/Linux)</td>
+<td>切换模型</td>
+</tr>
+<tr>
+<td><code>Option+T</code> (macOS) / <code>Alt+T</code> (Win/Linux)</td>
+<td>切换扩展思考</td>
+</tr>
+<tr>
+<td><code>Option+O</code> (macOS) / <code>Alt+O</code> (Win/Linux)</td>
+<td>切换快速模式</td>
+</tr>
+<tr>
+<td><code>Esc+Esc</code></td>
+<td>回溯或总结对话（双按）</td>
+</tr>
+<tr>
+<td><code>Ctrl+V</code> 或 <code>Alt+V</code> (Win)</td>
+<td>从剪贴板粘贴图片</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>查看所有可用快捷键</td>
+</tr>
+</tbody>
+</table>
+<h3>文本编辑 (Readline)</h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl+K</code></td>
+<td>删除到行尾</td>
+</tr>
+<tr>
+<td><code>Ctrl+U</code></td>
+<td>从光标处删除到行首</td>
+</tr>
+<tr>
+<td><code>Ctrl+Y</code></td>
+<td>粘贴已删除的文本</td>
+</tr>
+<tr>
+<td><code>Alt+Y</code>（Ctrl+Y 后）</td>
+<td>循环粘贴历史</td>
+</tr>
+<tr>
+<td><code>Alt+B</code></td>
+<td>光标后退一个单词</td>
+</tr>
+<tr>
+<td><code>Alt+F</code></td>
+<td>光标前进一个单词</td>
+</tr>
+</tbody>
+</table>
+<h3>多行输入</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\</code> + <code>Enter</code></td>
+<td>快速转义（所有终端）</td>
+</tr>
+<tr>
+<td><code>Option+Enter</code></td>
+<td>macOS 默认</td>
+</tr>
+<tr>
+<td><code>Shift+Enter</code></td>
+<td>适用于 iTerm2, WezTerm, Ghostty, Kitty</td>
+</tr>
+<tr>
+<td><code>Ctrl+J</code></td>
+<td>控制序列（换行）</td>
+</tr>
+</tbody>
+</table>
+<h3>Vim 模式（NORMAL）</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Esc</code></td>
+<td>进入 NORMAL 模式</td>
+</tr>
+<tr>
+<td><code>i</code></td>
+<td>在光标前插入</td>
+</tr>
+<tr>
+<td><code>I</code></td>
+<td>在行首插入</td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td>在光标后插入</td>
+</tr>
+<tr>
+<td><code>A</code></td>
+<td>在行尾插入</td>
+</tr>
+<tr>
+<td><code>o</code></td>
+<td>在下方打开行</td>
+</tr>
+<tr>
+<td><code>O</code></td>
+<td>在上方打开行</td>
+</tr>
+<tr>
+<td><code>h/j/k/l</code></td>
+<td>左/下/上/右移动</td>
+</tr>
+<tr>
+<td><code>w/e/b</code></td>
+<td>下一个词/词尾/上一个词</td>
+</tr>
+<tr>
+<td><code>0/$</code></td>
+<td>行首/行尾</td>
+</tr>
+<tr>
+<td><code>gg/G</code></td>
+<td>开头/结尾</td>
+</tr>
+<tr>
+<td><code>f{字符}</code></td>
+<td>跳转到指定字符</td>
+</tr>
+<tr>
+<td><code>dd</code></td>
+<td>删除行</td>
+</tr>
+<tr>
+<td><code>yy</code></td>
+<td>复制（yank）行</td>
+</tr>
+<tr>
+<td><code>p/P</code></td>
+<td>在光标后/前粘贴</td>
+</tr>
+<tr>
+<td><code>&gt;&gt;/&lt;&lt;</code></td>
+<td>缩进/取消缩进</td>
+</tr>
+</tbody>
+</table>
+<h3>会话选择器（/resume）</h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Up/Down</code></td>
+<td>导航会话</td>
+</tr>
+<tr>
+<td><code>Left/Right</code></td>
+<td>展开/折叠分组</td>
+</tr>
+<tr>
+<td><code>Enter</code></td>
+<td>选择并恢复</td>
+</tr>
+<tr>
+<td><code>P</code></td>
+<td>预览会话</td>
+</tr>
+<tr>
+<td><code>R</code></td>
+<td>重命名会话</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>搜索/过滤</td>
+</tr>
+<tr>
+<td><code>A</code></td>
+<td>切换所有项目</td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td>按当前分支过滤</td>
+</tr>
+</tbody>
+</table>
+<h3>交互模式特殊输入</h3>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code> 在开头</td>
+<td>命令或技能</td>
+</tr>
+<tr>
+<td><code>!</code> 在开头</td>
+<td>Bash 模式（直接执行）</td>
+</tr>
+<tr>
+<td><code>@</code></td>
+<td>文件路径提及自动完成</td>
+</tr>
+<tr>
+<td><code>Up/Down</code></td>
+<td>导航命令历史</td>
+</tr>
+<tr>
+<td><code>Ctrl+Shift+Up/Down</code></td>
+<td>循环切换对话框标签页</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 权限模式</h2>
+<h3>可用模式</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>无需询问即可运行</th>
+<th>适用于</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>default</code></td>
+<td>仅读取</td>
+<td>入门、敏感工作</td>
+</tr>
+<tr>
+<td><code>acceptEdits</code></td>
+<td>读取、文件编辑、常见文件系统命令</td>
+<td>迭代正在审查的代码</td>
+</tr>
+<tr>
+<td><code>plan</code></td>
+<td>仅读取</td>
+<td>更改前的探索</td>
+</tr>
+<tr>
+<td><code>auto</code></td>
+<td>通过后台安全检查的所有操作</td>
+<td>长任务、减少提示疲劳</td>
+</tr>
+<tr>
+<td><code>dontAsk</code></td>
+<td>仅预先批准的工具</td>
+<td>锁定 CI 和脚本</td>
+</tr>
+<tr>
+<td><code>bypassPermissions</code></td>
+<td>除受保护路径外的所有操作</td>
+<td>隔离容器/VM</td>
+</tr>
+</tbody>
+</table>
+<h3>切换模式</h3>
+<p><strong>CLI：</strong></p>
+<ul>
+<li><code>Shift+Tab</code> 循环：<code>default</code> -&gt; <code>acceptEdits</code> -&gt; <code>plan</code>（启用后添加 auto/bypass）</li>
+<li>启动时 <code>--permission-mode &lt;mode&gt;</code></li>
+<li>在设置中设置 <code>defaultMode</code></li>
+</ul>
+<p><strong>VS Code：</strong> 点击提示框底部的模式指示器</p>
+<p><strong>桌面应用：</strong> 发送按钮旁边的模式选择器</p>
+<h3>AcceptEdits 模式自动批准</h3>
+<ul>
+<li>文件编辑</li>
+<li>文件系统命令：<code>mkdir</code>, <code>touch</code>, <code>rm</code>, <code>rmdir</code>, <code>mv</code>, <code>cp</code>, <code>sed</code></li>
+<li>带安全前缀的命令（LANG, NO_COLOR, timeout, nice, nohup）</li>
+</ul>
+<h3>Auto 模式（研究预览）</h3>
+<p><strong>要求：</strong></p>
+<ul>
+<li>Team、Enterprise 或 API 计划</li>
+<li>Claude Code 管理设置中由管理员启用</li>
+<li>Claude Sonnet 4.6 或 Opus 4.6</li>
+<li>Anthropic API（非 Bedrock/Vertex/Foundry）</li>
+</ul>
+<p><strong>分类器默认阻止：</strong></p>
+<ul>
+<li>下载/执行代码（<code>curl | bash</code>）</li>
+<li>向外部发送敏感数据</li>
+<li>生产部署和迁移</li>
+<li>云存储批量删除</li>
+<li>授予 IAM/repo 权限</li>
+<li>强制推送或推送到 main</li>
+</ul>
+<h3>受保护路径</h3>
+<p>任何模式下都不会自动批准：</p>
+<ul>
+<li>目录：<code>.git</code>, <code>.vscode</code>, <code>.idea</code>, <code>.husky</code>, <code>.claude</code>（命令、代理、技能、worktree 除外）</li>
+<li>文件：<code>.gitconfig</code>, <code>.gitmodules</code>, <code>.bashrc</code>, <code>.bash_profile</code>, <code>.zshrc</code>, <code>.profile</code>, <code>.ripgreprc</code>, <code>.mcp.json</code>, <code>.claude.json</code></li>
+</ul>
+<h3>权限规则语法</h3>
+<pre><code>{
+  "permissions": {
+    "allow": ["Bash(npm test)", "Bash(git commit *)"],
+    "ask": ["Bash(git push *)"],
+    "deny": ["Bash(rm -rf *)"]
+  }
+}
+</code></pre>
+<p><strong>模式类型：</strong></p>
+<ul>
+<li><code>Tool</code> - 匹配所有使用</li>
+<li><code>Tool(specifier)</code> - 精确匹配</li>
+<li><code>Tool(*wildcard*)</code> - glob 模式</li>
+<li><code>Bash(ls *)</code> - 词边界匹配</li>
+</ul>
+<h3>路径匹配</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>//path</code></td>
+<td>从文件系统根目录的绝对路径</td>
+</tr>
+<tr>
+<td><code>~/path</code></td>
+<td>从主目录</td>
+</tr>
+<tr>
+<td><code>/path</code></td>
+<td>相对于项目根目录</td>
+</tr>
+<tr>
+<td><code>path</code> 或 <code>./path</code></td>
+<td>相对于当前目录</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 设置与配置</h2>
+<h3>配置范围</h3>
+<table>
+<thead>
+<tr>
+<th>范围</th>
+<th>位置</th>
+<th>共享？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>托管</strong></td>
+<td>Server/plist/registry/system-level</td>
+<td>是（IT 控制）</td>
+</tr>
+<tr>
+<td><strong>本地</strong></td>
+<td><code>.claude/settings.local.json</code></td>
+<td>否（gitignored）</td>
+</tr>
+<tr>
+<td><strong>项目</strong></td>
+<td><code>.claude/settings.json</code></td>
+<td>是（在 repo 中）</td>
+</tr>
+<tr>
+<td><strong>用户</strong></td>
+<td><code>~/.claude/settings.json</code></td>
+<td>否</td>
+</tr>
+</tbody>
+</table>
+<h3>优先级</h3>
+<ol>
+<li>托管设置（无法覆盖）</li>
+<li>命令行参数</li>
+<li>本地设置（<code>.claude/settings.local.json</code>）</li>
+<li>项目设置（<code>.claude/settings.json</code>）</li>
+<li>用户设置（<code>~/.claude/settings.json</code>）</li>
+</ol>
+<h3>关键设置示例</h3>
+<pre><code>{
+  "model": "claude-sonnet-4-6",
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": ["Bash(git *)"],
+    "deny": ["Bash(rm -rf *)"]
+  },
+  "sandbox": {
+    "enabled": true,
+    "filesystem": {
+      "allowWrite": ["~/.kube"]
+    },
+    "network": {
+      "allowedDomains": ["github.com", "api.example.com"]
+    }
+  },
+  "env": {
+    "CLAUDE_CODE_USE_POWERSHELL_TOOL": "1"
+  },
+  "autoMemoryEnabled": true,
+  "hooks": { ... }
+}
+</code></pre>
+<h3>沙箱设置</h3>
+<pre><code>{
+  "sandbox": {
+    "enabled": true,
+    "failIfUnavailable": false,
+    "autoAllowBashIfSandboxed": true,
+    "filesystem": {
+      "allowWrite": ["path"],
+      "denyWrite": ["path"],
+      "allowRead": ["path"],
+      "denyRead": ["path"],
+      "allowManagedReadPathsOnly": false
+    },
+    "network": {
+      "allowedDomains": ["domain.com"],
+      "allowManagedDomainsOnly": false,
+      "httpProxyPort": 8080,
+      "socksProxyPort": 8081
+    },
+    "excludedCommands": ["docker"],
+    "allowUnsandboxedCommands": true,
+    "enableWeakerNestedSandbox": false
+  }
+}
+</code></pre>
+<h3>自动记忆设置</h3>
+<pre><code>{
+  "autoMemoryEnabled": true,
+  "autoMemoryDirectory": "~/my-memory"
+}
+</code></pre>
+<hr />
+<h2>6. 环境变量</h2>
+<h3>认证与 API</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ANTHROPIC_API_KEY</code></td>
+<td>X-Api-Key 头的 API 密钥</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_AUTH_TOKEN</code></td>
+<td>自定义 Authorization 头</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_BASE_URL</code></td>
+<td>覆盖 API 端点</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_BEDROCK_BASE_URL</code></td>
+<td>Bedrock 端点覆盖</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_VERTEX_BASE_URL</code></td>
+<td>Vertex AI 端点覆盖</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_VERTEX_PROJECT_ID</code></td>
+<td>Vertex 的 GCP 项目</td>
+</tr>
+<tr>
+<td><code>AWS_BEARER_TOKEN_BEDROCK</code></td>
+<td>Bedrock API 密钥</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_FOUNDRY_API_KEY</code></td>
+<td>Foundry API 密钥</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_FOUNDRY_BASE_URL</code></td>
+<td>Foundry 基础 URL</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_FOUNDRY_RESOURCE</code></td>
+<td>Foundry 资源名称</td>
+</tr>
+</tbody>
+</table>
+<h3>模型配置</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ANTHROPIC_MODEL</code></td>
+<td>要使用的模型设置名称</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_DEFAULT_OPUS_MODEL</code></td>
+<td>默认 Opus 模型</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_DEFAULT_SONNET_MODEL</code></td>
+<td>默认 Sonnet 模型</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_DEFAULT_HAIKU_MODEL</code></td>
+<td>默认 Haiku 模型</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_CUSTOM_MODEL_OPTION</code></td>
+<td>添加自定义模型选项</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_SUBAGENT_MODEL</code></td>
+<td>子代理使用的模型</td>
+</tr>
+</tbody>
+</table>
+<h3>超时与性能</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>默认值</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>API_TIMEOUT_MS</code></td>
+<td>600000</td>
+<td>API 请求超时</td>
+</tr>
+<tr>
+<td><code>BASH_DEFAULT_TIMEOUT_MS</code></td>
+<td>120000</td>
+<td>默认 bash 超时</td>
+</tr>
+<tr>
+<td><code>BASH_MAX_TIMEOUT_MS</code></td>
+<td>600000</td>
+<td>最大 bash 超时</td>
+</tr>
+<tr>
+<td><code>BASH_MAX_OUTPUT_LENGTH</code></td>
+<td>-</td>
+<td>最大 bash 输出字符数</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_MAX_OUTPUT_TOKENS</code></td>
+<td>varies</td>
+<td>每次请求的最大输出</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_MAX_RETRIES</code></td>
+<td>10</td>
+<td>重试次数</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY</code></td>
+<td>10</td>
+<td>并行工具限制</td>
+</tr>
+</tbody>
+</table>
+<h3>功能开关</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_1M_CONTEXT</code></td>
+<td>禁用 1M 上下文窗口</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING</code></td>
+<td>禁用自适应推理</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_AUTO_MEMORY</code></td>
+<td>禁用自动记忆</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_BACKGROUND_TASKS</code></td>
+<td>禁用后台任务</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_CLAUDE_MDS</code></td>
+<td>阻止加载 CLAUDE.md</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_CRON</code></td>
+<td>禁用计划任务</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_FAST_MODE</code></td>
+<td>禁用快速模式</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_FILE_CHECKPOINTING</code></td>
+<td>禁用回溯</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_THINKING</code></td>
+<td>强制禁用扩展思考</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_SIMPLE</code></td>
+<td>最小模式（仅核心工具）</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_ATTACHMENTS</code></td>
+<td>禁用 @ 文件展开</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS</code></td>
+<td>移除 git 说明</td>
+</tr>
+<tr>
+<td><code>DISABLE_AUTO_COMPACT</code></td>
+<td>禁用自动压缩</td>
+</tr>
+<tr>
+<td><code>DISABLE_COMPACT</code></td>
+<td>禁用所有压缩</td>
+</tr>
+</tbody>
+</table>
+<h3>IDE 与终端</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLAUDE_CODE_IDE_HOST_OVERRIDE</code></td>
+<td>IDE 连接主机</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL</code></td>
+<td>跳过 IDE 扩展自动安装</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_IDE_SKIP_VALID_CHECK</code></td>
+<td>跳过 IDE lockfile 验证</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_TERMINAL_TITLE</code></td>
+<td>禁用终端标题更新</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_ACCESSIBILITY</code></td>
+<td>保持原生光标可见</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DISABLE_MOUSE</code></td>
+<td>在全屏中禁用鼠标</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_SHELL</code></td>
+<td>覆盖 shell（bash, zsh）</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_USE_POWERSHELL_TOOL</code></td>
+<td>在 Windows 上启用 PowerShell</td>
+</tr>
+</tbody>
+</table>
+<h3>调试与日志</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>默认值</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLAUDE_CODE_DEBUG_LOGS_DIR</code></td>
+<td><code>~/.claude/debug/</code></td>
+<td>调试日志路径</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_DEBUG_LOG_LEVEL</code></td>
+<td><code>debug</code></td>
+<td>日志级别</td>
+</tr>
+<tr>
+<td><code>DISABLE_ERROR_REPORTING</code></td>
+<td>-</td>
+<td>选择退出 Sentry</td>
+</tr>
+<tr>
+<td><code>DISABLE_TELEMETRY</code></td>
+<td>-</td>
+<td>选择退出遥测</td>
+</tr>
+</tbody>
+</table>
+<h3>上下文与压缩</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLAUDE_AUTOCOMPACT_PCT_OVERRIDE</code></td>
+<td>覆盖自动压缩阈值</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_AUTO_COMPACT_WINDOW</code></td>
+<td>压缩的上下文窗口</td>
+</tr>
+<tr>
+<td><code>MAX_THINKING_TOKENS</code></td>
+<td>限制思考 token 预算</td>
+</tr>
+</tbody>
+</table>
+<h3>mTLS 与安全</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLAUDE_CODE_CLIENT_CERT</code></td>
+<td>客户端证书路径</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_CLIENT_KEY</code></td>
+<td>客户端密钥路径</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_CLIENT_KEY_PASSPHRASE</code></td>
+<td>密钥密码</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_CERT_STORE</code></td>
+<td>CA 证书来源（bundled, system）</td>
+</tr>
+</tbody>
+</table>
+<h3>Shell 配置</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLAUDE_CODE_SHELL_PREFIX</code></td>
+<td>包装所有 bash 命令</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_GIT_BASH_PATH</code></td>
+<td>Windows 上的 Git Bash 路径</td>
+</tr>
+<tr>
+<td><code>CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR</code></td>
+<td>命令后返回原始目录</td>
+</tr>
+<tr>
+<td><code>CLAUDE_ENV_FILE</code></td>
+<td>用于持久化 env var 的 shell 脚本</td>
+</tr>
+</tbody>
+</table>
+<h3>Glob 与文件发现</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>默认值</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLAUDE_CODE_GLOB_HIDDEN</code></td>
+<td><code>true</code></td>
+<td>包含隐藏文件</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_GLOB_NO_IGNORE</code></td>
+<td><code>true</code></td>
+<td>遵守 .gitignore</td>
+</tr>
+<tr>
+<td><code>CLAUDE_CODE_GLOB_TIMEOUT_SECONDS</code></td>
+<td>20/60</td>
+<td>Glob 超时</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>7. MCP 服务器</h2>
+<h3>添加 MCP 服务器</h3>
+<p><strong>在 settings.json 中：</strong></p>
+<pre><code>{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "your-token"
+      }
+    }
+  }
+}
+</code></pre>
+<p><strong>使用 claude mcp 命令：</strong></p>
+<pre><code>claude mcp add &lt;name&gt; &lt;command&gt; [args...]
+claude mcp remove &lt;name&gt;
+claude mcp list
+</code></pre>
+<h3>传输类型</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>stdio</strong></td>
+<td><code>command</code> + <code>args</code></td>
+</tr>
+<tr>
+<td><strong>HTTP/SSE</strong></td>
+<td><code>url</code> + 可选 <code>headers</code></td>
+</tr>
+<tr>
+<td><strong>SDK</strong></td>
+<td>在代码中使用 <code>createSdkMcpServer()</code></td>
+</tr>
+</tbody>
+</table>
+<h3>认证</h3>
+<pre><code>{
+  "mcpServers": {
+    "remote": {
+      "url": "https://example.com/mcp",
+      "headers": {
+        "Authorization": "Bearer $MY_TOKEN"
+      },
+      "allowedEnvVars": ["MY_TOKEN"]
+    }
+  }
+}
+</code></pre>
+<h3>工具命名约定</h3>
+<ul>
+<li>格式：<code>mcp__&lt;server&gt;__&lt;tool&gt;</code></li>
+<li>示例：<code>mcp__github__search_repositories</code>, <code>mcp__filesystem__read_file</code></li>
+</ul>
+<h3>关键设置</h3>
+<pre><code>{
+  "mcpServers": { ... },
+  "allowedTools": ["mcp__github__*"],
+  "strictMcpConfig": true,
+  "extraKnownMarketplaces": [...]
+}
+</code></pre>
+<hr />
+<h2>8. 钩子系统</h2>
+<h3>钩子事件</h3>
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>触发时机</th>
+<th>可阻止？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SessionStart</code></td>
+<td>会话开始/恢复</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>UserPromptSubmit</code></td>
+<td>用户提交提示</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>PreToolUse</code></td>
+<td>工具执行前</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>PermissionRequest</code></td>
+<td>权限对话框出现</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>PermissionDenied</code></td>
+<td>自动模式拒绝工具</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>PostToolUse</code></td>
+<td>工具成功后</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>PostToolUseFailure</code></td>
+<td>工具失败后</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>Notification</code></td>
+<td>通知发送</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>SubagentStart</code></td>
+<td>子代理产生</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>SubagentStop</code></td>
+<td>子代理结束</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>TaskCreated</code></td>
+<td>任务创建中</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>TaskCompleted</code></td>
+<td>任务标记完成</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>Stop</code></td>
+<td>Claude 完成响应</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>StopFailure</code></td>
+<td>API 错误发生</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>TeammateIdle</code></td>
+<td>队友空闲</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>InstructionsLoaded</code></td>
+<td>CLAUDE.md/rules 加载</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>ConfigChange</code></td>
+<td>配置文件更改</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>CwdChanged</code></td>
+<td>工作目录更改</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>FileChanged</code></td>
+<td>监视文件更改</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>WorktreeCreate</code></td>
+<td>Worktree 创建中</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>WorktreeRemove</code></td>
+<td>Worktree 移除中</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>PreCompact</code></td>
+<td>压缩前</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>PostCompact</code></td>
+<td>压缩后</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>Elicitation</code></td>
+<td>MCP 请求用户输入</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>ElicitationResult</code></td>
+<td>用户响应 elicitation</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>SessionEnd</code></td>
+<td>会话终止</td>
+<td>否</td>
+</tr>
+</tbody>
+</table>
+<h3>钩子类型</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>command</code></td>
+<td>Shell 脚本执行</td>
+</tr>
+<tr>
+<td><code>http</code></td>
+<td>POST 到 HTTP 端点</td>
+</tr>
+<tr>
+<td><code>prompt</code></td>
+<td>LLM 评估（单轮）</td>
+</tr>
+<tr>
+<td><code>agent</code></td>
+<td>子代理验证（多轮）</td>
+</tr>
+</tbody>
+</table>
+<h3>配置示例</h3>
+<pre><code>{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path' | xargs npx prettier --write"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Reminder: use Bun, not npm'"
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>匹配器模式</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>评估为</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>""</code> 或省略</td>
+<td>匹配所有</td>
+<td>每个事件</td>
+</tr>
+<tr>
+<td>字母、数字、<code>_</code>、<code>|</code></td>
+<td>精确或管道分隔</td>
+<td><code>"Bash"</code>, <code>"Edit|Write"</code></td>
+</tr>
+<tr>
+<td>包含特殊字符</td>
+<td>JavaScript 正则</td>
+<td><code>"^Notebook"</code>, <code>"mcp__.*__.*"</code></td>
+</tr>
+</tbody>
+</table>
+<h3>退出码</h3>
+<table>
+<thead>
+<tr>
+<th>代码</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>成功 - 继续</td>
+</tr>
+<tr>
+<td>2</td>
+<td>阻止操作</td>
+</tr>
+<tr>
+<td>其他</td>
+<td>非阻塞错误</td>
+</tr>
+</tbody>
+</table>
+<h3>特殊变量</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$CLAUDE_PROJECT_DIR</code></td>
+<td>项目根目录</td>
+</tr>
+<tr>
+<td><code>$CLAUDE_ENV_FILE</code></td>
+<td>用于持久化 env var 的文件</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_ROOT}</code></td>
+<td>插件安装目录</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_PLUGIN_DATA}</code></td>
+<td>插件数据目录</td>
+</tr>
+</tbody>
+</table>
+<h3>If 字段（仅工具事件）</h3>
+<pre><code>{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(git *)",
+            "command": "check-git-policy.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<hr />
+<h2>9. 技能系统</h2>
+<h3>技能位置</h3>
+<table>
+<thead>
+<tr>
+<th>范围</th>
+<th>路径</th>
+<th>适用于</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>企业</td>
+<td>托管设置</td>
+<td>所有用户</td>
+</tr>
+<tr>
+<td>个人</td>
+<td><code>~/.claude/skills/&lt;name&gt;/SKILL.md</code></td>
+<td>所有项目</td>
+</tr>
+<tr>
+<td>项目</td>
+<td><code>.claude/skills/&lt;name&gt;/SKILL.md</code></td>
+<td>本项目</td>
+</tr>
+<tr>
+<td>插件</td>
+<td><code>&lt;plugin&gt;/skills/&lt;name&gt;/SKILL.md</code></td>
+<td>插件启用处</td>
+</tr>
+</tbody>
+</table>
+<h3>SKILL.md 格式</h3>
+<pre><code>---
+name: my-skill
+description: 这个技能做什么，何时使用
+argument-hint: [filename] [format]
+disable-model-invocation: true
+user-invocable: true
+allowed-tools: Read Grep Bash(git *)
+model: sonnet
+effort: high
+context: fork
+agent: Explore
+paths: "src/**/*.ts"
+shell: bash
+---
+
+你的技能说明在这里。使用 $ARGUMENTS 获取传递的参数。
+</code></pre>
+<h3>前置matter字段</h3>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>必需</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>否</td>
+<td>显示名称（默认为目录名）</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>推荐</td>
+<td>它做什么，何时使用</td>
+</tr>
+<tr>
+<td><code>argument-hint</code></td>
+<td>否</td>
+<td>期望参数的提示</td>
+</tr>
+<tr>
+<td><code>disable-model-invocation</code></td>
+<td>否</td>
+<td>设为 <code>true</code> 可防止自动加载</td>
+</tr>
+<tr>
+<td><code>user-invocable</code></td>
+<td>否</td>
+<td>设为 <code>false</code> 可从 / 菜单隐藏</td>
+</tr>
+<tr>
+<td><code>allowed-tools</code></td>
+<td>否</td>
+<td>无需提示即可使用的工具</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>否</td>
+<td>要使用的模型</td>
+</tr>
+<tr>
+<td><code>effort</code></td>
+<td>否</td>
+<td><code>low</code>, <code>medium</code>, <code>high</code>, <code>max</code></td>
+</tr>
+<tr>
+<td><code>context</code></td>
+<td>否</td>
+<td>设为 <code>fork</code> 以子代理执行</td>
+</tr>
+<tr>
+<td><code>agent</code></td>
+<td>否</td>
+<td><code>context: fork</code> 时使用哪个子代理类型</td>
+</tr>
+<tr>
+<td><code>paths</code></td>
+<td>否</td>
+<td>自动激活的 glob 模式</td>
+</tr>
+<tr>
+<td><code>shell</code></td>
+<td>否</td>
+<td><code>bash</code> 或 <code>powershell</code></td>
+</tr>
+</tbody>
+</table>
+<h3>字符串替换</h3>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$ARGUMENTS</code></td>
+<td>传递的所有参数</td>
+</tr>
+<tr>
+<td><code>$ARGUMENTS[N]</code></td>
+<td>按索引获取特定参数</td>
+</tr>
+<tr>
+<td><code>$N</code></td>
+<td><code>$ARGUMENTS[N]</code> 的简写</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_SESSION_ID}</code></td>
+<td>当前会话 ID</td>
+</tr>
+<tr>
+<td><code>${CLAUDE_SKILL_DIR}</code></td>
+<td>技能 SKILL.md 目录</td>
+</tr>
+</tbody>
+</table>
+<h3>Shell 命令执行</h3>
+<pre><code>---
+name: pr-summary
+description: 总结 pull request
+context: fork
+agent: Explore
+allowed-tools: Bash(gh *)
+---
+
+## PR context
+- Diff: !`gh pr diff`
+- Comments: !`gh pr view --comments`
+
+## Task
+Summarize this PR...
+</code></pre>
+<h3>捆绑技能</h3>
+<table>
+<thead>
+<tr>
+<th>技能</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/batch</code></td>
+<td>用于大规模更改的并行 worktree 代理</td>
+</tr>
+<tr>
+<td><code>/claude-api</code></td>
+<td>使用 Claude API 构建应用</td>
+</tr>
+<tr>
+<td><code>/debug</code></td>
+<td>诊断和修复问题</td>
+</tr>
+<tr>
+<td><code>/insights</code></td>
+<td>分析 Claude Code 会话</td>
+</tr>
+<tr>
+<td><code>/loop</code></td>
+<td>按 recurring 间隔运行</td>
+</tr>
+<tr>
+<td><code>/simplify</code></td>
+<td>审查代码质量</td>
+</tr>
+<tr>
+<td><code>/update-config</code></td>
+<td>配置 settings.json</td>
+</tr>
+<tr>
+<td><code>/statusline</code></td>
+<td>设置状态栏</td>
+</tr>
+</tbody>
+</table>
+<h3>调用技能</h3>
+<ul>
+<li>直接：<code>/skill-name</code> 或 <code>/skill-name arg1 arg2</code></li>
+<li>自动：Claude 加载描述匹配时</li>
+<li>子代理：带 <code>context: fork</code> 前置matter</li>
+</ul>
+<hr />
+<h2>10. 记忆系统</h2>
+<h3>CLAUDE.md 文件</h3>
+<table>
+<thead>
+<tr>
+<th>范围</th>
+<th>位置</th>
+<th>共享</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>托管策略</td>
+<td>取决于 OS</td>
+<td>所有用户</td>
+</tr>
+<tr>
+<td>项目</td>
+<td><code>./CLAUDE.md</code> 或 <code>./.claude/CLAUDE.md</code></td>
+<td>通过版本控制与团队共享</td>
+</tr>
+<tr>
+<td>用户</td>
+<td><code>~/.claude/CLAUDE.md</code></td>
+<td>仅你自己</td>
+</tr>
+<tr>
+<td>本地</td>
+<td><code>./CLAUDE.local.md</code></td>
+<td>仅你自己（gitignored）</td>
+</tr>
+</tbody>
+</table>
+<h3>规则（.claude/rules/）</h3>
+<p>在 <code>.claude/rules/</code> 目录中组织说明：</p>
+<pre><code>.claude/
+├── CLAUDE.md
+└── rules/
+    ├── code-style.md
+    ├── testing.md
+    └── security.md
+</code></pre>
+<p>路径特定规则：</p>
+<pre><code>---
+paths:
+  - "src/api/**/*.ts"
+  - "lib/**/*.ts"
+---
+
+# API Rules
+- All endpoints must include input validation
+</code></pre>
+<h3>自动记忆</h3>
+<p><strong>存储位置：</strong> <code>~/.claude/projects/&lt;project&gt;/memory/</code></p>
+<p><strong>文件：</strong></p>
+<ul>
+<li><code>MEMORY.md</code> - 索引（会话开始时加载前 200 行/25KB）</li>
+<li><code>debugging.md</code>, <code>api-conventions.md</code> 等 - 主题文件（按需加载）</li>
+</ul>
+<p><strong>设置：</strong></p>
+<pre><code>{
+  "autoMemoryEnabled": true,
+  "autoMemoryDirectory": "~/my-memory"
+}
+</code></pre>
+<p><strong>命令：</strong></p>
+<ul>
+<li><code>/memory</code> - 浏览和管理记忆文件</li>
+</ul>
+<h3>导入</h3>
+<p>用 <code>@</code> 引用外部文件：</p>
+<pre><code>详见 @README 概览，@package.json 命令。
+
+# Additional Instructions
+- git workflow @docs/git-instructions.md
+</code></pre>
+<h3>排除 CLAUDE.md 文件</h3>
+<pre><code>{
+  "claudeMdExcludes": [
+    "**/monorepo/CLAUDE.md",
+    "/home/user/monorepo/other-team/.claude/rules/**"
+  ]
+}
+</code></pre>
+<hr />
+<h2>11. Git Worktree</h2>
+<h3>创建 Worktree</h3>
+<pre><code>claude --worktree feature-auth
+claude --worktree bugfix-123
+claude --worktree  # 自动生成名称如 "bright-running-fox"
+</code></pre>
+<h3>Worktree 位置</h3>
+<ul>
+<li>创建于 <code>&lt;repo&gt;/.claude/worktrees/&lt;name&gt;</code></li>
+<li>分支名为 <code>worktree-&lt;name&gt;</code></li>
+</ul>
+<h3>使用 tmux</h3>
+<pre><code>claude --worktree feature-auth --tmux
+claude --worktree feature-auth --tmux=classic  # 传统 tmux
+</code></pre>
+<h3>子代理 Worktree</h3>
+<p>在子代理前置matter中配置：</p>
+<pre><code>---
+name: research-agent
+isolation: worktree
+---
+</code></pre>
+<h3>清理</h3>
+<p><strong>自动：</strong></p>
+<ul>
+<li>无更改：移除 worktree 和分支</li>
+<li>有更改：提示保留/移除</li>
+</ul>
+<p><strong>手动：</strong></p>
+<pre><code>git worktree list
+git worktree remove ../project-feature-a
+</code></pre>
+<h3>复制 Gitignored 文件</h3>
+<p>在项目根目录添加 <code>.worktreeinclude</code>：</p>
+<pre><code>.env
+.env.local
+config/secrets.json
+</code></pre>
+<hr />
+<h2>12. 子代理</h2>
+<h3>内置子代理</h3>
+<table>
+<thead>
+<tr>
+<th>代理</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Explore</code></td>
+<td>只读代码库探索</td>
+</tr>
+<tr>
+<td><code>Plan</code></td>
+<td>规划和分析</td>
+</tr>
+<tr>
+<td><code>general-purpose</code></td>
+<td>默认，拥有全部工具</td>
+</tr>
+</tbody>
+</table>
+<h3>创建子代理</h3>
+<p><strong>文件：</strong> <code>.claude/agents/&lt;name&gt;.md</code></p>
+<pre><code>---
+name: code-reviewer
+description: 审查代码的 bug 和质量问题。当被要求审查代码或修复问题时使用。
+model: sonnet
+tools:
+  allowed:
+    - Read
+    - Grep
+    - Glob
+    - Bash(git diff *)
+    - Bash(git log *)
+permission-mode: plan
+effort: high
+skills:
+  - name: security-rules
+    auto-invoke: true
+memory:
+  enabled: true
+hooks:
+  PreToolUse:
+    - matcher: "Bash"
+      hooks:
+        - type: prompt
+          prompt: "Check if safe: $ARGUMENTS"
+---
+
+You are an expert code reviewer...
+</code></pre>
+<h3>前置matter字段</h3>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>唯一标识符</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>何时使用此代理</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>要使用的模型</td>
+</tr>
+<tr>
+<td><code>tools</code></td>
+<td><code>allowed</code> 或 <code>denied</code> 工具列表</td>
+</tr>
+<tr>
+<td><code>permission-mode</code></td>
+<td>此代理的模式</td>
+</tr>
+<tr>
+<td><code>effort</code></td>
+<td>努力级别</td>
+</tr>
+<tr>
+<td><code>skills</code></td>
+<td>预加载的技能</td>
+</tr>
+<tr>
+<td><code>memory</code></td>
+<td>启用持久记忆</td>
+</tr>
+<tr>
+<td><code>hooks</code></td>
+<td>作用域到此代理的钩子</td>
+</tr>
+<tr>
+<td><code>isolation</code></td>
+<td><code>worktree</code> 隔离</td>
+</tr>
+<tr>
+<td><code>paths</code></td>
+<td>自动委托的文件模式</td>
+</tr>
+<tr>
+<td><code>preloadSkills</code></td>
+<td>启动时加载的技能</td>
+</tr>
+</tbody>
+</table>
+<h3>工具模式</h3>
+<pre><code>tools:
+  allowed:
+    - Read
+    - Grep
+    - Glob
+    - Bash(git diff --name-only *)
+    - Bash(git log --oneline -20 *)
+  denied:
+    - Write
+    - Edit
+</code></pre>
+<h3>调用子代理</h3>
+<p><strong>自动：</strong> Claude 在描述匹配时委托</p>
+<p><strong>显式：</strong></p>
+<pre><code>使用 code-reviewer 子代理检查 auth 模块
+</code></pre>
+<h3>管理子代理</h3>
+<pre><code>claude agents  # 列出所有配置的子代理
+/agents        # 交互式管理
+</code></pre>
+<hr />
+<h2>13. 工具参考</h2>
+<h3>内置工具</h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>说明</th>
+<th>需要权限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Agent</code></td>
+<td>产生子代理</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>AskUserQuestion</code></td>
+<td>多选问题</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>Bash</code></td>
+<td>执行 shell 命令</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>CronCreate</code></td>
+<td>创建定期提示</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>CronDelete</code></td>
+<td>取消计划任务</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>CronList</code></td>
+<td>列出计划任务</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>Edit</code></td>
+<td>定向文件编辑</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>EnterPlanMode</code></td>
+<td>切换到计划模式</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>EnterWorktree</code></td>
+<td>创建 git worktree</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>ExitPlanMode</code></td>
+<td>提交计划待批准</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>ExitWorktree</code></td>
+<td>退出 worktree 会话</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>Glob</code></td>
+<td>按模式查找文件</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>Grep</code></td>
+<td>搜索文件内容</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>ListMcpResourcesTool</code></td>
+<td>列出 MCP 资源</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>LSP</code></td>
+<td>通过语言服务器的代码智能</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>Monitor</code></td>
+<td>监视后台输出</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>NotebookEdit</code></td>
+<td>修改 Jupyter 单元格</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>PowerShell</code></td>
+<td>PowerShell 命令（Windows）</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>Read</code></td>
+<td>读取文件内容</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>ReadMcpResourceTool</code></td>
+<td>读取 MCP 资源</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>SendMessage</code></td>
+<td>发送给队友/子代理</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>Skill</code></td>
+<td>执行技能</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>TaskCreate</code></td>
+<td>创建任务</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>TaskGet</code></td>
+<td>获取任务详情</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>TaskList</code></td>
+<td>列出任务</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>TaskStop</code></td>
+<td>终止后台任务</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>TaskUpdate</code></td>
+<td>更新/删除任务</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>TeamCreate</code></td>
+<td>创建代理团队</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>TeamDelete</code></td>
+<td>解散代理团队</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>TodoWrite</code></td>
+<td>管理任务清单</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>ToolSearch</code></td>
+<td>搜索 MCP 工具</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>WebFetch</code></td>
+<td>获取 URL 内容</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>WebSearch</code></td>
+<td>网络搜索</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>Write</code></td>
+<td>创建/覆盖文件</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<h3>Bash 工具行为</h3>
+<ul>
+<li><code>cd</code> 在项目目录内持久化</li>
+<li>环境变量不在命令间持久化</li>
+<li>使用 <code>CLAUDE_ENV_FILE</code> 实现持久化 env var</li>
+</ul>
+<h3>PowerShell 工具（Windows）</h3>
+<p>启用：<code>CLAUDE_CODE_USE_POWERSHELL_TOOL=1</code></p>
+<hr />
+<h2>14. 交互模式</h2>
+<h3>快速命令</h3>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code> 在开头</td>
+<td>命令或技能</td>
+</tr>
+<tr>
+<td><code>!</code> 在开头</td>
+<td>Bash 模式（直接执行）</td>
+</tr>
+<tr>
+<td><code>@</code></td>
+<td>文件路径提及</td>
+</tr>
+<tr>
+<td><code>Ctrl+V</code></td>
+<td>粘贴图片</td>
+</tr>
+</tbody>
+</table>
+<h3>Bash 模式 (!)</h3>
+<pre><code>! npm test
+! git status
+! ls -la
+</code></pre>
+<p>特性：</p>
+<ul>
+<li>实时输出</li>
+<li><code>Ctrl+B</code> 后台运行</li>
+<li>历史自动完成</li>
+<li>Escape/Backspace/Ctrl+U 退出</li>
+</ul>
+<h3>后台命令</h3>
+<ul>
+<li>Claude 将输出写入文件</li>
+<li>用 Read 工具检索</li>
+<li>退出时自动清理</li>
+<li>最多 5GB 输出</li>
+</ul>
+<h3>快速提问 (/btw)</h3>
+<pre><code>/btw what was the name of that config file?
+</code></pre>
+<p>特点：</p>
+<ul>
+<li>可见完整对话</li>
+<li>无工具访问</li>
+<li>单次响应</li>
+<li>临时的（不在历史中）</li>
+</ul>
+<h3>任务列表</h3>
+<ul>
+<li>按 <code>Ctrl+T</code> 切换</li>
+<li>显示 pending/in-progress/complete</li>
+<li>压缩后保持</li>
+<li>通过 <code>CLAUDE_CODE_TASK_LIST_ID</code> 共享</li>
+</ul>
+<h3>PR 审查状态</h3>
+<p>页脚显示带颜色下划线的 PR 链接：</p>
+<ul>
+<li>绿色：已批准</li>
+<li>黄色：待定</li>
+<li>红色：要求更改</li>
+<li>灰色：草稿</li>
+<li>紫色：已合并</li>
+</ul>
+<hr />
+<h2>15. 检查点与回溯</h2>
+<h3>工作原理</h3>
+<ul>
+<li>每个用户提示创建检查点</li>
+<li>跟踪 Claude 进行的文件编辑</li>
+<li>跨会话持久化</li>
+<li>30 天后自动清理</li>
+</ul>
+<h3>回溯操作</h3>
+<p>按 <code>Esc+Esc</code> 或使用 <code>/rewind</code>：</p>
+<ul>
+<li><strong>恢复代码和对话</strong>：同时还原</li>
+<li><strong>恢复对话</strong>：保留当前代码</li>
+<li><strong>恢复代码</strong>：保留对话</li>
+<li><strong>从这里总结</strong>：压缩到摘要</li>
+</ul>
+<h3>限制</h3>
+<ul>
+<li>不跟踪 Bash 命令更改</li>
+<li>不跟踪外部更改</li>
+<li>不能替代版本控制</li>
+</ul>
+<hr />
+<h2>16. 沙箱安全</h2>
+<h3>入门</h3>
+<p><strong>macOS：</strong> 开箱即用（Seatbelt）</p>
+<p><strong>Linux/WSL2：</strong></p>
+<pre><code>sudo apt-get install bubblewrap socat  # Ubuntu/Debian
+sudo dnf install bubblewrap socat      # Fedora
+</code></pre>
+<p><strong>启用：</strong> <code>/sandbox</code> 命令或设置</p>
+<h3>模式</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Auto-allow</strong></td>
+<td>沙箱命令无需提示运行</td>
+</tr>
+<tr>
+<td><strong>Regular permissions</strong></td>
+<td>沙箱命令经过权限流程</td>
+</tr>
+</tbody>
+</table>
+<h3>文件系统隔离</h3>
+<ul>
+<li>默认写入：仅当前工作目录</li>
+<li>默认读取：除拒绝路径外的整个计算机</li>
+<li>通过 <code>sandbox.filesystem.allowWrite</code> 配置</li>
+</ul>
+<h3>网络隔离</h3>
+<ul>
+<li>通过代理控制</li>
+<li>域名白名单</li>
+<li>新域名确认</li>
+<li>所有子进程综合覆盖</li>
+</ul>
+<h3>安全优势</h3>
+<ul>
+<li>防止提示注入</li>
+<li>减少攻击面</li>
+<li>OS 级强制执行</li>
+<li>所有子进程继承限制</li>
+</ul>
+<h3>限制</h3>
+<ul>
+<li>性能开销（很小）</li>
+<li>某些工具需要配置</li>
+<li>平台：macOS, Linux, WSL2（非 WSL1）</li>
+<li>不适用于：内置文件工具、计算机使用</li>
+</ul>
+<hr />
+<h2>常用工作流程</h2>
+<h3>获取代码库概览</h3>
+<pre><code>给我一个这个代码库的概述
+解释主要架构模式
+这个项目使用了哪些技术？
+</code></pre>
+<h3>修复 Bug</h3>
+<pre><code>运行 npm test 时出现错误
+修复登录bug，用户输入错误凭据后看到空白屏幕
+修复 user.ts 中的 @ts-ignore
+</code></pre>
+<h3>重构代码</h3>
+<pre><code>在代码库中找到已弃用的 API 用法
+将 utils.js 重构为使用 ES2024 特性
+运行重构后的代码测试
+</code></pre>
+<h3>编写测试</h3>
+<pre><code>为计算器函数编写单元测试
+添加边界条件的测试用例
+运行新测试并修复任何失败
+</code></pre>
+<h3>Git 操作</h3>
+<pre><code>查看我改动了哪些文件？
+用描述性消息提交我的更改
+创建一个名为 feature/quickstart 的新分支
+显示最近5次提交
+帮助我解决合并冲突
+</code></pre>
+<h3>创建 Pull Request</h3>
+<pre><code>总结我做的更改
+创建一个 PR
+用更多上下文增强 PR 描述
+</code></pre>
+<h3>使用计划模式</h3>
+<pre><code># 以计划模式启动
+claude --permission-mode plan
+
+# 或在会话中切换
+Shift+Tab（循环切换到计划模式）
+</code></pre>
+<h3>处理图片</h3>
+<ul>
+<li>将图片拖放到 CLI 中</li>
+<li>使用 <code>Ctrl+V</code> 粘贴</li>
+<li>通过路径引用：<code>分析这张图片：/path/to/image.png</code></li>
+</ul>
+<h3>使用 @ 引用文件</h3>
+<pre><code>解释 @src/utils/auth.js
+@src/components 的结构是什么？
+</code></pre>
+<h3>并行开发</h3>
+<pre><code>claude --worktree feature-auth   # 创建 worktree + 分支
+claude --worktree bugfix-123    # 另一个并行会话
+</code></pre>
+<h3>管道和脚本用法</h3>
+<pre><code>cat error.log | claude -p "解释根本原因"
+claude -p --output-format json "分析代码" &gt; output.json
+git diff main | claude -p "审查安全问题"
+</code></pre>
+<hr />
+<h2>官方文档资源</h2>
+<ul>
+<li><a href="https://code.claude.com/docs/en/overview">Claude Code 概览</a></li>
+<li><a href="https://code.claude.com/docs/en/quickstart">快速入门</a></li>
+<li><a href="https://code.claude.com/docs/en/cli-reference">CLI 参考</a></li>
+<li><a href="https://code.claude.com/docs/en/commands">命令参考</a></li>
+<li><a href="https://code.claude.com/docs/en/keybindings">键盘快捷键</a></li>
+<li><a href="https://code.claude.com/docs/en/interactive-mode">交互模式</a></li>
+<li><a href="https://code.claude.com/docs/en/settings">设置</a></li>
+<li><a href="https://code.claude.com/docs/en/best-practices">最佳实践</a></li>
+<li><a href="https://code.claude.com/docs/en/common-workflows">常用工作流程</a></li>
+<li><a href="https://code.claude.com/docs/en/memory">记忆 (CLAUDE.md)</a></li>
+<li><a href="https://code.claude.com/docs/en/skills">技能</a></li>
+<li><a href="https://code.claude.com/docs/en/hooks">钩子参考</a></li>
+<li><a href="https://code.claude.com/docs/en/env-vars">环境变量</a></li>
+<li><a href="https://code.claude.com/docs/en/agent-sdk/overview">Agent SDK</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>キキモラ-奇奇莫拉</name>
+    </author>
+    <category term="工具"></category>
   </entry>
   <entry>
     <title>文档编写规范</title>
@@ -2110,8 +4922,9 @@ A 明显更频繁。</li>
 <li>本章讨论多种机制，以便确保共享同一逻辑地址空的协作进程的有序进行，从而维护数据的一致性。</li>
 </ul>
 </li>
-<li><strong>未完待续喵 ~</strong></li>
+<li></li>
 </ul>
+<p><strong>未完待续喵 ~</strong></p>
 ]]></content>
     <author>
       <name>キキモラ-奇奇莫拉</name>

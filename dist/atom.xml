@@ -5,7 +5,7 @@
   <link href="https://qiqimora.cn/" rel="alternate" type="text/html"/>
   <link href="https://qiqimora.cn/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://qiqimora.cn/</id>
-  <updated>2026-04-13T17:26:28.729Z</updated>
+  <updated>2026-05-27T17:47:24.285Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>清单（待完成）</title>
@@ -31,6 +31,1630 @@
       <name>キキモラ-奇奇莫拉</name>
     </author>
     <category term="其他"></category>
+  </entry>
+  <entry>
+    <title>Astro 博客零基础上手指南</title>
+    <link href="https://qiqimora.cn/posts/astro-beginners-guide/" rel="alternate" type="text/html"/>
+    <id>https://qiqimora.cn/posts/astro-beginners-guide/</id>
+    <published>2026-05-28T00:00:00.000Z</published>
+    <updated>2026-05-28T00:00:00.000Z</updated>
+    <summary>面向完全没有前端项目经验的新手，从安装环境到部署上线，一步步教你接手并定制一个 Astro 博客。包含项目结构讲解、完成度分析、代码走读和学习路线图。</summary>
+    <content type="html"><![CDATA[<blockquote>
+<p>如果你刚接手一个半成品的 Astro 博客项目，对 Astro 一无所知，不知道从哪下手——这篇文章就是为你写的。不需要任何前端基础，只要会在电脑上装软件、敲命令行，就能跟着一步步把博客跑起来。</p>
+</blockquote>
+<hr />
+<h2>目录</h2>
+<ol>
+<li><a href="#1-%E8%BF%99%E4%B8%AA%E9%A1%B9%E7%9B%AE%E6%98%AF%E4%BB%80%E4%B9%88">这个项目是什么</a></li>
+<li><a href="#2-%E4%BD%A0%E5%BF%85%E9%A1%BB%E7%90%86%E8%A7%A3%E7%9A%84%E5%9B%9B%E4%B8%AA%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5">你必须理解的四个核心概念</a></li>
+<li><a href="#3-%E9%A1%B9%E7%9B%AE%E5%AE%8C%E6%88%90%E5%BA%A6%E4%B8%80%E8%A7%88">项目完成度一览</a></li>
+<li><a href="#4-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87">环境准备</a></li>
+<li><a href="#5-%E7%AC%AC%E4%B8%80%E6%AC%A1%E8%BF%90%E8%A1%8C">第一次运行</a></li>
+<li><a href="#6-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%94%B9%E5%8A%A8%E6%8A%8A%E5%8D%9A%E5%AE%A2%E5%8F%98%E6%88%90%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84">第一个改动：把博客变成你自己的</a></li>
+<li><a href="#7-%E5%A6%82%E4%BD%95%E5%86%99%E6%96%87%E7%AB%A0">如何写文章</a></li>
+<li><a href="#8-%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E9%A1%B5%E9%9D%A2%E5%92%8C%E5%AF%BC%E8%88%AA%E6%A0%8F">如何添加页面和导航栏</a></li>
+<li><a href="#9-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E4%BB%A3%E7%A0%81%E8%B5%B0%E8%AF%BB">深入理解：代码走读</a></li>
+<li><a href="#10-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8">常用命令速查表</a></li>
+<li><a href="#11-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5">常见问题排查</a></li>
+<li><a href="#12-%E6%94%B9%E4%BB%80%E4%B9%88%E6%89%BE%E5%93%AA%E4%B8%AA%E6%96%87%E4%BB%B6%E9%80%9F%E6%9F%A5%E8%A1%A8">改什么→找哪个文件（速查表）</a></li>
+<li><a href="#13-%E9%83%A8%E7%BD%B2%E5%88%B0%E7%BA%BF%E4%B8%8A">部署到线上</a></li>
+<li><a href="#14-%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF%E5%9B%BE">学习路线图</a></li>
+</ol>
+<hr />
+<h2>1. 这个项目是什么</h2>
+<h3>1.1 用"印刷厂"来类比</h3>
+<p>把这个 Astro 博客想象成一家<strong>印刷厂</strong>，你的博客就是一本<strong>杂志</strong>：</p>
+<ul>
+<li>你提供<strong>文章</strong>（Markdown 文件）和<strong>设计模板</strong>（Astro 组件）</li>
+<li>Astro 印刷厂把这些东西<strong>印成一本静态的杂志</strong>（纯 HTML 文件）</li>
+<li>读者打开你的网站时，拿到的就是这本已经印好的杂志，<strong>翻开就能看，不需要等待加载</strong></li>
+</ul>
+<p>这和 React / Vue 这类框架有本质区别——那些更像是<strong>把印刷机搬到读者家里</strong>，让读者的浏览器自己现场印。Astro 则是<strong>提前印好</strong>，读者直接看成品。所以 Astro 网站通常<strong>极快</strong>。</p>
+<h3>1.2 技术组成（用房子类比）</h3>
+<table>
+<thead>
+<tr>
+<th>技术</th>
+<th>角色</th>
+<th>类比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Astro 5</strong></td>
+<td>框架（骨架）</td>
+<td>房子的钢筋混凝土结构，决定房间怎么布局</td>
+</tr>
+<tr>
+<td><strong>Svelte 5</strong></td>
+<td>交互组件</td>
+<td>房子里能"动"的东西：电灯开关、可拖拽的家具</td>
+</tr>
+<tr>
+<td><strong>Tailwind CSS 4</strong></td>
+<td>样式</td>
+<td>房子的装修和配色</td>
+</tr>
+<tr>
+<td><strong>Markdown</strong></td>
+<td>文章格式</td>
+<td>你用记事本写的内容</td>
+</tr>
+</tbody>
+</table>
+<h3>1.3 这个博客有什么功能</h3>
+<ul>
+<li>写文章（支持 Markdown、数学公式 KaTeX、流程图 Mermaid）</li>
+<li>首页文章列表 + 分页（支持列表/网格两种布局）</li>
+<li>归档、分类、标签</li>
+<li>友链、关于、设备展示页面</li>
+<li>番剧追踪、日记、相册、画廊</li>
+<li>项目展示、技能展示、时间线</li>
+<li>评论区（Twikoo，默认关闭）</li>
+<li>Live2D 看板娘猫娘（默认开启）</li>
+<li>暗色/亮色主题切换 + 自定义主题色</li>
+<li>中日英三语界面（基于 i18n 翻译系统）</li>
+<li>页面切换动画（Swup 驱动，点链接不会闪白屏）</li>
+<li>RSS 订阅 + Atom 订阅 + 站点地图</li>
+<li>文章密码保护 + 文章别名/自定义链接</li>
+<li>樱花飘落特效（默认关闭）</li>
+<li>全屏壁纸模式（可替代 Banner 模式）</li>
+<li>图片灯箱（FancyApps UI）</li>
+<li>代码块折叠 + 行号 + 自定义语言标签</li>
+<li>Banner 轮播 + 水波 SVG 效果</li>
+<li>分享海报生成</li>
+<li>OG 图片自动生成（可选）</li>
+</ul>
+<hr />
+<h2>2. 你必须理解的四个核心概念</h2>
+<p>Astro 有四个核心概念。理解这四个，你就理解了 Astro 在做什么。下面每个概念都<strong>结合这个项目的实际代码</strong>来讲。</p>
+<h3>2.1 页面（Pages）——"杂志的每一页"</h3>
+<p><strong>一句话：</strong> 浏览器地址栏里能访问到的每一个网址，都对应 <code>src/pages/</code> 下的一个文件。</p>
+<p><strong>在这个项目里：</strong></p>
+<pre><code>src/pages/
+├── [...page].astro          → 首页 /  以及  /page/2/  /page/3/  （分页列表）
+├── [permalink].astro        → 自定义链接文章（启用 permalink 功能时使用）
+├── posts/
+│   └── [...slug].astro      → /posts/hello_world/  （每篇文章的详情页）
+├── about.astro              → /about/
+├── archive.astro            → /archive/
+├── friends.astro            → /friends/
+├── anime.astro              → /anime/
+├── diary.astro              → /diary/
+├── projects.astro           → /projects/
+├── skills.astro             → /skills/
+├── timeline.astro           → /timeline/
+├── albums.astro             → /albums/
+├── albums/[id]/index.astro  → /albums/相册名/  （相册详情页）
+├── gallery.astro            → /gallery/
+├── devices.astro            → /devices/
+├── 404.astro                → 页面不存在时显示
+├── rss.astro                → /rss/  （RSS 可视化页面）
+├── atom.astro               → /atom.xml  （Atom 订阅源）
+└── rss.xml.ts               → /rss.xml  （RSS 订阅源）
+</code></pre>
+<p><strong>规则：</strong> 文件在 <code>pages/</code> 下的路径，去掉 <code>.astro</code> 后缀，就是网址。就像文件夹里放一个 <code>about.astro</code>，最后印出来就是 <code>/about/</code> 这一页。</p>
+<p><strong>特殊文件名说明：</strong></p>
+<ul>
+<li><code>[...page].astro</code> — 方括号 = "这个值是动态的"，<code>...</code> = "可以有多层路径"。用来生成首页 + 分页。</li>
+<li><code>[permalink].astro</code> — 处理自定义固定链接，让文章可以在根目录下访问（如 <code>/my-post/</code>）。</li>
+<li><code>posts/[...slug].astro</code> — <code>slug</code> 是文章的标识符，最终生成 <code>/posts/hello_world/</code>。</li>
+<li><code>albums/[id]/index.astro</code> — <code>[id]</code> 是相册 ID，生成 <code>/albums/相册名/</code>。</li>
+</ul>
+<h3>2.2 布局（Layouts）——"杂志的版式模板"</h3>
+<p><strong>一句话：</strong> 布局是页面的"外壳"。一本杂志每一页都有相同的页眉、页脚、侧边栏——布局就是把这些公共部分写好，每个页面只填中间的内容。</p>
+<p><strong>在这个项目里：</strong> 布局是<strong>嵌套</strong>关系，由外到内：</p>
+<pre><code>MainGridLayout.astro        ← 外层壳：导航栏 + Banner + 侧边栏 + 页脚
+  └── Layout.astro          ← 内层壳：&lt;html&gt; &lt;head&gt; &lt;body&gt;、全局样式、Pio 看板娘、音乐播放器
+        └── 具体页面内容    ← 通过 &lt;slot /&gt; 填入
+</code></pre>
+<blockquote>
+<p><strong>注意：</strong> 两个布局文件的嵌套方向和直觉可能相反——<code>MainGridLayout</code> 是"大框架"（导航栏、侧边栏、页脚都在这里），它内部引用了 <code>Layout</code>（HTML 文档头、全局脚本、看板娘等）。所以写页面时，直接使用 <code>MainGridLayout</code> 即可，不需要关心 <code>Layout</code>。</p>
+</blockquote>
+<p>打开任意一个页面，比如 <code>about.astro</code>，你会看到这样的模式：</p>
+<pre><code>---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+---
+
+&lt;MainGridLayout title="关于" description="关于本站" lang="zh_CN"&gt;
+  &lt;!-- 这里面写的内容，会填入 MainGridLayout 的 &lt;slot /&gt; 位置 --&gt;
+  &lt;main&gt;
+    &lt;h1&gt;关于本站&lt;/h1&gt;
+    &lt;p&gt;这里写自我介绍...&lt;/p&gt;
+  &lt;/main&gt;
+&lt;/MainGridLayout&gt;
+</code></pre>
+<p><strong><code>&lt;slot /&gt;</code> 是什么？</strong> 就是一个"洞"。布局文件挖好洞，每个页面把自己的内容往洞里填。Astro 会自动把洞里的内容组装到正确的位置。</p>
+<h3>2.3 组件（Components）——"杂志的可复用零件"</h3>
+<p><strong>一句话：</strong> 组件是可以重复使用的 UI 零件。导航栏、文章卡片、分页按钮——这些东西在多个页面出现，做成组件后哪里需要就往哪里放。</p>
+<p><strong>在这个项目里：</strong> <code>src/components/</code> 下按功能分类：</p>
+<pre><code>src/components/
+├── Navbar.astro              ← 顶部导航栏（每个页面都用）
+├── Footer.astro              ← 底部页脚（每个页面都用）
+├── PostCard.astro            ← 文章卡片（首页列表里每篇文章的样子）
+├── PostMeta.astro            ← 文章元信息行（日期、标签、分类）
+├── PostPage.astro            ← 文章列表容器
+├── Encryptor.astro           ← 文章加密/解密组件
+├── PasswordProtection.astro  ← 密码保护页面组件
+├── GlobalStyles.astro        ← 全局样式注入
+├── ConfigCarrier.astro       ← 配置数据桥接（将 Astro 配置传递给前端 JS）
+├── CustomScrollbar.astro     ← Markdown 内 KaTeX 公式滚动条
+├── TypewriterText.astro      ← 打字机效果组件
+│
+├── control/                  ← 控制类组件
+│   ├── Pagination.astro      ← 分页按钮（上一页 / 下一页）
+│   ├── BackToTop.astro       ← 返回顶部按钮
+│   ├── ButtonLink.astro      ← 按钮样式链接
+│   ├── ButtonTag.astro       ← 标签样式按钮
+│   └── FloatingTOC.astro     ← 悬浮目录按钮
+│
+├── layout/                   ← 布局类组件
+│   └── RightSideBar.astro    ← 右侧边栏布局管理器
+│
+├── widget/                   ← 侧边栏小部件
+│   ├── Profile.astro         ← 个人资料卡片（头像、名字、社交链接）
+│   ├── Announcement.astro    ← 公告面板
+│   ├── Categories.astro      ← 分类列表
+│   ├── Tags.astro            ← 标签云
+│   ├── TOC.astro             ← 文章目录
+│   ├── Calendar.astro        ← 日历（按日期高亮有文章的日子）
+│   ├── SiteStats.astro       ← 站点统计
+│   ├── SideBar.astro         ← 侧边栏容器
+│   ├── RightSideBar.astro    ← 右侧栏容器
+│   ├── WidgetLayout.astro    ← 小部件通用布局
+│   ├── NavMenuPanel.astro    ← 移动端导航菜单面板
+│   ├── DropdownMenu.astro    ← 下拉菜单组件
+│   ├── DisplaySettings.svelte ← 显示设置面板（主题色、布局切换）
+│   ├── ProjectCard.astro     ← 项目卡片
+│   ├── SkillCard.astro       ← 技能卡片
+│   ├── StatCard.astro        ← 统计数字卡片
+│   └── TimelineItem.astro    ← 时间线条目
+│
+├── skills/                   ← 技能展示组件
+│   └── SkillsChart.astro     ← 技能雷达图
+│
+├── comment/                  ← 评论系统
+│   ├── index.astro           ← 评论统一入口（控制评论系统加载）
+│   └── Twikoo.astro          ← Twikoo 评论组件
+│
+├── misc/                     ← 杂项组件
+│   ├── Markdown.astro        ← Markdown 内容渲染器
+│   ├── License.astro         ← 文章底部许可证声明
+│   ├── Icon.astro            ← 图标组件
+│   ├── IconifyLoader.astro   ← Iconify 图标加载器
+│   ├── ImageWrapper.astro    ← 图片包装器（支持灯箱）
+│   ├── FullscreenWallpaper.astro ← 全屏壁纸组件
+│   ├── AnimationTest.astro   ← 动画测试组件
+│   └── SharePoster.svelte    ← 分享海报生成（Svelte）
+│
+├── Search.svelte             ← 搜索面板（Svelte，Pagefind 驱动）
+├── ArchivePanel.svelte       ← 归档页面搜索过滤面板（Svelte）
+├── LayoutSwitchButton.svelte ← 文章列表布局切换按钮（Svelte）
+├── LightDarkSwitch.svelte    ← 明暗主题切换开关（Svelte）
+├── MobileTOC.svelte          ← 移动端悬浮目录（Svelte）
+└── WallpaperSwitch.svelte    ← 壁纸模式切换按钮（Svelte）
+</code></pre>
+<p><strong>注意：</strong> 大部分组件是 <code>.astro</code> 文件（静态的），但一些需要用户交互的组件是 <code>.svelte</code> 文件（动态的）。区分规则很简单：</p>
+<ul>
+<li><strong>只是展示内容</strong> → <code>.astro</code>（印刷时就定死了，体积小、速度快）</li>
+<li><strong>需要点击、打字、拖拽</strong> → <code>.svelte</code>（读者可以操作）</li>
+</ul>
+<p>这就是 Astro 核心设计理念——<strong>"岛屿架构"</strong>：页面 99% 是静态 HTML，只有极少数需要交互的地方（"岛屿"）才加载 JavaScript。</p>
+<h3>2.4 内容集合（Content Collections）——"杂志的文章库"</h3>
+<p><strong>一句话：</strong> 你只管往文件夹里丢 Markdown 文件，Astro 自动帮你整理、验证格式、提供查询接口。</p>
+<p><strong>在这个项目里：</strong> <code>src/content/</code> 下有两个集合：</p>
+<pre><code>src/content/
+├── posts/             ← 博客文章集合
+│   ├── hello_world.md
+│   ├── MySQL整理/
+│   │   └── index.md
+│   └── astro-beginners-guide/
+│       └── index.md
+└── spec/              ← 特殊页面集合
+    ├── about.md       ← 关于页面的内容
+    └── friends.md     ← 友链页面的内容
+</code></pre>
+<p>内容集合的"规矩"定义在 <code>src/content.config.ts</code>（注意：<strong>不是</strong> <code>src/content/config.ts</code>，这是 Astro 5 的变化）：</p>
+<pre><code>// src/content.config.ts  — Astro 5 使用新的 content layer API
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
+
+const postsCollection = defineCollection({
+  // glob loader：从 src/content/posts/ 下加载所有 .md 文件
+  loader: glob({ pattern: "**/*.md", base: "./src/content/posts" }),
+  schema: z.object({
+    title: z.string(),                           // 必须：文章标题
+    published: z.date(),                         // 必须：发布日期
+    description: z.string().optional().default(""),  // 可选：描述
+    image: z.string().optional().default(""),    // 可选：封面图
+    tags: z.array(z.string()).optional().default([]),  // 可选：标签
+    category: z.string().optional().default(""), // 可选：分类
+    draft: z.boolean().optional().default(false),// 可选：草稿
+    pinned: z.boolean().optional().default(false),// 可选：置顶
+    lang: z.string().optional().default(""),     // 可选：文章语言
+    author: z.string().optional().default(""),   // 可选：作者名
+    updated: z.date().optional(),                // 可选：更新日期
+    encrypted: z.boolean().optional().default(false), // 可选：加密
+    password: z.string().optional().default(""), // 可选：加密密码
+    alias: z.string().optional(),                // 可选：文章别名
+    permalink: z.string().optional(),            // 可选：自定义固定链接
+    // ...更多字段见实际文件
+  }),
+});
+</code></pre>
+<p><strong>好处：</strong> 如果你某篇文章忘了写 <code>title</code>，Astro 在构建时会直接报错告诉你，而不是悄悄生成一个坏页面。</p>
+<p><strong>和旧版本的区别：</strong> 在 Astro 4 及以前，内容配置放在 <code>src/content/config.ts</code>，使用 <code>type: 'content'</code> 加载器。Astro 5 引入了新的 <strong>Content Layer</strong> API，改用 <code>src/content.config.ts</code> + <code>glob</code> loader 的方式。如果你在网上搜到旧教程，注意分辨。</p>
+<hr />
+<h2>3. 项目完成度一览</h2>
+<p>下面是我逐项检查的结果。</p>
+<h3>3.1 核心功能</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>首页文章列表 + 分页</td>
+<td>✅</td>
+<td><code>[...page].astro</code> + <code>PostCard</code> + <code>Pagination</code>，支持列表/网格两种布局</td>
+</tr>
+<tr>
+<td>文章详情页</td>
+<td>✅</td>
+<td>支持加密、目录、许可证、封面图、前后篇导航、分享海报</td>
+</tr>
+<tr>
+<td>导航栏（多级菜单）</td>
+<td>✅</td>
+<td>桌面端下拉菜单 + 移动端抽屉，都可用</td>
+</tr>
+<tr>
+<td>侧边栏（左/右双侧）</td>
+<td>✅</td>
+<td>Profile + 公告 + 分类 + 标签 + 站点统计 + 日历，可排序</td>
+</tr>
+<tr>
+<td>明暗主题切换</td>
+<td>✅</td>
+<td>含色相选择器、自定义主题色</td>
+</tr>
+<tr>
+<td>全文搜索</td>
+<td>✅</td>
+<td>Pagefind 驱动，<code>Search.svelte</code> 面板</td>
+</tr>
+<tr>
+<td>页面过渡动画</td>
+<td>✅</td>
+<td>Swup 集成，点链接无白屏闪现</td>
+</tr>
+<tr>
+<td>代码高亮</td>
+<td>✅</td>
+<td>Expressive Code + 自定义语言标签、复制按钮、折叠、行号</td>
+</tr>
+<tr>
+<td>Markdown 扩展</td>
+<td>✅</td>
+<td>KaTeX 数学公式 + Mermaid 流程图 + Admonition 提示框 + GitHub 卡片</td>
+</tr>
+<tr>
+<td>RSS + Atom 订阅</td>
+<td>✅</td>
+<td><code>/rss.xml</code> + <code>/atom.xml</code> + <code>/rss/</code> 可视化页面</td>
+</tr>
+<tr>
+<td>站点地图</td>
+<td>✅</td>
+<td><code>@astrojs/sitemap</code> 自动生成</td>
+</tr>
+<tr>
+<td>Banner 轮播 + 水波效果</td>
+<td>✅</td>
+<td>桌面/移动端独立图片轮播，打字机副标题，水波 SVG</td>
+</tr>
+<tr>
+<td>国际化（中/英/日）</td>
+<td>✅</td>
+<td>界面文本已翻译三种语言</td>
+</tr>
+<tr>
+<td>Live2D 看板娘</td>
+<td>✅</td>
+<td>Pio 猫娘可拖拽、有对话、有触摸反馈</td>
+</tr>
+<tr>
+<td>归档页面（搜索过滤）</td>
+<td>✅</td>
+<td><code>ArchivePanel.svelte</code> 支持关键词过滤</td>
+</tr>
+<tr>
+<td>404 页面</td>
+<td>✅</td>
+<td>自定义 404</td>
+</tr>
+<tr>
+<td>全屏壁纸模式</td>
+<td>✅</td>
+<td>可切换 Banner / 全屏壁纸 / 无壁纸三种模式</td>
+</tr>
+<tr>
+<td>图片灯箱</td>
+<td>✅</td>
+<td>FancyApps UI 集成，支持相册、文章内图片浏览</td>
+</tr>
+<tr>
+<td>分享海报生成</td>
+<td>✅</td>
+<td>支持生成文章分享海报</td>
+</tr>
+<tr>
+<td>文章自定义链接</td>
+<td>✅</td>
+<td>支持 <code>alias</code> 别名和 <code>permalink</code> 自定义固定链接</td>
+</tr>
+</tbody>
+</table>
+<h3>3.2 内容相关</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>博客文章</td>
+<td>✅</td>
+<td>有约 10 篇学习笔记文章</td>
+</tr>
+<tr>
+<td>关于页面</td>
+<td>⚠️</td>
+<td>内容描述的是原主题特性，<strong>你需要改成你自己的介绍</strong></td>
+</tr>
+<tr>
+<td>友链页面</td>
+<td>⚠️</td>
+<td><code>data/friends.ts</code> 已配置了少量友链，但 <code>spec/friends.md</code> 内容为空</td>
+</tr>
+</tbody>
+</table>
+<h3>3.3 数据展示页面</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>项目展示（<code>/projects/</code>）</td>
+<td>⚠️</td>
+<td><code>data/projects.ts</code> 已有示例数据，但需要替换为你的项目</td>
+</tr>
+<tr>
+<td>技能展示（<code>/skills/</code>）</td>
+<td>⚠️</td>
+<td><code>data/skills.ts</code> 已有示例数据，但需要补充更多技能</td>
+</tr>
+<tr>
+<td>时间线（<code>/timeline/</code>）</td>
+<td>⚠️</td>
+<td><code>data/timeline.ts</code> 已有示例数据，需要改为你的经历</td>
+</tr>
+<tr>
+<td>番剧追踪（<code>/anime/</code>）</td>
+<td>⚠️</td>
+<td><code>data/anime.ts</code> 可从 Bangumi/B站 获取数据，需配置</td>
+</tr>
+<tr>
+<td>设备展示（<code>/devices/</code>）</td>
+<td>⚠️</td>
+<td><code>data/devices.ts</code> 需要补充你的设备信息</td>
+</tr>
+<tr>
+<td>日记（<code>/diary/</code>）</td>
+<td>⚠️</td>
+<td><code>data/diary.ts</code> 需要填充内容</td>
+</tr>
+<tr>
+<td>相册（<code>/albums/</code>）</td>
+<td>⚠️</td>
+<td>页面完整，但 <code>public/images/albums/</code> 需要填充图片</td>
+</tr>
+<tr>
+<td>画廊（<code>/gallery/</code>）</td>
+<td>⚠️</td>
+<td>页面完整，但图片需来自相册</td>
+</tr>
+</tbody>
+</table>
+<h3>3.4 可选功能（默认关闭，需要配置才能用）</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>评论区</td>
+<td>⚠️</td>
+<td>Twikoo 组件已集成，默认关闭，需填写 <code>envId</code></td>
+</tr>
+<tr>
+<td>自定义页脚</td>
+<td>⚠️</td>
+<td><code>footerConfig.enable = false</code></td>
+</tr>
+<tr>
+<td>OG 图片自动生成</td>
+<td>⚠️</td>
+<td>默认关闭，开启后构建很慢</td>
+</tr>
+<tr>
+<td>Bangumi 番剧数据同步</td>
+<td>⚠️</td>
+<td>需配置 <code>bangumi.userId</code>，默认关闭</td>
+</tr>
+</tbody>
+</table>
+<h3>3.5 总结</h3>
+<p>这个项目<strong>架子上已经搭好了大部分</strong>。核心功能（首页、文章、导航、搜索、主题切换）全部就绪，数据页面也已有示例数据。</p>
+<p><strong>你可以立刻做的事：</strong> 改配置、写文章，博客就能用。</p>
+<p><strong>需要花时间填的坑：</strong> 数据页面（projects, skills, timeline 等）的示例数据需要替换为你自己的。</p>
+<hr />
+<h2>4. 环境准备</h2>
+<h3>4.1 Node.js（必须）</h3>
+<p>Node.js 是 JavaScript 的运行环境。这个项目需要它。</p>
+<ol>
+<li>打开 <a href="https://nodejs.org">https://nodejs.org</a></li>
+<li>下载 <strong>LTS 版本</strong>（长期支持版），版本 ≥ 18</li>
+<li>双击安装，一路点"下一步"</li>
+<li>打开终端（命令行），验证：</li>
+</ol>
+<pre><code>node -v
+# 应该输出类似 v20.11.0
+
+npm -v
+# 应该输出类似 10.2.4
+</code></pre>
+<h3>4.2 pnpm（必须）</h3>
+<p>这个项目用 pnpm 作为包管理器，不能用 npm 或 yarn。</p>
+<pre><code># 全局安装 pnpm（只需执行一次）
+npm install -g pnpm
+
+# 验证
+pnpm -v
+# 应该输出类似 10.22.0
+</code></pre>
+<blockquote>
+<p><strong>为什么必须用 pnpm？</strong> <code>package.json</code> 里写死了 <code>"packageManager": "pnpm@10.22.0"</code>，用 npm 会直接报错拒绝运行。</p>
+</blockquote>
+<h3>4.3 Git（推荐）</h3>
+<p>用于版本管理。如果要托管到 GitHub，就需要它。</p>
+<ul>
+<li>下载：<a href="https://git-scm.com">https://git-scm.com</a></li>
+<li>验证：<code>git --version</code></li>
+</ul>
+<h3>4.4 代码编辑器（推荐 VS Code）</h3>
+<ul>
+<li>下载：<a href="https://code.visualstudio.com">https://code.visualstudio.com</a></li>
+<li>推荐安装插件：<strong>Astro</strong>（官方插件，语法高亮 + 自动补全）</li>
+</ul>
+<hr />
+<h2>5. 第一次运行</h2>
+<h3>5.1 三步启动</h3>
+<p>打开终端，<code>cd</code> 到项目根目录（包含 <code>package.json</code> 的文件夹），依次执行：</p>
+<pre><code># 第一步：安装依赖（只需运行一次，以后不用重复）
+pnpm install
+
+# 第二步：同步内容仓库（从 Git 子模块拉取文章数据）
+pnpm sync-content
+
+# 第三步：启动开发服务器
+pnpm dev
+</code></pre>
+<p>成功的话会显示：</p>
+<pre><code>┃ Local    http://localhost:4321/
+</code></pre>
+<p>在浏览器打开 <code>http://localhost:4321/</code>，你应该看到博客首页了。</p>
+<h3>5.2 开发服务器的特点</h3>
+<ul>
+<li>改代码后<strong>浏览器自动刷新</strong>，不需要手动 F5</li>
+<li>只在你的电脑上运行，别人看不到</li>
+<li>按 <code>Ctrl + C</code> 停止</li>
+</ul>
+<h3>5.3 如果报错了</h3>
+<p>把<strong>终端的完整报错信息</strong>复制下来。常见情况：</p>
+<table>
+<thead>
+<tr>
+<th>报错关键字</th>
+<th>可能原因</th>
+<th>自己可以先试</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pnpm: command not found</code></td>
+<td>没装 pnpm</td>
+<td><code>npm install -g pnpm</code></td>
+</tr>
+<tr>
+<td><code>node: command not found</code></td>
+<td>没装 Node.js</td>
+<td>去 nodejs.org 下载安装</td>
+</tr>
+<tr>
+<td><code>Cannot find module</code></td>
+<td>依赖没装全</td>
+<td>删掉 <code>node_modules/</code>，重跑 <code>pnpm install</code></td>
+</tr>
+<tr>
+<td><code>port 4321 is already in use</code></td>
+<td>端口被占用</td>
+<td><code>pnpm dev --port 3000</code> 换端口</td>
+</tr>
+<tr>
+<td><code>Only pnpm is allowed</code></td>
+<td>用了 npm 命令</td>
+<td>换成 <code>pnpm</code> 开头</td>
+</tr>
+<tr>
+<td><code>sync-content</code> 报错</td>
+<td>内容子模块未初始化</td>
+<td><code>git submodule update --init</code></td>
+</tr>
+</tbody>
+</table>
+<h3>5.4 开发小技巧</h3>
+<ul>
+<li>改完代码不需要手动刷新浏览器，Astro 会自动热更新</li>
+<li><code>draft: true</code> 的文章在 <code>pnpm dev</code> 下可见，<code>pnpm build</code> 后自动隐藏</li>
+<li>改 <code>src/config.ts</code> 后偶尔需要手动刷新（配置变更不一定触发热更新）</li>
+</ul>
+<hr />
+<h2>6. 第一个改动：把博客变成你自己的</h2>
+<p>打开 <code>src/config.ts</code>，这是博客的<strong>总控制面板</strong>。下面按区块说明。</p>
+<h3>6.1 网站标题和副标题</h3>
+<p>找到 <code>siteConfig</code> 对象（约第 25 行）：</p>
+<pre><code>export const siteConfig: SiteConfig = {
+  title: "奇奇莫拉の日记本",       // ← 浏览器标签页标题
+  subtitle: "私人小网站",           // ← 主页副标题
+
+  themeColor: {
+    hue: 185,       // 色相值 0~360（0=红, 120=绿, 240=蓝, 185=青）
+    fixed: false,   // true = 禁止访客切换颜色
+  },
+  // ...
+</code></pre>
+<h3>6.2 网站 URL 和时区</h3>
+<pre><code>  siteURL: "https://qiqimora.cn/",   // ← 改成你的域名
+  siteStartDate: "2025-08-31",       // ← 站点开始运行的日期
+  timeZone: 8,                       // ← 时区，UTC+8 北京时间
+  lang: "zh_CN",                     // ← 默认语言
+</code></pre>
+<h3>6.3 特色页面开关</h3>
+<pre><code>  featurePages: {
+    anime: true,     // 番剧页面
+    diary: true,     // 日记页面
+    friends: true,   // 友链页面
+    projects: true,  // 项目页面
+    skills: true,    // 技能页面
+    timeline: true,  // 时间线页面
+    albums: true,    // 相册页面
+    devices: true,   // 设备页面
+  },
+</code></pre>
+<p>关闭不用的页面可以提升 SEO，关闭后记得在导航栏配置中移除对应链接。</p>
+<h3>6.4 导航栏标题和 Logo</h3>
+<pre><code>  navbarTitle: {
+    mode: "logo",          // "text-icon" 显示图标+文本，"logo" 仅显示Logo
+    text: "MizukiUI",      // 顶栏标题文本
+    icon: "assets/home/home.png",  // 顶栏图标路径
+    logo: "assets/home/default-logo.png",  // Logo 图片路径
+  },
+</code></pre>
+<h3>6.5 Banner 文字（首页顶部大图上的字）</h3>
+<pre><code>  banner: {                      // ← homeText 在 banner 对象下面！
+    // ...（图片配置等）
+    homeText: {
+      enable: true,
+      title: "奇奇莫拉の日记",       // ← 首页大标题
+      subtitle: [                   // ← 副标题（支持多条轮播）
+        "虽然没有什么特别的事，但只要有你在就足够了。",
+        "如今你依然是我的光。",
+        "你啊，不知不觉间就成了我生活的日常。",
+        // ...
+      ],
+      typewriter: {
+        enable: true,     // 打字机效果开关
+        speed: 100,       // 打字速度（毫秒）
+      },
+    },
+  },
+</code></pre>
+<h3>6.6 Banner 图片</h3>
+<p>找到 <code>siteConfig.banner.src</code>：</p>
+<pre><code>  banner: {
+    src: {
+      desktop: [
+        "/assets/desktop-banner/1.webp",
+        // ...
+      ],
+      mobile: [
+        "/assets/mobile-banner/1.webp",
+        // ...
+      ],
+    },
+    position: "center",   // 图片定位：top / center / bottom
+    carousel: {
+      enable: true,       // 轮播开关
+      interval: 4,        // 轮播间隔（秒）
+    },
+    waves: {
+      enable: true,       // 水波效果（性能开销较大）
+    },
+  },
+</code></pre>
+<p>图片存放在 <code>public/assets/desktop-banner/</code> 和 <code>public/assets/mobile-banner/</code> 下。</p>
+<h3>6.7 头像和名字</h3>
+<p>找到 <code>profileConfig</code>（约第 373 行）：</p>
+<pre><code>export const profileConfig: ProfileConfig = {
+  avatar: "assets/images/avatar.webp",  // 头像路径（相对于/src）
+  name: "キキモラ-奇奇莫拉",             // 你的名字（显示在侧边栏）
+  bio: "咱是奇奇莫拉，喜欢看番、画画、写日记",  // 个人简介
+  typewriter: {
+    enable: true,       // 简介打字机效果
+    speed: 80,
+  },
+  links: [                              // 社交链接
+    {
+      name: "Bilibili",
+      icon: "fa7-brands:bilibili",     // ← 注意是 fa7 不是 fa6
+      url: "https://space.bilibili.com/你的ID",
+    },
+    {
+      name: "GitHub",
+      icon: "fa7-brands:github",
+      url: "https://github.com/你的用户名",
+    },
+  ],
+};
+</code></pre>
+<blockquote>
+<p>图标名称可以在 <a href="https://icon-sets.iconify.design/">Iconify</a> 网站上搜索。注意项目中用的是 <code>fa7-brands</code>（Font Awesome 7）前缀。</p>
+</blockquote>
+<h3>6.8 目录配置</h3>
+<pre><code>  toc: {
+    enable: true,               // 启用目录
+    mode: "sidebar",            // "float" 悬浮按钮 | "sidebar" 侧边栏
+    depth: 2,                   // 目录深度（2=显示 h1 和 h2）
+    useJapaneseBadge: true,     // 使用日语假名标记
+  },
+</code></pre>
+<h3>6.9 侧边栏组件</h3>
+<pre><code>export const sidebarLayoutConfig: SidebarLayoutConfig = {
+  properties: [
+    { type: "profile", position: "top" },      // 个人资料
+    { type: "announcement", position: "top" },  // 公告
+    { type: "categories", position: "sticky" }, // 分类
+    { type: "tags", position: "top" },          // 标签
+    { type: "site-stats", position: "top" },    // 站点统计
+    { type: "calendar", position: "top" },      // 日历
+  ],
+  components: {
+    left: ["profile", "announcement", "categories", "tags"],
+    right: ["site-stats", "calendar"],
+  },
+};
+</code></pre>
+<h3>6.10 开关不需要的功能</h3>
+<pre><code>// 关评论
+export const commentConfig = { enable: false };
+
+// 关音乐
+export const musicPlayerConfig = { enable: false };
+
+// 关樱花（默认已关）
+export const sakuraConfig = { enable: false };
+
+// 关看板娘猫娘（默认开启）
+export const pioConfig = { enable: false };
+
+// 关分享
+export const shareConfig = { enable: false };
+
+// 关自定义页脚
+export const footerConfig = { enable: false };
+</code></pre>
+<h3>6.11 字体配置</h3>
+<pre><code>  font: {
+    asciiFont: {
+      fontFamily: "Consola",             // 英文字体
+      enableCompress: true,              // 字体子集优化
+    },
+    cjkFont: {
+      fontFamily: "LXGWWenKaiMono-Regular.ttf",  // 中日韩字体
+      enableCompress: true,
+    },
+  },
+</code></pre>
+<hr />
+<h2>7. 如何写文章</h2>
+<h3>7.1 方法一：用命令创建（推荐）</h3>
+<pre><code>pnpm new-post 我的第一篇文章
+</code></pre>
+<p>这会在 <code>src/content/posts/</code> 下创建 <code>我的第一篇文章.md</code>，填入 frontmatter 模板。</p>
+<h3>7.2 方法二：手动创建</h3>
+<p>在 <code>src/content/posts/</code> 下新建 <code>.md</code> 文件，粘贴：</p>
+<pre><code>---
+title: 我的第一篇文章
+published: 2026-05-28
+description: 文章摘要，会显示在首页卡片上
+image: ''
+tags: [标签1, 标签2]
+category: 分类名
+draft: false
+pinned: false
+lang: zh_CN
+---
+
+在这里写文章正文，支持 Markdown 语法。
+
+## 二级标题
+
+普通文字。**加粗**，*斜体*。
+
+- 列表
+- 列表
+
+&gt; 引用
+
+​```python
+print("代码块")
+​```
+</code></pre>
+<h3>7.3 Frontmatter 字段说明</h3>
+<p>文章顶部 <code>---</code> 之间的内容叫 <strong>frontmatter</strong>（前置元数据）：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>必填</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code></td>
+<td>是</td>
+<td>文章标题</td>
+<td><code>"我的第一篇文章"</code></td>
+</tr>
+<tr>
+<td><code>published</code></td>
+<td>是</td>
+<td>发布日期</td>
+<td><code>2026-05-28</code></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>推荐</td>
+<td>摘要，显示在卡片上</td>
+<td><code>"这篇文章讲了..."</code></td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>否</td>
+<td>标签列表</td>
+<td><code>[前端, Astro]</code></td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>否</td>
+<td>分类</td>
+<td><code>"技术笔记"</code></td>
+</tr>
+<tr>
+<td><code>image</code></td>
+<td>否</td>
+<td>封面图路径</td>
+<td><code>"cover.webp"</code></td>
+</tr>
+<tr>
+<td><code>draft</code></td>
+<td>否</td>
+<td>草稿（<code>true</code> = 生产环境不显示）</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>pinned</code></td>
+<td>否</td>
+<td>置顶（排在前面）</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>lang</code></td>
+<td>否</td>
+<td>文章语言</td>
+<td><code>zh_CN</code></td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td>否</td>
+<td>作者（默认用配置里的名字）</td>
+<td><code>"你的名字"</code></td>
+</tr>
+<tr>
+<td><code>updated</code></td>
+<td>否</td>
+<td>最后更新日期</td>
+<td><code>2026-06-01</code></td>
+</tr>
+<tr>
+<td><code>encrypted</code></td>
+<td>否</td>
+<td>加密文章（配合 <code>password</code> 使用）</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td>否</td>
+<td>加密密码</td>
+<td><code>"123456"</code></td>
+</tr>
+<tr>
+<td><code>alias</code></td>
+<td>否</td>
+<td>文章别名，可生成额外路径</td>
+<td><code>"my-post"</code></td>
+</tr>
+<tr>
+<td><code>permalink</code></td>
+<td>否</td>
+<td>自定义固定链接（优先级高于 alias）</td>
+<td><code>"custom-page"</code></td>
+</tr>
+</tbody>
+</table>
+<h3>7.4 文章文件组织方式</h3>
+<p><strong>方式一：单文件</strong>（适合纯文字文章）</p>
+<pre><code>src/content/posts/
+└── 我的文章.md
+</code></pre>
+<p><strong>方式二：文件夹</strong>（适合包含图片的文章）</p>
+<pre><code>src/content/posts/
+└── 我的文章/
+    ├── index.md       ← 必须叫 index.md
+    ├── cover.png      ← 封面图
+    └── diagram.png    ← 文内插图
+</code></pre>
+<blockquote>
+<p>文件夹模式下，文中引用图片直接写文件名：<code>![示意图](diagram.png)</code></p>
+</blockquote>
+<h3>7.5 特殊语法（Markdown 扩展）</h3>
+<p>这个项目内置了丰富的扩展语法：</p>
+<p><strong>数学公式（KaTeX）：</strong></p>
+<pre><code>行内公式：$E = mc^2$
+
+块级公式：
+$$
+\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+$$
+</code></pre>
+<p><strong>流程图（Mermaid）：</strong></p>
+<pre><code>```mermaid
+graph TD
+    A[开始] --&gt; B{判断}
+    B --&gt;|是| C[执行]
+    B --&gt;|否| D[结束]
+```
+</code></pre>
+<p><strong>提示框（Admonition）：</strong></p>
+<pre><code>:::note
+这是一条普通提示
+:::
+
+:::tip
+这是一条小技巧
+:::
+
+:::warning
+这是一条警告
+:::
+
+:::caution
+需要注意的事项
+:::
+
+:::important
+重要信息
+:::
+</code></pre>
+<p><strong>GitHub 仓库卡片：</strong></p>
+<pre><code>::github{repo="belgnas/belgnas.github.io"}
+</code></pre>
+<hr />
+<h2>8. 如何添加页面和导航栏</h2>
+<h3>8.1 添加一个新页面</h3>
+<p>假设你想加一个 <code>/links/</code> 友链汇总页面。在 <code>src/pages/</code> 下新建 <code>links.astro</code>：</p>
+<pre><code>---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+---
+
+&lt;MainGridLayout title="友链" description="小伙伴们" lang="zh_CN"&gt;
+  &lt;main&gt;
+    &lt;h1&gt;友链&lt;/h1&gt;
+    &lt;p&gt;这里放你的友链内容&lt;/p&gt;
+  &lt;/main&gt;
+&lt;/MainGridLayout&gt;
+</code></pre>
+<p><strong>路由规则：</strong></p>
+<table>
+<thead>
+<tr>
+<th>文件路径</th>
+<th>对应网址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/pages/index.astro</code></td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td><code>src/pages/about.astro</code></td>
+<td><code>/about/</code></td>
+</tr>
+<tr>
+<td><code>src/pages/links.astro</code></td>
+<td><code>/links/</code></td>
+</tr>
+<tr>
+<td><code>src/pages/posts/[...slug].astro</code></td>
+<td><code>/posts/文章名/</code></td>
+</tr>
+</tbody>
+</table>
+<p>规律：文件路径（去掉前缀 <code>src/pages/</code> 和后缀 <code>.astro</code>）= 网址路径。</p>
+<h3>8.2 把新页面加入导航栏</h3>
+<p>在 <code>src/config.ts</code> 的 <code>navBarConfig.links</code> 中添加：</p>
+<pre><code>export const navBarConfig: NavBarConfig = {
+  links: [
+    LinkPreset.Home,          // 预设：首页
+    LinkPreset.Archive,       // 预设：归档
+    {
+      name: "友链",           // 导航栏显示的文字
+      url: "/links/",         // 页面地址
+      icon: "material-symbols:link",  // 图标（可选，在 Iconify 搜）
+    },
+  ],
+};
+</code></pre>
+<h3>8.3 导航栏支持多级菜单</h3>
+<pre><code>{
+  name: "链接",
+  url: "/links/",
+  children: [                   // 子菜单
+    {
+      name: "GitHub",
+      url: "https://github.com/...",
+      external: true,           // external = 外部链接，新标签页打开
+      icon: "fa7-brands:github",
+    },
+  ],
+},
+</code></pre>
+<h3>8.4 可用的预设链接（LinkPreset）</h3>
+<table>
+<thead>
+<tr>
+<th>预设</th>
+<th>对应</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LinkPreset.Home</code></td>
+<td>首页</td>
+</tr>
+<tr>
+<td><code>LinkPreset.Archive</code></td>
+<td>归档</td>
+</tr>
+<tr>
+<td><code>LinkPreset.About</code></td>
+<td>关于</td>
+</tr>
+<tr>
+<td><code>LinkPreset.Friends</code></td>
+<td>友链</td>
+</tr>
+<tr>
+<td><code>LinkPreset.Anime</code></td>
+<td>番剧追踪</td>
+</tr>
+<tr>
+<td><code>LinkPreset.Diary</code></td>
+<td>日记</td>
+</tr>
+<tr>
+<td><code>LinkPreset.Projects</code></td>
+<td>项目</td>
+</tr>
+<tr>
+<td><code>LinkPreset.Skills</code></td>
+<td>技能</td>
+</tr>
+<tr>
+<td><code>LinkPreset.Timeline</code></td>
+<td>时间线</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>9. 深入理解：代码走读</h2>
+<blockquote>
+<p>这一节是进阶内容。如果你刚上手，可以跳过，先改配置和写文章。当你想理解"这个页面到底是怎么生成出来的"时，再回来看。</p>
+</blockquote>
+<h3>9.1 首页是怎么工作的？（<code>[...page].astro</code>）</h3>
+<p>这个项目<strong>没有</strong> <code>index.astro</code>。首页由 <code>[...page].astro</code> 承担，因为它还需要处理分页。</p>
+<pre><code>---
+// ╔══════════════════════════════════╗
+// ║  上半部分：JavaScript 逻辑      ║
+// ╚══════════════════════════════════╝
+
+import type { GetStaticPaths } from "astro";
+import Pagination from "../components/control/Pagination.astro";
+import PostPage from "../components/PostPage.astro";
+import { PAGE_SIZE } from "../constants/constants";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { getSortedPosts } from "../utils/content-utils";
+
+// export const getStaticPaths — 注意是 export const 而不是 export async function
+// 这是 Astro 5 中推荐的写法，使用 satisfies 关键字
+export const getStaticPaths = (async ({ paginate }) =&gt; {
+  const allPosts = await getSortedPosts();    // 获取所有文章
+  return paginate(allPosts, { pageSize: PAGE_SIZE }); // 每 8 篇分一页（PAGE_SIZE=8）
+}) satisfies GetStaticPaths;
+
+// Astro 自动把当前页的数据放到 Astro.props.page 里
+const { page } = Astro.props;
+---
+
+&lt;!-- ╔══════════════════════════════════╗ --&gt;
+&lt;!-- ║  下半部分：HTML 模板            ║ --&gt;
+&lt;!-- ╚══════════════════════════════════╝ --&gt;
+
+&lt;MainGridLayout&gt;
+  &lt;PostPage page={page} /&gt;     &lt;!-- 当前页的文章列表 --&gt;
+  &lt;Pagination page={page} /&gt;   &lt;!-- 上一页 / 下一页按钮 --&gt;
+&lt;/MainGridLayout&gt;
+</code></pre>
+<p><strong><code>getStaticPaths</code> 用人话解释：</strong></p>
+<p>它回答一个问题："你要印哪几页？"</p>
+<p>假设你有 20 篇文章，每页 8 篇：</p>
+<ul>
+<li>第 1 页（<code>/</code>）→ 文章 1~8</li>
+<li>第 2 页（<code>/page/2/</code>）→ 文章 9~16</li>
+<li>第 3 页（<code>/page/3/</code>）→ 文章 17~20</li>
+</ul>
+<p><code>paginate()</code> 帮你自动算好这些，你只需要告诉它"每页多少篇"。</p>
+<h3>9.2 文章详情页是怎么工作的？（<code>posts/[...slug].astro</code>）</h3>
+<pre><code>---
+// 为每一篇文章生成一个 URL
+export async function getStaticPaths() {
+  const posts = await getSortedPosts();
+  return posts.map((post) =&gt; ({
+    params: { slug: post.slug },    // 比如 slug = "hello_world"
+    props: { entry: post },         // 把整篇文章数据传给模板
+  }));
+}
+
+// 拿到当前文章的 entry
+const { entry } = Astro.props;
+// render() 把 Markdown 变成 HTML
+const { Content, headings } = await render(entry);
+// 还可以获取 remark 插件处理后的 frontmatter
+const { remarkPluginFrontmatter } = await render(entry);
+---
+
+&lt;MainGridLayout title={entry.data.title}&gt;
+  &lt;article&gt;
+    &lt;h1&gt;{entry.data.title}&lt;/h1&gt;
+    &lt;PostMeta post={entry} /&gt;       &lt;!-- 日期、标签、分类 --&gt;
+    &lt;Markdown&gt;
+      &lt;Content /&gt;                   &lt;!-- 文章正文（Markdown 已渲染为 HTML）--&gt;
+    &lt;/Markdown&gt;
+  &lt;/article&gt;
+&lt;/MainGridLayout&gt;
+</code></pre>
+<p><strong>数据流（追踪一篇文章从文件到页面的全过程）：</strong></p>
+<pre><code>1. 你写 hello_world.md
+      ↓
+2. getSortedPosts() 读取它，提取 frontmatter + 正文
+      ↓
+3. getStaticPaths() 生成路由 /posts/hello_world/
+      ↓
+4. 用户访问这个 URL
+      ↓
+5. entry.render() 把 Markdown 转换成 HTML
+      ↓
+6. &lt;Content /&gt; 组件 + &lt;Markdown&gt; 包装器 把 HTML 插入页面模板
+      ↓
+7. 读者看到完整的文章页面
+</code></pre>
+<h3>9.3 Astro 文件的两段式结构</h3>
+<p>所有 <code>.astro</code> 文件都遵循这个模式：</p>
+<pre><code>---
+// 上半部分（frontmatter script）
+// 写 JavaScript / TypeScript 逻辑
+// 在构建时运行（服务器端）
+// 可以 import 其他文件、调用 API、处理数据
+const name = "qiqimora";
+const posts = await getSortedPosts();
+---
+
+&lt;!-- 下半部分（template）--&gt;
+&lt;!-- 写 HTML 模板 --&gt;
+&lt;!-- { } 里面可以嵌入 JS 表达式 --&gt;
+&lt;h1&gt;你好，{name}！&lt;/h1&gt;
+&lt;p&gt;共有 {posts.length} 篇文章&lt;/p&gt;
+</code></pre>
+<p><strong>关键规则：</strong></p>
+<ul>
+<li><code>---</code> 之间是<strong>构建时</strong>运行的，生成的是数据，不会发送到浏览器</li>
+<li><code>---</code> 下面是<strong>模板</strong>，会被编译成 HTML 发送到浏览器</li>
+<li>模板里 <code>{ }</code> 可以嵌入 JS 表达式，但不支持 <code>if</code> / <code>for</code> 等语句（那些需要用 Astro 的模板语法）</li>
+</ul>
+<h3>9.4 数据页面是怎么填数据的？</h3>
+<p>以 <code>/projects/</code> 为例。页面文件 <code>projects.astro</code> 本身是完整的，但它从 <code>src/data/projects.ts</code> 拿数据：</p>
+<pre><code>// src/data/projects.ts
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  category: "web" | "mobile" | "desktop" | "other";
+  techStack: string[];
+  status: "completed" | "in-progress" | "planned";
+  liveDemo?: string;
+  sourceCode?: string;
+  startDate: string;
+  endDate?: string;
+  featured?: boolean;
+  tags?: string[];
+}
+</code></pre>
+<p><strong>改法：</strong> 打开 <code>src/data/projects.ts</code>，添加或修改你的项目数据：</p>
+<pre><code>export const projectsData: Project[] = [
+  {
+    id: "my-project",
+    title: "我的第一个项目",
+    description: "这是一个xxx项目，用来解决xxx问题",
+    image: "/images/projects/project1.png",
+    category: "web",
+    techStack: ["Astro", "Tailwind", "Svelte"],
+    status: "completed",
+    liveDemo: "https://你的项目地址",
+    sourceCode: "https://github.com/你的用户名/项目名",
+    startDate: "2025-01",
+    endDate: "2025-03",
+    featured: true,
+    tags: ["前端", "博客"],
+  },
+];
+</code></pre>
+<blockquote>
+<p><strong>其他数据文件同理：</strong></p>
+<ul>
+<li>技能 → <code>src/data/skills.ts</code></li>
+<li>时间线 → <code>src/data/timeline.ts</code></li>
+<li>设备 → <code>src/data/devices.ts</code></li>
+<li>友链 → <code>src/data/friends.ts</code></li>
+</ul>
+</blockquote>
+<hr />
+<h2>10. 常用命令速查表</h2>
+<p>在项目根目录下执行：</p>
+<pre><code># 启动开发服务器（边改边看，浏览器自动刷新）
+pnpm dev
+
+# 构建生产版本（生成最终 HTML 到 dist/ 目录）
+pnpm build
+
+# 预览生产版本（先 build，再本地预览产物）
+pnpm build &amp;&amp; pnpm preview
+
+# 创建新文章
+pnpm new-post 文章标题
+
+# Astro 类型检查（检查 Astro 文件类型错误）
+pnpm check
+
+# TypeScript 类型检查
+pnpm type-check
+
+# 代码格式化
+pnpm format
+
+# 代码检查 + 自动修复
+pnpm lint
+
+# 同步内容仓库（拉取最新文章数据）
+pnpm sync-content
+
+# 更新番剧数据（从 Bangumi API）
+pnpm update-bangumi
+
+# 更新番剧数据（从 Bilibili API）
+pnpm update-bilibili
+</code></pre>
+<hr />
+<h2>11. 常见问题排查</h2>
+<h3>11.1 <code>pnpm install</code> 失败</h3>
+<pre><code># 确认 pnpm 已安装
+pnpm -v
+
+# 如果没装
+npm install -g pnpm
+
+# 如果还是失败，清理后重试
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
+</code></pre>
+<h3>11.2 <code>pnpm dev</code> 启动后浏览器白屏</h3>
+<ol>
+<li><strong>端口被占用</strong>：<code>pnpm dev --port 3000</code> 换端口</li>
+<li><strong>依赖没装全</strong>：删 <code>node_modules/</code>，重跑 <code>pnpm install</code></li>
+<li><strong>浏览器缓存</strong>：<code>Ctrl + Shift + R</code> 强制刷新</li>
+</ol>
+<h3>11.3 文章改了但网站上看不到</h3>
+<ol>
+<li><code>draft</code> 是不是 <code>true</code>？（草稿模式下 <code>pnpm build</code> 不输出，但 <code>pnpm dev</code> 可见）</li>
+<li>文件保存了吗？</li>
+<li>终端有报错吗？</li>
+<li>试试停掉服务器（<code>Ctrl + C</code>）再 <code>pnpm dev</code></li>
+</ol>
+<h3>11.4 Markdown 语法没渲染</h3>
+<ul>
+<li>Mermaid 需要三个反引号 + <code>mermaid</code>：<code>```mermaid</code></li>
+<li>提示框 <code>:::note</code> 后要换行，结束时 <code>:::</code> 单独一行</li>
+<li>KaTeX 公式前后不要有多余空格</li>
+</ul>
+<h3>11.5 图片显示不出来</h3>
+<ul>
+<li>放在文章文件夹里的图：直接写文件名 <code>![alt](image.png)</code></li>
+<li>放在 <code>public/</code> 下的图：路径以 <code>/</code> 开头 <code>/images/xxx.jpg</code></li>
+<li>大小写！Windows 不区分大小写，但部署到 Linux 服务器后 <code>Cover.png</code> ≠ <code>cover.png</code></li>
+</ul>
+<h3>11.6 构建失败</h3>
+<pre><code># 先做类型检查
+pnpm check
+
+# 清理缓存
+rm -rf dist .astro
+pnpm build
+</code></pre>
+<hr />
+<h2>12. 改什么→找哪个文件（速查表）</h2>
+<table>
+<thead>
+<tr>
+<th>你想做的事</th>
+<th>文件 / 位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>改网站标题</td>
+<td><code>src/config.ts</code> → <code>siteConfig.title</code></td>
+</tr>
+<tr>
+<td>改网站 URL</td>
+<td><code>src/config.ts</code> → <code>siteConfig.siteURL</code></td>
+</tr>
+<tr>
+<td>改头像</td>
+<td><code>src/config.ts</code> → <code>profileConfig.avatar</code></td>
+</tr>
+<tr>
+<td>改名字（侧边栏）</td>
+<td><code>src/config.ts</code> → <code>profileConfig.name</code></td>
+</tr>
+<tr>
+<td>改简介</td>
+<td><code>src/config.ts</code> → <code>profileConfig.bio</code></td>
+</tr>
+<tr>
+<td>改 Banner 图</td>
+<td><code>public/assets/desktop-banner/</code> 换图 + 改 <code>src/config.ts</code></td>
+</tr>
+<tr>
+<td>改首页大标题</td>
+<td><code>src/config.ts</code> → <code>siteConfig.banner.homeText.title</code></td>
+</tr>
+<tr>
+<td>改主题色</td>
+<td><code>src/config.ts</code> → <code>siteConfig.themeColor.hue</code></td>
+</tr>
+<tr>
+<td>改导航栏菜单</td>
+<td><code>src/config.ts</code> → <code>navBarConfig.links</code></td>
+</tr>
+<tr>
+<td>改侧边栏显示什么</td>
+<td><code>src/config.ts</code> → <code>sidebarLayoutConfig.components</code></td>
+</tr>
+<tr>
+<td>改社交链接</td>
+<td><code>src/config.ts</code> → <code>profileConfig.links</code></td>
+</tr>
+<tr>
+<td>开关评论区</td>
+<td><code>src/config.ts</code> → <code>commentConfig.enable</code></td>
+</tr>
+<tr>
+<td>开关猫娘看板娘</td>
+<td><code>src/config.ts</code> → <code>pioConfig.enable</code></td>
+</tr>
+<tr>
+<td>开关音乐播放器</td>
+<td><code>src/config.ts</code> → <code>musicPlayerConfig.enable</code></td>
+</tr>
+<tr>
+<td>开关樱花特效</td>
+<td><code>src/config.ts</code> → <code>sakuraConfig.enable</code></td>
+</tr>
+<tr>
+<td>开关分享功能</td>
+<td><code>src/config.ts</code> → <code>shareConfig.enable</code></td>
+</tr>
+<tr>
+<td>开关 Banner</td>
+<td><code>src/config.ts</code> → <code>siteConfig.banner.src</code></td>
+</tr>
+<tr>
+<td>切换壁纸模式（banner/全屏/无）</td>
+<td><code>src/config.ts</code> → <code>siteConfig.wallpaperMode.defaultMode</code></td>
+</tr>
+<tr>
+<td>写新文章</td>
+<td><code>src/content/posts/</code> 下新建 <code>.md</code> 文件</td>
+</tr>
+<tr>
+<td>添加新页面</td>
+<td><code>src/pages/</code> 下新建 <code>.astro</code> 文件</td>
+</tr>
+<tr>
+<td>改"关于"页内容</td>
+<td><code>src/content/spec/about.md</code></td>
+</tr>
+<tr>
+<td>改"友链"页内容</td>
+<td><code>src/data/friends.ts</code> 或 <code>src/content/spec/friends.md</code></td>
+</tr>
+<tr>
+<td>添加项目</td>
+<td><code>src/data/projects.ts</code></td>
+</tr>
+<tr>
+<td>添加技能</td>
+<td><code>src/data/skills.ts</code></td>
+</tr>
+<tr>
+<td>添加时间线</td>
+<td><code>src/data/timeline.ts</code></td>
+</tr>
+<tr>
+<td>添加设备</td>
+<td><code>src/data/devices.ts</code></td>
+</tr>
+<tr>
+<td>改多语言翻译</td>
+<td><code>src/i18n/languages/</code> 下的对应文件（<code>en.ts</code> / <code>ja.ts</code> / <code>zh_CN.ts</code> / <code>zh_TW.ts</code>）</td>
+</tr>
+<tr>
+<td>改全局样式</td>
+<td><code>src/styles/main.css</code></td>
+</tr>
+<tr>
+<td>改 Markdown 样式</td>
+<td><code>src/styles/markdown.css</code></td>
+</tr>
+<tr>
+<td>换 favicon 图标</td>
+<td><code>public/favicon/</code> 目录</td>
+</tr>
+<tr>
+<td>添加音乐</td>
+<td><code>public/assets/music/</code> 目录</td>
+</tr>
+<tr>
+<td>添加相册</td>
+<td><code>public/images/albums/</code> 下新建文件夹</td>
+</tr>
+<tr>
+<td>改看板娘对话</td>
+<td><code>src/config.ts</code> → <code>pioConfig.dialog</code></td>
+</tr>
+<tr>
+<td>改字体配置</td>
+<td><code>src/config.ts</code> → <code>siteConfig.font</code></td>
+</tr>
+<tr>
+<td>改目录配置</td>
+<td><code>src/config.ts</code> → <code>siteConfig.toc</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>13. 部署到线上</h2>
+<h3>13.1 GitHub Pages（免费）</h3>
+<p>项目已配好 GitHub Actions（<code>.github/workflows/deploy.yml</code>）：</p>
+<ol>
+<li>把代码推送到 GitHub 仓库</li>
+<li>仓库 <strong>Settings → Pages</strong> → Source 选 <strong>GitHub Actions</strong></li>
+<li>每次推送代码，GitHub 自动构建并部署</li>
+</ol>
+<h3>13.2 Vercel（免费，更推荐）</h3>
+<ol>
+<li>注册 <a href="https://vercel.com">vercel.com</a>（用 GitHub 登录）</li>
+<li><strong>New Project</strong> → 导入你的 GitHub 仓库</li>
+<li>Vercel 自动识别 Astro 项目，无需额外配置</li>
+<li>点 <strong>Deploy</strong>，获得 <code>xxx.vercel.app</code> 域名</li>
+</ol>
+<h3>13.3 构建产物</h3>
+<p><code>pnpm build</code> 后，静态文件在 <code>dist/</code> 目录下。部署时上传的就是这个目录的内容。</p>
+<hr />
+<h2>14. 学习路线图</h2>
+<p>按这个顺序学，边学边在项目上动手：</p>
+<h3>第 0 步（5 分钟）：跑起来</h3>
+<pre><code>pnpm install
+pnpm dev
+</code></pre>
+<p>打开 <code>http://localhost:4321/</code>，看到博客 = 成功。</p>
+<h3>第 1 步（30 分钟）：纯改配置，不动代码</h3>
+<p><strong>目标：</strong> 熟悉 <code>src/config.ts</code>。你改一个字，网站就变一个样，即时的正反馈是最好的学习方式。</p>
+<p><strong>练习：</strong></p>
+<ol>
+<li>把 <code>siteConfig.title</code>、<code>profileConfig.name</code>、<code>bio</code> 全改成你的</li>
+<li>把 <code>themeColor.hue</code> 改成 200（看看蓝色的效果）</li>
+<li>打开/关闭几个功能开关</li>
+<li>换掉社交链接</li>
+</ol>
+<h3>第 2 步（1 小时）：写文章</h3>
+<p><strong>目标：</strong> 理解 Content Collections。</p>
+<p><strong>练习：</strong></p>
+<ol>
+<li><code>pnpm new-post 测试</code> 创建一篇，看它自动生成的 frontmatter 模板</li>
+<li>手工创建一篇，把 frontmatter 所有字段都试一试</li>
+<li>试一下 KaTeX 公式、Mermaid 流程图、Admonition 提示框的语法</li>
+</ol>
+<h3>第 3 步（1 小时）：看懂首页和文章页</h3>
+<p><strong>目标：</strong> 理解 <code>getStaticPaths</code> 和动态路由。</p>
+<p><strong>要看的文件：</strong></p>
+<ol>
+<li><code>src/pages/[...page].astro</code> — 首页分页怎么做的</li>
+<li><code>src/pages/posts/[...slug].astro</code> — 每篇文章的页面怎么生成的</li>
+<li><code>src/utils/content-utils.ts</code> — <code>getSortedPosts()</code> 返回了什么</li>
+</ol>
+<p>详细讲解见<a href="#9-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E4%BB%A3%E7%A0%81%E8%B5%B0%E8%AF%BB">第 9 节</a>。</p>
+<h3>第 4 步（2 小时）：填数据</h3>
+<p><strong>目标：</strong> 把示例数据替换成你自己的。</p>
+<p><strong>要改的文件：</strong></p>
+<ol>
+<li><code>src/data/projects.ts</code> — 替换示例项目</li>
+<li><code>src/data/skills.ts</code> — 替换示例技能</li>
+<li><code>src/data/timeline.ts</code> — 替换示例时间线</li>
+<li><code>src/data/friends.ts</code> — 添加友链</li>
+<li><code>src/content/spec/about.md</code> — 写你的自我介绍</li>
+</ol>
+<h3>第 5 步（后续）：深入</h3>
+<ul>
+<li>学 <a href="https://docs.astro.build/zh-cn/">Astro 官方教程</a> 的"组件"章节，理解 props</li>
+<li>学 <a href="https://tailwindcss.com/docs">Tailwind CSS</a> 基础，开始改样式</li>
+<li>学 <a href="https://svelte.dev/tutorial">Svelte 官方教程</a> 基础，理解交互组件</li>
+<li>动手添加一个全新的页面（比如 <code>/bookshelf/</code> 书架页面）</li>
+</ul>
+<hr />
+<h2>附录 A：文件后缀速查</h2>
+<table>
+<thead>
+<tr>
+<th>后缀</th>
+<th>是什么</th>
+<th>在哪里出现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.astro</code></td>
+<td>Astro 组件/页面</td>
+<td><code>src/pages/</code>, <code>src/components/</code>, <code>src/layouts/</code></td>
+</tr>
+<tr>
+<td><code>.svelte</code></td>
+<td>Svelte 交互组件</td>
+<td><code>src/components/</code>（搜索、音乐、看板娘等）</td>
+</tr>
+<tr>
+<td><code>.md</code></td>
+<td>Markdown 文章</td>
+<td><code>src/content/posts/</code>, <code>src/content/spec/</code></td>
+</tr>
+<tr>
+<td><code>.ts</code></td>
+<td>TypeScript 代码</td>
+<td><code>src/config.ts</code>, <code>src/utils/</code>, <code>src/data/</code></td>
+</tr>
+<tr>
+<td><code>.css</code></td>
+<td>样式表</td>
+<td><code>src/styles/</code></td>
+</tr>
+<tr>
+<td><code>.mjs</code></td>
+<td>ES Module JS</td>
+<td><code>src/plugins/</code>, <code>astro.config.mjs</code></td>
+</tr>
+<tr>
+<td><code>.json</code></td>
+<td>JSON 配置</td>
+<td><code>package.json</code>, <code>tsconfig.json</code></td>
+</tr>
+</tbody>
+</table>
+<h2>附录 B：重要外部链接</h2>
+<ul>
+<li><a href="https://docs.astro.build/">Astro 官方文档</a> / <a href="https://docs.astro.build/zh-cn/">中文版</a></li>
+<li><a href="https://svelte.dev/tutorial">Svelte 交互式教程</a></li>
+<li><a href="https://tailwindcss.com/docs">Tailwind CSS 文档</a></li>
+<li><a href="https://www.markdownguide.org/">Markdown 语法指南</a></li>
+<li><a href="https://icon-sets.iconify.design/">Iconify 图标搜索</a></li>
+<li><a href="https://mermaid.js.org/">Mermaid 流程图语法</a></li>
+<li><a href="https://katex.org/docs/supported.html">KaTeX 数学公式语法</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>キキモラ-奇奇莫拉</name>
+    </author>
+    <category term="教程"></category>
   </entry>
   <entry>
     <title>Claude Code 使用教程</title>

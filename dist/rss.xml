@@ -10,6 +10,1617 @@
 &lt;ol&gt;
 &lt;li&gt;整理markdown文档编写规范&lt;/li&gt;
 &lt;/ol&gt;
+</content:encoded></item><item><title>Astro 博客零基础上手指南</title><link>https://qiqimora.cn/posts/astro-beginners-guide/</link><guid isPermaLink="true">https://qiqimora.cn/posts/astro-beginners-guide/</guid><description>面向完全没有前端项目经验的新手，从安装环境到部署上线，一步步教你接手并定制一个 Astro 博客。包含项目结构讲解、完成度分析、代码走读和学习路线图。</description><pubDate>Thu, 28 May 2026 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;如果你刚接手一个半成品的 Astro 博客项目，对 Astro 一无所知，不知道从哪下手——这篇文章就是为你写的。不需要任何前端基础，只要会在电脑上装软件、敲命令行，就能跟着一步步把博客跑起来。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h2&gt;目录&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;#1-%E8%BF%99%E4%B8%AA%E9%A1%B9%E7%9B%AE%E6%98%AF%E4%BB%80%E4%B9%88&quot;&gt;这个项目是什么&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#2-%E4%BD%A0%E5%BF%85%E9%A1%BB%E7%90%86%E8%A7%A3%E7%9A%84%E5%9B%9B%E4%B8%AA%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5&quot;&gt;你必须理解的四个核心概念&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#3-%E9%A1%B9%E7%9B%AE%E5%AE%8C%E6%88%90%E5%BA%A6%E4%B8%80%E8%A7%88&quot;&gt;项目完成度一览&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#4-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87&quot;&gt;环境准备&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#5-%E7%AC%AC%E4%B8%80%E6%AC%A1%E8%BF%90%E8%A1%8C&quot;&gt;第一次运行&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#6-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%94%B9%E5%8A%A8%E6%8A%8A%E5%8D%9A%E5%AE%A2%E5%8F%98%E6%88%90%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84&quot;&gt;第一个改动：把博客变成你自己的&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#7-%E5%A6%82%E4%BD%95%E5%86%99%E6%96%87%E7%AB%A0&quot;&gt;如何写文章&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#8-%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E9%A1%B5%E9%9D%A2%E5%92%8C%E5%AF%BC%E8%88%AA%E6%A0%8F&quot;&gt;如何添加页面和导航栏&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#9-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E4%BB%A3%E7%A0%81%E8%B5%B0%E8%AF%BB&quot;&gt;深入理解：代码走读&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#10-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8&quot;&gt;常用命令速查表&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#11-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5&quot;&gt;常见问题排查&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#12-%E6%94%B9%E4%BB%80%E4%B9%88%E6%89%BE%E5%93%AA%E4%B8%AA%E6%96%87%E4%BB%B6%E9%80%9F%E6%9F%A5%E8%A1%A8&quot;&gt;改什么→找哪个文件（速查表）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#13-%E9%83%A8%E7%BD%B2%E5%88%B0%E7%BA%BF%E4%B8%8A&quot;&gt;部署到线上&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#14-%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF%E5%9B%BE&quot;&gt;学习路线图&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr /&gt;
+&lt;h2&gt;1. 这个项目是什么&lt;/h2&gt;
+&lt;h3&gt;1.1 用&quot;印刷厂&quot;来类比&lt;/h3&gt;
+&lt;p&gt;把这个 Astro 博客想象成一家&lt;strong&gt;印刷厂&lt;/strong&gt;，你的博客就是一本&lt;strong&gt;杂志&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;你提供&lt;strong&gt;文章&lt;/strong&gt;（Markdown 文件）和&lt;strong&gt;设计模板&lt;/strong&gt;（Astro 组件）&lt;/li&gt;
+&lt;li&gt;Astro 印刷厂把这些东西&lt;strong&gt;印成一本静态的杂志&lt;/strong&gt;（纯 HTML 文件）&lt;/li&gt;
+&lt;li&gt;读者打开你的网站时，拿到的就是这本已经印好的杂志，&lt;strong&gt;翻开就能看，不需要等待加载&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这和 React / Vue 这类框架有本质区别——那些更像是&lt;strong&gt;把印刷机搬到读者家里&lt;/strong&gt;，让读者的浏览器自己现场印。Astro 则是&lt;strong&gt;提前印好&lt;/strong&gt;，读者直接看成品。所以 Astro 网站通常&lt;strong&gt;极快&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3&gt;1.2 技术组成（用房子类比）&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;技术&lt;/th&gt;
+&lt;th&gt;角色&lt;/th&gt;
+&lt;th&gt;类比&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Astro 5&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;框架（骨架）&lt;/td&gt;
+&lt;td&gt;房子的钢筋混凝土结构，决定房间怎么布局&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Svelte 5&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;交互组件&lt;/td&gt;
+&lt;td&gt;房子里能&quot;动&quot;的东西：电灯开关、可拖拽的家具&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Tailwind CSS 4&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;样式&lt;/td&gt;
+&lt;td&gt;房子的装修和配色&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Markdown&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;文章格式&lt;/td&gt;
+&lt;td&gt;你用记事本写的内容&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;1.3 这个博客有什么功能&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;写文章（支持 Markdown、数学公式 KaTeX、流程图 Mermaid）&lt;/li&gt;
+&lt;li&gt;首页文章列表 + 分页（支持列表/网格两种布局）&lt;/li&gt;
+&lt;li&gt;归档、分类、标签&lt;/li&gt;
+&lt;li&gt;友链、关于、设备展示页面&lt;/li&gt;
+&lt;li&gt;番剧追踪、日记、相册、画廊&lt;/li&gt;
+&lt;li&gt;项目展示、技能展示、时间线&lt;/li&gt;
+&lt;li&gt;评论区（Twikoo，默认关闭）&lt;/li&gt;
+&lt;li&gt;Live2D 看板娘猫娘（默认开启）&lt;/li&gt;
+&lt;li&gt;暗色/亮色主题切换 + 自定义主题色&lt;/li&gt;
+&lt;li&gt;中日英三语界面（基于 i18n 翻译系统）&lt;/li&gt;
+&lt;li&gt;页面切换动画（Swup 驱动，点链接不会闪白屏）&lt;/li&gt;
+&lt;li&gt;RSS 订阅 + Atom 订阅 + 站点地图&lt;/li&gt;
+&lt;li&gt;文章密码保护 + 文章别名/自定义链接&lt;/li&gt;
+&lt;li&gt;樱花飘落特效（默认关闭）&lt;/li&gt;
+&lt;li&gt;全屏壁纸模式（可替代 Banner 模式）&lt;/li&gt;
+&lt;li&gt;图片灯箱（FancyApps UI）&lt;/li&gt;
+&lt;li&gt;代码块折叠 + 行号 + 自定义语言标签&lt;/li&gt;
+&lt;li&gt;Banner 轮播 + 水波 SVG 效果&lt;/li&gt;
+&lt;li&gt;分享海报生成&lt;/li&gt;
+&lt;li&gt;OG 图片自动生成（可选）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;2. 你必须理解的四个核心概念&lt;/h2&gt;
+&lt;p&gt;Astro 有四个核心概念。理解这四个，你就理解了 Astro 在做什么。下面每个概念都&lt;strong&gt;结合这个项目的实际代码&lt;/strong&gt;来讲。&lt;/p&gt;
+&lt;h3&gt;2.1 页面（Pages）——&quot;杂志的每一页&quot;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;一句话：&lt;/strong&gt; 浏览器地址栏里能访问到的每一个网址，都对应 &lt;code&gt;src/pages/&lt;/code&gt; 下的一个文件。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;在这个项目里：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;src/pages/
+├── [...page].astro          → 首页 /  以及  /page/2/  /page/3/  （分页列表）
+├── [permalink].astro        → 自定义链接文章（启用 permalink 功能时使用）
+├── posts/
+│   └── [...slug].astro      → /posts/hello_world/  （每篇文章的详情页）
+├── about.astro              → /about/
+├── archive.astro            → /archive/
+├── friends.astro            → /friends/
+├── anime.astro              → /anime/
+├── diary.astro              → /diary/
+├── projects.astro           → /projects/
+├── skills.astro             → /skills/
+├── timeline.astro           → /timeline/
+├── albums.astro             → /albums/
+├── albums/[id]/index.astro  → /albums/相册名/  （相册详情页）
+├── gallery.astro            → /gallery/
+├── devices.astro            → /devices/
+├── 404.astro                → 页面不存在时显示
+├── rss.astro                → /rss/  （RSS 可视化页面）
+├── atom.astro               → /atom.xml  （Atom 订阅源）
+└── rss.xml.ts               → /rss.xml  （RSS 订阅源）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;规则：&lt;/strong&gt; 文件在 &lt;code&gt;pages/&lt;/code&gt; 下的路径，去掉 &lt;code&gt;.astro&lt;/code&gt; 后缀，就是网址。就像文件夹里放一个 &lt;code&gt;about.astro&lt;/code&gt;，最后印出来就是 &lt;code&gt;/about/&lt;/code&gt; 这一页。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;特殊文件名说明：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;[...page].astro&lt;/code&gt; — 方括号 = &quot;这个值是动态的&quot;，&lt;code&gt;...&lt;/code&gt; = &quot;可以有多层路径&quot;。用来生成首页 + 分页。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;[permalink].astro&lt;/code&gt; — 处理自定义固定链接，让文章可以在根目录下访问（如 &lt;code&gt;/my-post/&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;posts/[...slug].astro&lt;/code&gt; — &lt;code&gt;slug&lt;/code&gt; 是文章的标识符，最终生成 &lt;code&gt;/posts/hello_world/&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;albums/[id]/index.astro&lt;/code&gt; — &lt;code&gt;[id]&lt;/code&gt; 是相册 ID，生成 &lt;code&gt;/albums/相册名/&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;2.2 布局（Layouts）——&quot;杂志的版式模板&quot;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;一句话：&lt;/strong&gt; 布局是页面的&quot;外壳&quot;。一本杂志每一页都有相同的页眉、页脚、侧边栏——布局就是把这些公共部分写好，每个页面只填中间的内容。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;在这个项目里：&lt;/strong&gt; 布局是&lt;strong&gt;嵌套&lt;/strong&gt;关系，由外到内：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;MainGridLayout.astro        ← 外层壳：导航栏 + Banner + 侧边栏 + 页脚
+  └── Layout.astro          ← 内层壳：&amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;body&amp;gt;、全局样式、Pio 看板娘、音乐播放器
+        └── 具体页面内容    ← 通过 &amp;lt;slot /&amp;gt; 填入
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 两个布局文件的嵌套方向和直觉可能相反——&lt;code&gt;MainGridLayout&lt;/code&gt; 是&quot;大框架&quot;（导航栏、侧边栏、页脚都在这里），它内部引用了 &lt;code&gt;Layout&lt;/code&gt;（HTML 文档头、全局脚本、看板娘等）。所以写页面时，直接使用 &lt;code&gt;MainGridLayout&lt;/code&gt; 即可，不需要关心 &lt;code&gt;Layout&lt;/code&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;打开任意一个页面，比如 &lt;code&gt;about.astro&lt;/code&gt;，你会看到这样的模式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---
+import MainGridLayout from &quot;@layouts/MainGridLayout.astro&quot;;
+---
+
+&amp;lt;MainGridLayout title=&quot;关于&quot; description=&quot;关于本站&quot; lang=&quot;zh_CN&quot;&amp;gt;
+  &amp;lt;!-- 这里面写的内容，会填入 MainGridLayout 的 &amp;lt;slot /&amp;gt; 位置 --&amp;gt;
+  &amp;lt;main&amp;gt;
+    &amp;lt;h1&amp;gt;关于本站&amp;lt;/h1&amp;gt;
+    &amp;lt;p&amp;gt;这里写自我介绍...&amp;lt;/p&amp;gt;
+  &amp;lt;/main&amp;gt;
+&amp;lt;/MainGridLayout&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;&amp;lt;slot /&amp;gt;&lt;/code&gt; 是什么？&lt;/strong&gt; 就是一个&quot;洞&quot;。布局文件挖好洞，每个页面把自己的内容往洞里填。Astro 会自动把洞里的内容组装到正确的位置。&lt;/p&gt;
+&lt;h3&gt;2.3 组件（Components）——&quot;杂志的可复用零件&quot;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;一句话：&lt;/strong&gt; 组件是可以重复使用的 UI 零件。导航栏、文章卡片、分页按钮——这些东西在多个页面出现，做成组件后哪里需要就往哪里放。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;在这个项目里：&lt;/strong&gt; &lt;code&gt;src/components/&lt;/code&gt; 下按功能分类：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;src/components/
+├── Navbar.astro              ← 顶部导航栏（每个页面都用）
+├── Footer.astro              ← 底部页脚（每个页面都用）
+├── PostCard.astro            ← 文章卡片（首页列表里每篇文章的样子）
+├── PostMeta.astro            ← 文章元信息行（日期、标签、分类）
+├── PostPage.astro            ← 文章列表容器
+├── Encryptor.astro           ← 文章加密/解密组件
+├── PasswordProtection.astro  ← 密码保护页面组件
+├── GlobalStyles.astro        ← 全局样式注入
+├── ConfigCarrier.astro       ← 配置数据桥接（将 Astro 配置传递给前端 JS）
+├── CustomScrollbar.astro     ← Markdown 内 KaTeX 公式滚动条
+├── TypewriterText.astro      ← 打字机效果组件
+│
+├── control/                  ← 控制类组件
+│   ├── Pagination.astro      ← 分页按钮（上一页 / 下一页）
+│   ├── BackToTop.astro       ← 返回顶部按钮
+│   ├── ButtonLink.astro      ← 按钮样式链接
+│   ├── ButtonTag.astro       ← 标签样式按钮
+│   └── FloatingTOC.astro     ← 悬浮目录按钮
+│
+├── layout/                   ← 布局类组件
+│   └── RightSideBar.astro    ← 右侧边栏布局管理器
+│
+├── widget/                   ← 侧边栏小部件
+│   ├── Profile.astro         ← 个人资料卡片（头像、名字、社交链接）
+│   ├── Announcement.astro    ← 公告面板
+│   ├── Categories.astro      ← 分类列表
+│   ├── Tags.astro            ← 标签云
+│   ├── TOC.astro             ← 文章目录
+│   ├── Calendar.astro        ← 日历（按日期高亮有文章的日子）
+│   ├── SiteStats.astro       ← 站点统计
+│   ├── SideBar.astro         ← 侧边栏容器
+│   ├── RightSideBar.astro    ← 右侧栏容器
+│   ├── WidgetLayout.astro    ← 小部件通用布局
+│   ├── NavMenuPanel.astro    ← 移动端导航菜单面板
+│   ├── DropdownMenu.astro    ← 下拉菜单组件
+│   ├── DisplaySettings.svelte ← 显示设置面板（主题色、布局切换）
+│   ├── ProjectCard.astro     ← 项目卡片
+│   ├── SkillCard.astro       ← 技能卡片
+│   ├── StatCard.astro        ← 统计数字卡片
+│   └── TimelineItem.astro    ← 时间线条目
+│
+├── skills/                   ← 技能展示组件
+│   └── SkillsChart.astro     ← 技能雷达图
+│
+├── comment/                  ← 评论系统
+│   ├── index.astro           ← 评论统一入口（控制评论系统加载）
+│   └── Twikoo.astro          ← Twikoo 评论组件
+│
+├── misc/                     ← 杂项组件
+│   ├── Markdown.astro        ← Markdown 内容渲染器
+│   ├── License.astro         ← 文章底部许可证声明
+│   ├── Icon.astro            ← 图标组件
+│   ├── IconifyLoader.astro   ← Iconify 图标加载器
+│   ├── ImageWrapper.astro    ← 图片包装器（支持灯箱）
+│   ├── FullscreenWallpaper.astro ← 全屏壁纸组件
+│   ├── AnimationTest.astro   ← 动画测试组件
+│   └── SharePoster.svelte    ← 分享海报生成（Svelte）
+│
+├── Search.svelte             ← 搜索面板（Svelte，Pagefind 驱动）
+├── ArchivePanel.svelte       ← 归档页面搜索过滤面板（Svelte）
+├── LayoutSwitchButton.svelte ← 文章列表布局切换按钮（Svelte）
+├── LightDarkSwitch.svelte    ← 明暗主题切换开关（Svelte）
+├── MobileTOC.svelte          ← 移动端悬浮目录（Svelte）
+└── WallpaperSwitch.svelte    ← 壁纸模式切换按钮（Svelte）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 大部分组件是 &lt;code&gt;.astro&lt;/code&gt; 文件（静态的），但一些需要用户交互的组件是 &lt;code&gt;.svelte&lt;/code&gt; 文件（动态的）。区分规则很简单：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;只是展示内容&lt;/strong&gt; → &lt;code&gt;.astro&lt;/code&gt;（印刷时就定死了，体积小、速度快）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;需要点击、打字、拖拽&lt;/strong&gt; → &lt;code&gt;.svelte&lt;/code&gt;（读者可以操作）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这就是 Astro 核心设计理念——&lt;strong&gt;&quot;岛屿架构&quot;&lt;/strong&gt;：页面 99% 是静态 HTML，只有极少数需要交互的地方（&quot;岛屿&quot;）才加载 JavaScript。&lt;/p&gt;
+&lt;h3&gt;2.4 内容集合（Content Collections）——&quot;杂志的文章库&quot;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;一句话：&lt;/strong&gt; 你只管往文件夹里丢 Markdown 文件，Astro 自动帮你整理、验证格式、提供查询接口。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;在这个项目里：&lt;/strong&gt; &lt;code&gt;src/content/&lt;/code&gt; 下有两个集合：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;src/content/
+├── posts/             ← 博客文章集合
+│   ├── hello_world.md
+│   ├── MySQL整理/
+│   │   └── index.md
+│   └── astro-beginners-guide/
+│       └── index.md
+└── spec/              ← 特殊页面集合
+    ├── about.md       ← 关于页面的内容
+    └── friends.md     ← 友链页面的内容
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;内容集合的&quot;规矩&quot;定义在 &lt;code&gt;src/content.config.ts&lt;/code&gt;（注意：&lt;strong&gt;不是&lt;/strong&gt; &lt;code&gt;src/content/config.ts&lt;/code&gt;，这是 Astro 5 的变化）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// src/content.config.ts  — Astro 5 使用新的 content layer API
+import { defineCollection } from &quot;astro:content&quot;;
+import { glob } from &quot;astro/loaders&quot;;
+import { z } from &quot;astro/zod&quot;;
+
+const postsCollection = defineCollection({
+  // glob loader：从 src/content/posts/ 下加载所有 .md 文件
+  loader: glob({ pattern: &quot;**/*.md&quot;, base: &quot;./src/content/posts&quot; }),
+  schema: z.object({
+    title: z.string(),                           // 必须：文章标题
+    published: z.date(),                         // 必须：发布日期
+    description: z.string().optional().default(&quot;&quot;),  // 可选：描述
+    image: z.string().optional().default(&quot;&quot;),    // 可选：封面图
+    tags: z.array(z.string()).optional().default([]),  // 可选：标签
+    category: z.string().optional().default(&quot;&quot;), // 可选：分类
+    draft: z.boolean().optional().default(false),// 可选：草稿
+    pinned: z.boolean().optional().default(false),// 可选：置顶
+    lang: z.string().optional().default(&quot;&quot;),     // 可选：文章语言
+    author: z.string().optional().default(&quot;&quot;),   // 可选：作者名
+    updated: z.date().optional(),                // 可选：更新日期
+    encrypted: z.boolean().optional().default(false), // 可选：加密
+    password: z.string().optional().default(&quot;&quot;), // 可选：加密密码
+    alias: z.string().optional(),                // 可选：文章别名
+    permalink: z.string().optional(),            // 可选：自定义固定链接
+    // ...更多字段见实际文件
+  }),
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;好处：&lt;/strong&gt; 如果你某篇文章忘了写 &lt;code&gt;title&lt;/code&gt;，Astro 在构建时会直接报错告诉你，而不是悄悄生成一个坏页面。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;和旧版本的区别：&lt;/strong&gt; 在 Astro 4 及以前，内容配置放在 &lt;code&gt;src/content/config.ts&lt;/code&gt;，使用 &lt;code&gt;type: &apos;content&apos;&lt;/code&gt; 加载器。Astro 5 引入了新的 &lt;strong&gt;Content Layer&lt;/strong&gt; API，改用 &lt;code&gt;src/content.config.ts&lt;/code&gt; + &lt;code&gt;glob&lt;/code&gt; loader 的方式。如果你在网上搜到旧教程，注意分辨。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;3. 项目完成度一览&lt;/h2&gt;
+&lt;p&gt;下面是我逐项检查的结果。&lt;/p&gt;
+&lt;h3&gt;3.1 核心功能&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;th&gt;状态&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;首页文章列表 + 分页&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;[...page].astro&lt;/code&gt; + &lt;code&gt;PostCard&lt;/code&gt; + &lt;code&gt;Pagination&lt;/code&gt;，支持列表/网格两种布局&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;文章详情页&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;支持加密、目录、许可证、封面图、前后篇导航、分享海报&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;导航栏（多级菜单）&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;桌面端下拉菜单 + 移动端抽屉，都可用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;侧边栏（左/右双侧）&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;Profile + 公告 + 分类 + 标签 + 站点统计 + 日历，可排序&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;明暗主题切换&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;含色相选择器、自定义主题色&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;全文搜索&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;Pagefind 驱动，&lt;code&gt;Search.svelte&lt;/code&gt; 面板&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;页面过渡动画&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;Swup 集成，点链接无白屏闪现&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;代码高亮&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;Expressive Code + 自定义语言标签、复制按钮、折叠、行号&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Markdown 扩展&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;KaTeX 数学公式 + Mermaid 流程图 + Admonition 提示框 + GitHub 卡片&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;RSS + Atom 订阅&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;/rss.xml&lt;/code&gt; + &lt;code&gt;/atom.xml&lt;/code&gt; + &lt;code&gt;/rss/&lt;/code&gt; 可视化页面&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;站点地图&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;@astrojs/sitemap&lt;/code&gt; 自动生成&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Banner 轮播 + 水波效果&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;桌面/移动端独立图片轮播，打字机副标题，水波 SVG&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;国际化（中/英/日）&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;界面文本已翻译三种语言&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Live2D 看板娘&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;Pio 猫娘可拖拽、有对话、有触摸反馈&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;归档页面（搜索过滤）&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ArchivePanel.svelte&lt;/code&gt; 支持关键词过滤&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;404 页面&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;自定义 404&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;全屏壁纸模式&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;可切换 Banner / 全屏壁纸 / 无壁纸三种模式&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;图片灯箱&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;FancyApps UI 集成，支持相册、文章内图片浏览&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;分享海报生成&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;支持生成文章分享海报&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;文章自定义链接&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;支持 &lt;code&gt;alias&lt;/code&gt; 别名和 &lt;code&gt;permalink&lt;/code&gt; 自定义固定链接&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;3.2 内容相关&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;th&gt;状态&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;博客文章&lt;/td&gt;
+&lt;td&gt;✅&lt;/td&gt;
+&lt;td&gt;有约 10 篇学习笔记文章&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;关于页面&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;内容描述的是原主题特性，&lt;strong&gt;你需要改成你自己的介绍&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;友链页面&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;data/friends.ts&lt;/code&gt; 已配置了少量友链，但 &lt;code&gt;spec/friends.md&lt;/code&gt; 内容为空&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;3.3 数据展示页面&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;th&gt;状态&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;项目展示（&lt;code&gt;/projects/&lt;/code&gt;）&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;data/projects.ts&lt;/code&gt; 已有示例数据，但需要替换为你的项目&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;技能展示（&lt;code&gt;/skills/&lt;/code&gt;）&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;data/skills.ts&lt;/code&gt; 已有示例数据，但需要补充更多技能&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;时间线（&lt;code&gt;/timeline/&lt;/code&gt;）&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;data/timeline.ts&lt;/code&gt; 已有示例数据，需要改为你的经历&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;番剧追踪（&lt;code&gt;/anime/&lt;/code&gt;）&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;data/anime.ts&lt;/code&gt; 可从 Bangumi/B站 获取数据，需配置&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;设备展示（&lt;code&gt;/devices/&lt;/code&gt;）&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;data/devices.ts&lt;/code&gt; 需要补充你的设备信息&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;日记（&lt;code&gt;/diary/&lt;/code&gt;）&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;data/diary.ts&lt;/code&gt; 需要填充内容&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;相册（&lt;code&gt;/albums/&lt;/code&gt;）&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;页面完整，但 &lt;code&gt;public/images/albums/&lt;/code&gt; 需要填充图片&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;画廊（&lt;code&gt;/gallery/&lt;/code&gt;）&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;页面完整，但图片需来自相册&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;3.4 可选功能（默认关闭，需要配置才能用）&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;th&gt;状态&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;评论区&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;Twikoo 组件已集成，默认关闭，需填写 &lt;code&gt;envId&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;自定义页脚&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;footerConfig.enable = false&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OG 图片自动生成&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;默认关闭，开启后构建很慢&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Bangumi 番剧数据同步&lt;/td&gt;
+&lt;td&gt;⚠️&lt;/td&gt;
+&lt;td&gt;需配置 &lt;code&gt;bangumi.userId&lt;/code&gt;，默认关闭&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;3.5 总结&lt;/h3&gt;
+&lt;p&gt;这个项目&lt;strong&gt;架子上已经搭好了大部分&lt;/strong&gt;。核心功能（首页、文章、导航、搜索、主题切换）全部就绪，数据页面也已有示例数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;你可以立刻做的事：&lt;/strong&gt; 改配置、写文章，博客就能用。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;需要花时间填的坑：&lt;/strong&gt; 数据页面（projects, skills, timeline 等）的示例数据需要替换为你自己的。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;4. 环境准备&lt;/h2&gt;
+&lt;h3&gt;4.1 Node.js（必须）&lt;/h3&gt;
+&lt;p&gt;Node.js 是 JavaScript 的运行环境。这个项目需要它。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;打开 &lt;a href=&quot;https://nodejs.org&quot;&gt;https://nodejs.org&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;下载 &lt;strong&gt;LTS 版本&lt;/strong&gt;（长期支持版），版本 ≥ 18&lt;/li&gt;
+&lt;li&gt;双击安装，一路点&quot;下一步&quot;&lt;/li&gt;
+&lt;li&gt;打开终端（命令行），验证：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;node -v
+# 应该输出类似 v20.11.0
+
+npm -v
+# 应该输出类似 10.2.4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;4.2 pnpm（必须）&lt;/h3&gt;
+&lt;p&gt;这个项目用 pnpm 作为包管理器，不能用 npm 或 yarn。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 全局安装 pnpm（只需执行一次）
+npm install -g pnpm
+
+# 验证
+pnpm -v
+# 应该输出类似 10.22.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;为什么必须用 pnpm？&lt;/strong&gt; &lt;code&gt;package.json&lt;/code&gt; 里写死了 &lt;code&gt;&quot;packageManager&quot;: &quot;pnpm@10.22.0&quot;&lt;/code&gt;，用 npm 会直接报错拒绝运行。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;4.3 Git（推荐）&lt;/h3&gt;
+&lt;p&gt;用于版本管理。如果要托管到 GitHub，就需要它。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下载：&lt;a href=&quot;https://git-scm.com&quot;&gt;https://git-scm.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;验证：&lt;code&gt;git --version&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;4.4 代码编辑器（推荐 VS Code）&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;下载：&lt;a href=&quot;https://code.visualstudio.com&quot;&gt;https://code.visualstudio.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;推荐安装插件：&lt;strong&gt;Astro&lt;/strong&gt;（官方插件，语法高亮 + 自动补全）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;5. 第一次运行&lt;/h2&gt;
+&lt;h3&gt;5.1 三步启动&lt;/h3&gt;
+&lt;p&gt;打开终端，&lt;code&gt;cd&lt;/code&gt; 到项目根目录（包含 &lt;code&gt;package.json&lt;/code&gt; 的文件夹），依次执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 第一步：安装依赖（只需运行一次，以后不用重复）
+pnpm install
+
+# 第二步：同步内容仓库（从 Git 子模块拉取文章数据）
+pnpm sync-content
+
+# 第三步：启动开发服务器
+pnpm dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;成功的话会显示：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;┃ Local    http://localhost:4321/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在浏览器打开 &lt;code&gt;http://localhost:4321/&lt;/code&gt;，你应该看到博客首页了。&lt;/p&gt;
+&lt;h3&gt;5.2 开发服务器的特点&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;改代码后&lt;strong&gt;浏览器自动刷新&lt;/strong&gt;，不需要手动 F5&lt;/li&gt;
+&lt;li&gt;只在你的电脑上运行，别人看不到&lt;/li&gt;
+&lt;li&gt;按 &lt;code&gt;Ctrl + C&lt;/code&gt; 停止&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;5.3 如果报错了&lt;/h3&gt;
+&lt;p&gt;把&lt;strong&gt;终端的完整报错信息&lt;/strong&gt;复制下来。常见情况：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;报错关键字&lt;/th&gt;
+&lt;th&gt;可能原因&lt;/th&gt;
+&lt;th&gt;自己可以先试&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;pnpm: command not found&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;没装 pnpm&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;npm install -g pnpm&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;node: command not found&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;没装 Node.js&lt;/td&gt;
+&lt;td&gt;去 nodejs.org 下载安装&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Cannot find module&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;依赖没装全&lt;/td&gt;
+&lt;td&gt;删掉 &lt;code&gt;node_modules/&lt;/code&gt;，重跑 &lt;code&gt;pnpm install&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;port 4321 is already in use&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;端口被占用&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;pnpm dev --port 3000&lt;/code&gt; 换端口&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Only pnpm is allowed&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;用了 npm 命令&lt;/td&gt;
+&lt;td&gt;换成 &lt;code&gt;pnpm&lt;/code&gt; 开头&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;sync-content&lt;/code&gt; 报错&lt;/td&gt;
+&lt;td&gt;内容子模块未初始化&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;git submodule update --init&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;5.4 开发小技巧&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;改完代码不需要手动刷新浏览器，Astro 会自动热更新&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;draft: true&lt;/code&gt; 的文章在 &lt;code&gt;pnpm dev&lt;/code&gt; 下可见，&lt;code&gt;pnpm build&lt;/code&gt; 后自动隐藏&lt;/li&gt;
+&lt;li&gt;改 &lt;code&gt;src/config.ts&lt;/code&gt; 后偶尔需要手动刷新（配置变更不一定触发热更新）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;6. 第一个改动：把博客变成你自己的&lt;/h2&gt;
+&lt;p&gt;打开 &lt;code&gt;src/config.ts&lt;/code&gt;，这是博客的&lt;strong&gt;总控制面板&lt;/strong&gt;。下面按区块说明。&lt;/p&gt;
+&lt;h3&gt;6.1 网站标题和副标题&lt;/h3&gt;
+&lt;p&gt;找到 &lt;code&gt;siteConfig&lt;/code&gt; 对象（约第 25 行）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export const siteConfig: SiteConfig = {
+  title: &quot;奇奇莫拉の日记本&quot;,       // ← 浏览器标签页标题
+  subtitle: &quot;私人小网站&quot;,           // ← 主页副标题
+
+  themeColor: {
+    hue: 185,       // 色相值 0~360（0=红, 120=绿, 240=蓝, 185=青）
+    fixed: false,   // true = 禁止访客切换颜色
+  },
+  // ...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;6.2 网站 URL 和时区&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;  siteURL: &quot;https://qiqimora.cn/&quot;,   // ← 改成你的域名
+  siteStartDate: &quot;2025-08-31&quot;,       // ← 站点开始运行的日期
+  timeZone: 8,                       // ← 时区，UTC+8 北京时间
+  lang: &quot;zh_CN&quot;,                     // ← 默认语言
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;6.3 特色页面开关&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;  featurePages: {
+    anime: true,     // 番剧页面
+    diary: true,     // 日记页面
+    friends: true,   // 友链页面
+    projects: true,  // 项目页面
+    skills: true,    // 技能页面
+    timeline: true,  // 时间线页面
+    albums: true,    // 相册页面
+    devices: true,   // 设备页面
+  },
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;关闭不用的页面可以提升 SEO，关闭后记得在导航栏配置中移除对应链接。&lt;/p&gt;
+&lt;h3&gt;6.4 导航栏标题和 Logo&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;  navbarTitle: {
+    mode: &quot;logo&quot;,          // &quot;text-icon&quot; 显示图标+文本，&quot;logo&quot; 仅显示Logo
+    text: &quot;MizukiUI&quot;,      // 顶栏标题文本
+    icon: &quot;assets/home/home.png&quot;,  // 顶栏图标路径
+    logo: &quot;assets/home/default-logo.png&quot;,  // Logo 图片路径
+  },
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;6.5 Banner 文字（首页顶部大图上的字）&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;  banner: {                      // ← homeText 在 banner 对象下面！
+    // ...（图片配置等）
+    homeText: {
+      enable: true,
+      title: &quot;奇奇莫拉の日记&quot;,       // ← 首页大标题
+      subtitle: [                   // ← 副标题（支持多条轮播）
+        &quot;虽然没有什么特别的事，但只要有你在就足够了。&quot;,
+        &quot;如今你依然是我的光。&quot;,
+        &quot;你啊，不知不觉间就成了我生活的日常。&quot;,
+        // ...
+      ],
+      typewriter: {
+        enable: true,     // 打字机效果开关
+        speed: 100,       // 打字速度（毫秒）
+      },
+    },
+  },
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;6.6 Banner 图片&lt;/h3&gt;
+&lt;p&gt;找到 &lt;code&gt;siteConfig.banner.src&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  banner: {
+    src: {
+      desktop: [
+        &quot;/assets/desktop-banner/1.webp&quot;,
+        // ...
+      ],
+      mobile: [
+        &quot;/assets/mobile-banner/1.webp&quot;,
+        // ...
+      ],
+    },
+    position: &quot;center&quot;,   // 图片定位：top / center / bottom
+    carousel: {
+      enable: true,       // 轮播开关
+      interval: 4,        // 轮播间隔（秒）
+    },
+    waves: {
+      enable: true,       // 水波效果（性能开销较大）
+    },
+  },
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;图片存放在 &lt;code&gt;public/assets/desktop-banner/&lt;/code&gt; 和 &lt;code&gt;public/assets/mobile-banner/&lt;/code&gt; 下。&lt;/p&gt;
+&lt;h3&gt;6.7 头像和名字&lt;/h3&gt;
+&lt;p&gt;找到 &lt;code&gt;profileConfig&lt;/code&gt;（约第 373 行）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export const profileConfig: ProfileConfig = {
+  avatar: &quot;assets/images/avatar.webp&quot;,  // 头像路径（相对于/src）
+  name: &quot;キキモラ-奇奇莫拉&quot;,             // 你的名字（显示在侧边栏）
+  bio: &quot;咱是奇奇莫拉，喜欢看番、画画、写日记&quot;,  // 个人简介
+  typewriter: {
+    enable: true,       // 简介打字机效果
+    speed: 80,
+  },
+  links: [                              // 社交链接
+    {
+      name: &quot;Bilibili&quot;,
+      icon: &quot;fa7-brands:bilibili&quot;,     // ← 注意是 fa7 不是 fa6
+      url: &quot;https://space.bilibili.com/你的ID&quot;,
+    },
+    {
+      name: &quot;GitHub&quot;,
+      icon: &quot;fa7-brands:github&quot;,
+      url: &quot;https://github.com/你的用户名&quot;,
+    },
+  ],
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;图标名称可以在 &lt;a href=&quot;https://icon-sets.iconify.design/&quot;&gt;Iconify&lt;/a&gt; 网站上搜索。注意项目中用的是 &lt;code&gt;fa7-brands&lt;/code&gt;（Font Awesome 7）前缀。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;6.8 目录配置&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;  toc: {
+    enable: true,               // 启用目录
+    mode: &quot;sidebar&quot;,            // &quot;float&quot; 悬浮按钮 | &quot;sidebar&quot; 侧边栏
+    depth: 2,                   // 目录深度（2=显示 h1 和 h2）
+    useJapaneseBadge: true,     // 使用日语假名标记
+  },
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;6.9 侧边栏组件&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;export const sidebarLayoutConfig: SidebarLayoutConfig = {
+  properties: [
+    { type: &quot;profile&quot;, position: &quot;top&quot; },      // 个人资料
+    { type: &quot;announcement&quot;, position: &quot;top&quot; },  // 公告
+    { type: &quot;categories&quot;, position: &quot;sticky&quot; }, // 分类
+    { type: &quot;tags&quot;, position: &quot;top&quot; },          // 标签
+    { type: &quot;site-stats&quot;, position: &quot;top&quot; },    // 站点统计
+    { type: &quot;calendar&quot;, position: &quot;top&quot; },      // 日历
+  ],
+  components: {
+    left: [&quot;profile&quot;, &quot;announcement&quot;, &quot;categories&quot;, &quot;tags&quot;],
+    right: [&quot;site-stats&quot;, &quot;calendar&quot;],
+  },
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;6.10 开关不需要的功能&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;// 关评论
+export const commentConfig = { enable: false };
+
+// 关音乐
+export const musicPlayerConfig = { enable: false };
+
+// 关樱花（默认已关）
+export const sakuraConfig = { enable: false };
+
+// 关看板娘猫娘（默认开启）
+export const pioConfig = { enable: false };
+
+// 关分享
+export const shareConfig = { enable: false };
+
+// 关自定义页脚
+export const footerConfig = { enable: false };
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;6.11 字体配置&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;  font: {
+    asciiFont: {
+      fontFamily: &quot;Consola&quot;,             // 英文字体
+      enableCompress: true,              // 字体子集优化
+    },
+    cjkFont: {
+      fontFamily: &quot;LXGWWenKaiMono-Regular.ttf&quot;,  // 中日韩字体
+      enableCompress: true,
+    },
+  },
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;7. 如何写文章&lt;/h2&gt;
+&lt;h3&gt;7.1 方法一：用命令创建（推荐）&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;pnpm new-post 我的第一篇文章
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这会在 &lt;code&gt;src/content/posts/&lt;/code&gt; 下创建 &lt;code&gt;我的第一篇文章.md&lt;/code&gt;，填入 frontmatter 模板。&lt;/p&gt;
+&lt;h3&gt;7.2 方法二：手动创建&lt;/h3&gt;
+&lt;p&gt;在 &lt;code&gt;src/content/posts/&lt;/code&gt; 下新建 &lt;code&gt;.md&lt;/code&gt; 文件，粘贴：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---
+title: 我的第一篇文章
+published: 2026-05-28
+description: 文章摘要，会显示在首页卡片上
+image: &apos;&apos;
+tags: [标签1, 标签2]
+category: 分类名
+draft: false
+pinned: false
+lang: zh_CN
+---
+
+在这里写文章正文，支持 Markdown 语法。
+
+## 二级标题
+
+普通文字。**加粗**，*斜体*。
+
+- 列表
+- 列表
+
+&amp;gt; 引用
+
+​```python
+print(&quot;代码块&quot;)
+​```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;7.3 Frontmatter 字段说明&lt;/h3&gt;
+&lt;p&gt;文章顶部 &lt;code&gt;---&lt;/code&gt; 之间的内容叫 &lt;strong&gt;frontmatter&lt;/strong&gt;（前置元数据）：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;字段&lt;/th&gt;
+&lt;th&gt;必填&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;示例&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;title&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;td&gt;文章标题&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&quot;我的第一篇文章&quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;published&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;td&gt;发布日期&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;2026-05-28&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;description&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;推荐&lt;/td&gt;
+&lt;td&gt;摘要，显示在卡片上&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&quot;这篇文章讲了...&quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;tags&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;标签列表&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;[前端, Astro]&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;category&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;分类&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&quot;技术笔记&quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;image&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;封面图路径&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&quot;cover.webp&quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;draft&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;草稿（&lt;code&gt;true&lt;/code&gt; = 生产环境不显示）&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;false&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;pinned&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;置顶（排在前面）&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;false&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;lang&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;文章语言&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;zh_CN&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;author&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;作者（默认用配置里的名字）&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&quot;你的名字&quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;updated&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;最后更新日期&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;2026-06-01&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;encrypted&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;加密文章（配合 &lt;code&gt;password&lt;/code&gt; 使用）&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;false&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;password&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;加密密码&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&quot;123456&quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;alias&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;文章别名，可生成额外路径&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&quot;my-post&quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;permalink&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;自定义固定链接（优先级高于 alias）&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&quot;custom-page&quot;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;7.4 文章文件组织方式&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;方式一：单文件&lt;/strong&gt;（适合纯文字文章）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;src/content/posts/
+└── 我的文章.md
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;方式二：文件夹&lt;/strong&gt;（适合包含图片的文章）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;src/content/posts/
+└── 我的文章/
+    ├── index.md       ← 必须叫 index.md
+    ├── cover.png      ← 封面图
+    └── diagram.png    ← 文内插图
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;文件夹模式下，文中引用图片直接写文件名：&lt;code&gt;![示意图](diagram.png)&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;7.5 特殊语法（Markdown 扩展）&lt;/h3&gt;
+&lt;p&gt;这个项目内置了丰富的扩展语法：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;数学公式（KaTeX）：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;行内公式：$E = mc^2$
+
+块级公式：
+$$
+\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+$$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;流程图（Mermaid）：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;```mermaid
+graph TD
+    A[开始] --&amp;gt; B{判断}
+    B --&amp;gt;|是| C[执行]
+    B --&amp;gt;|否| D[结束]
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;提示框（Admonition）：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;:::note
+这是一条普通提示
+:::
+
+:::tip
+这是一条小技巧
+:::
+
+:::warning
+这是一条警告
+:::
+
+:::caution
+需要注意的事项
+:::
+
+:::important
+重要信息
+:::
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;GitHub 仓库卡片：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;::github{repo=&quot;belgnas/belgnas.github.io&quot;}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;8. 如何添加页面和导航栏&lt;/h2&gt;
+&lt;h3&gt;8.1 添加一个新页面&lt;/h3&gt;
+&lt;p&gt;假设你想加一个 &lt;code&gt;/links/&lt;/code&gt; 友链汇总页面。在 &lt;code&gt;src/pages/&lt;/code&gt; 下新建 &lt;code&gt;links.astro&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---
+import MainGridLayout from &quot;@layouts/MainGridLayout.astro&quot;;
+---
+
+&amp;lt;MainGridLayout title=&quot;友链&quot; description=&quot;小伙伴们&quot; lang=&quot;zh_CN&quot;&amp;gt;
+  &amp;lt;main&amp;gt;
+    &amp;lt;h1&amp;gt;友链&amp;lt;/h1&amp;gt;
+    &amp;lt;p&amp;gt;这里放你的友链内容&amp;lt;/p&amp;gt;
+  &amp;lt;/main&amp;gt;
+&amp;lt;/MainGridLayout&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;路由规则：&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;文件路径&lt;/th&gt;
+&lt;th&gt;对应网址&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;src/pages/index.astro&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;/&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;src/pages/about.astro&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;/about/&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;src/pages/links.astro&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;/links/&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;src/pages/posts/[...slug].astro&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;/posts/文章名/&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;规律：文件路径（去掉前缀 &lt;code&gt;src/pages/&lt;/code&gt; 和后缀 &lt;code&gt;.astro&lt;/code&gt;）= 网址路径。&lt;/p&gt;
+&lt;h3&gt;8.2 把新页面加入导航栏&lt;/h3&gt;
+&lt;p&gt;在 &lt;code&gt;src/config.ts&lt;/code&gt; 的 &lt;code&gt;navBarConfig.links&lt;/code&gt; 中添加：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export const navBarConfig: NavBarConfig = {
+  links: [
+    LinkPreset.Home,          // 预设：首页
+    LinkPreset.Archive,       // 预设：归档
+    {
+      name: &quot;友链&quot;,           // 导航栏显示的文字
+      url: &quot;/links/&quot;,         // 页面地址
+      icon: &quot;material-symbols:link&quot;,  // 图标（可选，在 Iconify 搜）
+    },
+  ],
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;8.3 导航栏支持多级菜单&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;{
+  name: &quot;链接&quot;,
+  url: &quot;/links/&quot;,
+  children: [                   // 子菜单
+    {
+      name: &quot;GitHub&quot;,
+      url: &quot;https://github.com/...&quot;,
+      external: true,           // external = 外部链接，新标签页打开
+      icon: &quot;fa7-brands:github&quot;,
+    },
+  ],
+},
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;8.4 可用的预设链接（LinkPreset）&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;预设&lt;/th&gt;
+&lt;th&gt;对应&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;LinkPreset.Home&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;首页&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;LinkPreset.Archive&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;归档&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;LinkPreset.About&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;关于&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;LinkPreset.Friends&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;友链&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;LinkPreset.Anime&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;番剧追踪&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;LinkPreset.Diary&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;日记&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;LinkPreset.Projects&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;项目&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;LinkPreset.Skills&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;技能&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;LinkPreset.Timeline&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;时间线&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr /&gt;
+&lt;h2&gt;9. 深入理解：代码走读&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这一节是进阶内容。如果你刚上手，可以跳过，先改配置和写文章。当你想理解&quot;这个页面到底是怎么生成出来的&quot;时，再回来看。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;9.1 首页是怎么工作的？（&lt;code&gt;[...page].astro&lt;/code&gt;）&lt;/h3&gt;
+&lt;p&gt;这个项目&lt;strong&gt;没有&lt;/strong&gt; &lt;code&gt;index.astro&lt;/code&gt;。首页由 &lt;code&gt;[...page].astro&lt;/code&gt; 承担，因为它还需要处理分页。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---
+// ╔══════════════════════════════════╗
+// ║  上半部分：JavaScript 逻辑      ║
+// ╚══════════════════════════════════╝
+
+import type { GetStaticPaths } from &quot;astro&quot;;
+import Pagination from &quot;../components/control/Pagination.astro&quot;;
+import PostPage from &quot;../components/PostPage.astro&quot;;
+import { PAGE_SIZE } from &quot;../constants/constants&quot;;
+import MainGridLayout from &quot;../layouts/MainGridLayout.astro&quot;;
+import { getSortedPosts } from &quot;../utils/content-utils&quot;;
+
+// export const getStaticPaths — 注意是 export const 而不是 export async function
+// 这是 Astro 5 中推荐的写法，使用 satisfies 关键字
+export const getStaticPaths = (async ({ paginate }) =&amp;gt; {
+  const allPosts = await getSortedPosts();    // 获取所有文章
+  return paginate(allPosts, { pageSize: PAGE_SIZE }); // 每 8 篇分一页（PAGE_SIZE=8）
+}) satisfies GetStaticPaths;
+
+// Astro 自动把当前页的数据放到 Astro.props.page 里
+const { page } = Astro.props;
+---
+
+&amp;lt;!-- ╔══════════════════════════════════╗ --&amp;gt;
+&amp;lt;!-- ║  下半部分：HTML 模板            ║ --&amp;gt;
+&amp;lt;!-- ╚══════════════════════════════════╝ --&amp;gt;
+
+&amp;lt;MainGridLayout&amp;gt;
+  &amp;lt;PostPage page={page} /&amp;gt;     &amp;lt;!-- 当前页的文章列表 --&amp;gt;
+  &amp;lt;Pagination page={page} /&amp;gt;   &amp;lt;!-- 上一页 / 下一页按钮 --&amp;gt;
+&amp;lt;/MainGridLayout&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;getStaticPaths&lt;/code&gt; 用人话解释：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;它回答一个问题：&quot;你要印哪几页？&quot;&lt;/p&gt;
+&lt;p&gt;假设你有 20 篇文章，每页 8 篇：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第 1 页（&lt;code&gt;/&lt;/code&gt;）→ 文章 1~8&lt;/li&gt;
+&lt;li&gt;第 2 页（&lt;code&gt;/page/2/&lt;/code&gt;）→ 文章 9~16&lt;/li&gt;
+&lt;li&gt;第 3 页（&lt;code&gt;/page/3/&lt;/code&gt;）→ 文章 17~20&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;paginate()&lt;/code&gt; 帮你自动算好这些，你只需要告诉它&quot;每页多少篇&quot;。&lt;/p&gt;
+&lt;h3&gt;9.2 文章详情页是怎么工作的？（&lt;code&gt;posts/[...slug].astro&lt;/code&gt;）&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;---
+// 为每一篇文章生成一个 URL
+export async function getStaticPaths() {
+  const posts = await getSortedPosts();
+  return posts.map((post) =&amp;gt; ({
+    params: { slug: post.slug },    // 比如 slug = &quot;hello_world&quot;
+    props: { entry: post },         // 把整篇文章数据传给模板
+  }));
+}
+
+// 拿到当前文章的 entry
+const { entry } = Astro.props;
+// render() 把 Markdown 变成 HTML
+const { Content, headings } = await render(entry);
+// 还可以获取 remark 插件处理后的 frontmatter
+const { remarkPluginFrontmatter } = await render(entry);
+---
+
+&amp;lt;MainGridLayout title={entry.data.title}&amp;gt;
+  &amp;lt;article&amp;gt;
+    &amp;lt;h1&amp;gt;{entry.data.title}&amp;lt;/h1&amp;gt;
+    &amp;lt;PostMeta post={entry} /&amp;gt;       &amp;lt;!-- 日期、标签、分类 --&amp;gt;
+    &amp;lt;Markdown&amp;gt;
+      &amp;lt;Content /&amp;gt;                   &amp;lt;!-- 文章正文（Markdown 已渲染为 HTML）--&amp;gt;
+    &amp;lt;/Markdown&amp;gt;
+  &amp;lt;/article&amp;gt;
+&amp;lt;/MainGridLayout&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;数据流（追踪一篇文章从文件到页面的全过程）：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1. 你写 hello_world.md
+      ↓
+2. getSortedPosts() 读取它，提取 frontmatter + 正文
+      ↓
+3. getStaticPaths() 生成路由 /posts/hello_world/
+      ↓
+4. 用户访问这个 URL
+      ↓
+5. entry.render() 把 Markdown 转换成 HTML
+      ↓
+6. &amp;lt;Content /&amp;gt; 组件 + &amp;lt;Markdown&amp;gt; 包装器 把 HTML 插入页面模板
+      ↓
+7. 读者看到完整的文章页面
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;9.3 Astro 文件的两段式结构&lt;/h3&gt;
+&lt;p&gt;所有 &lt;code&gt;.astro&lt;/code&gt; 文件都遵循这个模式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---
+// 上半部分（frontmatter script）
+// 写 JavaScript / TypeScript 逻辑
+// 在构建时运行（服务器端）
+// 可以 import 其他文件、调用 API、处理数据
+const name = &quot;qiqimora&quot;;
+const posts = await getSortedPosts();
+---
+
+&amp;lt;!-- 下半部分（template）--&amp;gt;
+&amp;lt;!-- 写 HTML 模板 --&amp;gt;
+&amp;lt;!-- { } 里面可以嵌入 JS 表达式 --&amp;gt;
+&amp;lt;h1&amp;gt;你好，{name}！&amp;lt;/h1&amp;gt;
+&amp;lt;p&amp;gt;共有 {posts.length} 篇文章&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;关键规则：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;---&lt;/code&gt; 之间是&lt;strong&gt;构建时&lt;/strong&gt;运行的，生成的是数据，不会发送到浏览器&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;---&lt;/code&gt; 下面是&lt;strong&gt;模板&lt;/strong&gt;，会被编译成 HTML 发送到浏览器&lt;/li&gt;
+&lt;li&gt;模板里 &lt;code&gt;{ }&lt;/code&gt; 可以嵌入 JS 表达式，但不支持 &lt;code&gt;if&lt;/code&gt; / &lt;code&gt;for&lt;/code&gt; 等语句（那些需要用 Astro 的模板语法）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;9.4 数据页面是怎么填数据的？&lt;/h3&gt;
+&lt;p&gt;以 &lt;code&gt;/projects/&lt;/code&gt; 为例。页面文件 &lt;code&gt;projects.astro&lt;/code&gt; 本身是完整的，但它从 &lt;code&gt;src/data/projects.ts&lt;/code&gt; 拿数据：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// src/data/projects.ts
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  category: &quot;web&quot; | &quot;mobile&quot; | &quot;desktop&quot; | &quot;other&quot;;
+  techStack: string[];
+  status: &quot;completed&quot; | &quot;in-progress&quot; | &quot;planned&quot;;
+  liveDemo?: string;
+  sourceCode?: string;
+  startDate: string;
+  endDate?: string;
+  featured?: boolean;
+  tags?: string[];
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;改法：&lt;/strong&gt; 打开 &lt;code&gt;src/data/projects.ts&lt;/code&gt;，添加或修改你的项目数据：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export const projectsData: Project[] = [
+  {
+    id: &quot;my-project&quot;,
+    title: &quot;我的第一个项目&quot;,
+    description: &quot;这是一个xxx项目，用来解决xxx问题&quot;,
+    image: &quot;/images/projects/project1.png&quot;,
+    category: &quot;web&quot;,
+    techStack: [&quot;Astro&quot;, &quot;Tailwind&quot;, &quot;Svelte&quot;],
+    status: &quot;completed&quot;,
+    liveDemo: &quot;https://你的项目地址&quot;,
+    sourceCode: &quot;https://github.com/你的用户名/项目名&quot;,
+    startDate: &quot;2025-01&quot;,
+    endDate: &quot;2025-03&quot;,
+    featured: true,
+    tags: [&quot;前端&quot;, &quot;博客&quot;],
+  },
+];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;其他数据文件同理：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;技能 → &lt;code&gt;src/data/skills.ts&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;时间线 → &lt;code&gt;src/data/timeline.ts&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;设备 → &lt;code&gt;src/data/devices.ts&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;友链 → &lt;code&gt;src/data/friends.ts&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h2&gt;10. 常用命令速查表&lt;/h2&gt;
+&lt;p&gt;在项目根目录下执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 启动开发服务器（边改边看，浏览器自动刷新）
+pnpm dev
+
+# 构建生产版本（生成最终 HTML 到 dist/ 目录）
+pnpm build
+
+# 预览生产版本（先 build，再本地预览产物）
+pnpm build &amp;amp;&amp;amp; pnpm preview
+
+# 创建新文章
+pnpm new-post 文章标题
+
+# Astro 类型检查（检查 Astro 文件类型错误）
+pnpm check
+
+# TypeScript 类型检查
+pnpm type-check
+
+# 代码格式化
+pnpm format
+
+# 代码检查 + 自动修复
+pnpm lint
+
+# 同步内容仓库（拉取最新文章数据）
+pnpm sync-content
+
+# 更新番剧数据（从 Bangumi API）
+pnpm update-bangumi
+
+# 更新番剧数据（从 Bilibili API）
+pnpm update-bilibili
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;11. 常见问题排查&lt;/h2&gt;
+&lt;h3&gt;11.1 &lt;code&gt;pnpm install&lt;/code&gt; 失败&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;# 确认 pnpm 已安装
+pnpm -v
+
+# 如果没装
+npm install -g pnpm
+
+# 如果还是失败，清理后重试
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;11.2 &lt;code&gt;pnpm dev&lt;/code&gt; 启动后浏览器白屏&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;端口被占用&lt;/strong&gt;：&lt;code&gt;pnpm dev --port 3000&lt;/code&gt; 换端口&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;依赖没装全&lt;/strong&gt;：删 &lt;code&gt;node_modules/&lt;/code&gt;，重跑 &lt;code&gt;pnpm install&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;浏览器缓存&lt;/strong&gt;：&lt;code&gt;Ctrl + Shift + R&lt;/code&gt; 强制刷新&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;11.3 文章改了但网站上看不到&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;draft&lt;/code&gt; 是不是 &lt;code&gt;true&lt;/code&gt;？（草稿模式下 &lt;code&gt;pnpm build&lt;/code&gt; 不输出，但 &lt;code&gt;pnpm dev&lt;/code&gt; 可见）&lt;/li&gt;
+&lt;li&gt;文件保存了吗？&lt;/li&gt;
+&lt;li&gt;终端有报错吗？&lt;/li&gt;
+&lt;li&gt;试试停掉服务器（&lt;code&gt;Ctrl + C&lt;/code&gt;）再 &lt;code&gt;pnpm dev&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;11.4 Markdown 语法没渲染&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Mermaid 需要三个反引号 + &lt;code&gt;mermaid&lt;/code&gt;：&lt;code&gt;```mermaid&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;提示框 &lt;code&gt;:::note&lt;/code&gt; 后要换行，结束时 &lt;code&gt;:::&lt;/code&gt; 单独一行&lt;/li&gt;
+&lt;li&gt;KaTeX 公式前后不要有多余空格&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;11.5 图片显示不出来&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;放在文章文件夹里的图：直接写文件名 &lt;code&gt;![alt](image.png)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;放在 &lt;code&gt;public/&lt;/code&gt; 下的图：路径以 &lt;code&gt;/&lt;/code&gt; 开头 &lt;code&gt;/images/xxx.jpg&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;大小写！Windows 不区分大小写，但部署到 Linux 服务器后 &lt;code&gt;Cover.png&lt;/code&gt; ≠ &lt;code&gt;cover.png&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;11.6 构建失败&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;# 先做类型检查
+pnpm check
+
+# 清理缓存
+rm -rf dist .astro
+pnpm build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;12. 改什么→找哪个文件（速查表）&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;你想做的事&lt;/th&gt;
+&lt;th&gt;文件 / 位置&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;改网站标题&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;siteConfig.title&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改网站 URL&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;siteConfig.siteURL&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改头像&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;profileConfig.avatar&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改名字（侧边栏）&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;profileConfig.name&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改简介&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;profileConfig.bio&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改 Banner 图&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;public/assets/desktop-banner/&lt;/code&gt; 换图 + 改 &lt;code&gt;src/config.ts&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改首页大标题&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;siteConfig.banner.homeText.title&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改主题色&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;siteConfig.themeColor.hue&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改导航栏菜单&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;navBarConfig.links&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改侧边栏显示什么&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;sidebarLayoutConfig.components&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改社交链接&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;profileConfig.links&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;开关评论区&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;commentConfig.enable&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;开关猫娘看板娘&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;pioConfig.enable&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;开关音乐播放器&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;musicPlayerConfig.enable&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;开关樱花特效&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;sakuraConfig.enable&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;开关分享功能&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;shareConfig.enable&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;开关 Banner&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;siteConfig.banner.src&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;切换壁纸模式（banner/全屏/无）&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;siteConfig.wallpaperMode.defaultMode&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;写新文章&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/content/posts/&lt;/code&gt; 下新建 &lt;code&gt;.md&lt;/code&gt; 文件&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;添加新页面&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/pages/&lt;/code&gt; 下新建 &lt;code&gt;.astro&lt;/code&gt; 文件&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改&quot;关于&quot;页内容&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/content/spec/about.md&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改&quot;友链&quot;页内容&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/data/friends.ts&lt;/code&gt; 或 &lt;code&gt;src/content/spec/friends.md&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;添加项目&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/data/projects.ts&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;添加技能&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/data/skills.ts&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;添加时间线&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/data/timeline.ts&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;添加设备&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/data/devices.ts&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改多语言翻译&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/i18n/languages/&lt;/code&gt; 下的对应文件（&lt;code&gt;en.ts&lt;/code&gt; / &lt;code&gt;ja.ts&lt;/code&gt; / &lt;code&gt;zh_CN.ts&lt;/code&gt; / &lt;code&gt;zh_TW.ts&lt;/code&gt;）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改全局样式&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/styles/main.css&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改 Markdown 样式&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/styles/markdown.css&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;换 favicon 图标&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;public/favicon/&lt;/code&gt; 目录&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;添加音乐&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;public/assets/music/&lt;/code&gt; 目录&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;添加相册&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;public/images/albums/&lt;/code&gt; 下新建文件夹&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改看板娘对话&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;pioConfig.dialog&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改字体配置&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;siteConfig.font&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;改目录配置&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt; → &lt;code&gt;siteConfig.toc&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr /&gt;
+&lt;h2&gt;13. 部署到线上&lt;/h2&gt;
+&lt;h3&gt;13.1 GitHub Pages（免费）&lt;/h3&gt;
+&lt;p&gt;项目已配好 GitHub Actions（&lt;code&gt;.github/workflows/deploy.yml&lt;/code&gt;）：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;把代码推送到 GitHub 仓库&lt;/li&gt;
+&lt;li&gt;仓库 &lt;strong&gt;Settings → Pages&lt;/strong&gt; → Source 选 &lt;strong&gt;GitHub Actions&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;每次推送代码，GitHub 自动构建并部署&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;13.2 Vercel（免费，更推荐）&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;注册 &lt;a href=&quot;https://vercel.com&quot;&gt;vercel.com&lt;/a&gt;（用 GitHub 登录）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;New Project&lt;/strong&gt; → 导入你的 GitHub 仓库&lt;/li&gt;
+&lt;li&gt;Vercel 自动识别 Astro 项目，无需额外配置&lt;/li&gt;
+&lt;li&gt;点 &lt;strong&gt;Deploy&lt;/strong&gt;，获得 &lt;code&gt;xxx.vercel.app&lt;/code&gt; 域名&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;13.3 构建产物&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;pnpm build&lt;/code&gt; 后，静态文件在 &lt;code&gt;dist/&lt;/code&gt; 目录下。部署时上传的就是这个目录的内容。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;14. 学习路线图&lt;/h2&gt;
+&lt;p&gt;按这个顺序学，边学边在项目上动手：&lt;/p&gt;
+&lt;h3&gt;第 0 步（5 分钟）：跑起来&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;pnpm install
+pnpm dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;打开 &lt;code&gt;http://localhost:4321/&lt;/code&gt;，看到博客 = 成功。&lt;/p&gt;
+&lt;h3&gt;第 1 步（30 分钟）：纯改配置，不动代码&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;目标：&lt;/strong&gt; 熟悉 &lt;code&gt;src/config.ts&lt;/code&gt;。你改一个字，网站就变一个样，即时的正反馈是最好的学习方式。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;练习：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;把 &lt;code&gt;siteConfig.title&lt;/code&gt;、&lt;code&gt;profileConfig.name&lt;/code&gt;、&lt;code&gt;bio&lt;/code&gt; 全改成你的&lt;/li&gt;
+&lt;li&gt;把 &lt;code&gt;themeColor.hue&lt;/code&gt; 改成 200（看看蓝色的效果）&lt;/li&gt;
+&lt;li&gt;打开/关闭几个功能开关&lt;/li&gt;
+&lt;li&gt;换掉社交链接&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;第 2 步（1 小时）：写文章&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;目标：&lt;/strong&gt; 理解 Content Collections。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;练习：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;pnpm new-post 测试&lt;/code&gt; 创建一篇，看它自动生成的 frontmatter 模板&lt;/li&gt;
+&lt;li&gt;手工创建一篇，把 frontmatter 所有字段都试一试&lt;/li&gt;
+&lt;li&gt;试一下 KaTeX 公式、Mermaid 流程图、Admonition 提示框的语法&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;第 3 步（1 小时）：看懂首页和文章页&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;目标：&lt;/strong&gt; 理解 &lt;code&gt;getStaticPaths&lt;/code&gt; 和动态路由。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;要看的文件：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;src/pages/[...page].astro&lt;/code&gt; — 首页分页怎么做的&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;src/pages/posts/[...slug].astro&lt;/code&gt; — 每篇文章的页面怎么生成的&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;src/utils/content-utils.ts&lt;/code&gt; — &lt;code&gt;getSortedPosts()&lt;/code&gt; 返回了什么&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;详细讲解见&lt;a href=&quot;#9-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E4%BB%A3%E7%A0%81%E8%B5%B0%E8%AF%BB&quot;&gt;第 9 节&lt;/a&gt;。&lt;/p&gt;
+&lt;h3&gt;第 4 步（2 小时）：填数据&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;目标：&lt;/strong&gt; 把示例数据替换成你自己的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;要改的文件：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;src/data/projects.ts&lt;/code&gt; — 替换示例项目&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;src/data/skills.ts&lt;/code&gt; — 替换示例技能&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;src/data/timeline.ts&lt;/code&gt; — 替换示例时间线&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;src/data/friends.ts&lt;/code&gt; — 添加友链&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;src/content/spec/about.md&lt;/code&gt; — 写你的自我介绍&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;第 5 步（后续）：深入&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;学 &lt;a href=&quot;https://docs.astro.build/zh-cn/&quot;&gt;Astro 官方教程&lt;/a&gt; 的&quot;组件&quot;章节，理解 props&lt;/li&gt;
+&lt;li&gt;学 &lt;a href=&quot;https://tailwindcss.com/docs&quot;&gt;Tailwind CSS&lt;/a&gt; 基础，开始改样式&lt;/li&gt;
+&lt;li&gt;学 &lt;a href=&quot;https://svelte.dev/tutorial&quot;&gt;Svelte 官方教程&lt;/a&gt; 基础，理解交互组件&lt;/li&gt;
+&lt;li&gt;动手添加一个全新的页面（比如 &lt;code&gt;/bookshelf/&lt;/code&gt; 书架页面）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;附录 A：文件后缀速查&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;后缀&lt;/th&gt;
+&lt;th&gt;是什么&lt;/th&gt;
+&lt;th&gt;在哪里出现&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;.astro&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Astro 组件/页面&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/pages/&lt;/code&gt;, &lt;code&gt;src/components/&lt;/code&gt;, &lt;code&gt;src/layouts/&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;.svelte&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Svelte 交互组件&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/components/&lt;/code&gt;（搜索、音乐、看板娘等）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;.md&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Markdown 文章&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/content/posts/&lt;/code&gt;, &lt;code&gt;src/content/spec/&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;.ts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TypeScript 代码&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt;, &lt;code&gt;src/utils/&lt;/code&gt;, &lt;code&gt;src/data/&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;.css&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;样式表&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/styles/&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;.mjs&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ES Module JS&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/plugins/&lt;/code&gt;, &lt;code&gt;astro.config.mjs&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;.json&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;JSON 配置&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;package.json&lt;/code&gt;, &lt;code&gt;tsconfig.json&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;附录 B：重要外部链接&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.astro.build/&quot;&gt;Astro 官方文档&lt;/a&gt; / &lt;a href=&quot;https://docs.astro.build/zh-cn/&quot;&gt;中文版&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://svelte.dev/tutorial&quot;&gt;Svelte 交互式教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://tailwindcss.com/docs&quot;&gt;Tailwind CSS 文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.markdownguide.org/&quot;&gt;Markdown 语法指南&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://icon-sets.iconify.design/&quot;&gt;Iconify 图标搜索&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://mermaid.js.org/&quot;&gt;Mermaid 流程图语法&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://katex.org/docs/supported.html&quot;&gt;KaTeX 数学公式语法&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </content:encoded></item><item><title>Claude Code 使用教程</title><link>https://qiqimora.cn/posts/claude_helper/</link><guid isPermaLink="true">https://qiqimora.cn/posts/claude_helper/</guid><description>Claude Code 官方文档整理，用来给自己查阅喵</description><pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Claude Code 完整使用教程&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;本教程基于 Claude Code 官方文档全面整理，涵盖所有常用和高级操作命令。&lt;/p&gt;

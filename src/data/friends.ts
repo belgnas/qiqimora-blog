@@ -31,7 +31,8 @@ export const friendsData: FriendItem[] = [
     {
 		id: 1,
 		title: "奇奇莫拉の日记本",
-		imgurl: "https://qiqimora.cn/_astro/avatar.qk8rO0hW_1zxmdw.webp",
+		// 用 public/ 下的稳定路径，_astro/ 哈希路径每次构建都会变，硬编码会图裂
+		imgurl: "/assets/images/avatar.webp",
 		desc: "咱是奇奇莫拉，今天也不想出门qwq",
 		siteurl: "https://qiqimora.cn/",
 		tags: ["自己", "二次元", "技术"],
@@ -39,8 +40,8 @@ export const friendsData: FriendItem[] = [
     {
 		id: 2,
 		title: "imicola",
-		imgurl:
-			"https://imicola.com/_astro/nona_cut.D2OfEpoP_Z1NkkW9.webp",
+		// 已本地化：对方站点重新构建后 _astro 哈希 URL 会失效，故存到 public/images/friends/
+		imgurl: "/images/friends/imicola.webp",
 		desc: "世界第一可爱美少女(",
 		siteurl: "https://imicola.com/",
 		tags: ["二次元", "技术"],

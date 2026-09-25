@@ -1,16 +1,14 @@
 ---
-title: Astro 博客零基础上手指南            # 文章标题
-published: 2026-05-28                    # 发布日期 (YYYY-MM-DD)
-description: 面向完全没有前端项目经验的新手，从安装环境到部署上线，一步步教你接手并定制一个 Astro 博客。包含项目结构讲解、完成度分析、代码走读和学习路线图。  # 文章摘要
-tags: [Astro, 教程, 前端, 博客]          # 标签
-category: 教程                             # 分类
-author: belgnas                            # 作者
-licenseName: "Unlicensed"                 # 许可证
-draft: false                              # 草稿 (true=不发布)
-pinned: false                             # 置顶
-date: 2026-05-28                          # 创建日期
-pubDate: 2026-05-28                       # 发布日期
-lang: zh_CN                               # 语言
+title: Astro 博客零基础上手指南
+published: 2026-05-28
+description: 面向完全没有前端项目经验的新手，从安装环境到部署上线，一步步教你接手并定制一个 Astro 博客。包含项目结构讲解、完成度分析、代码走读和学习路线图。
+tags: [Astro, 教程, 前端, 博客]
+category: 教程
+author: belgnas
+licenseName: "Unlicensed"
+draft: false
+pinned: false
+lang: zh_CN
 # image: ''                               # 封面图（可选）
 # licenseUrl: ''                          # 许可证链接（可选）
 # sourceLink: ''                          # 原文链接（可选）

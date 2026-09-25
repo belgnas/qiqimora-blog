@@ -53,12 +53,12 @@ export const siteConfig: SiteConfig = {
 	navbarTitle: {
 		// 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo
 		mode: "logo",
-		// 顶栏标题文本
-		text: "MizukiUI",
+		// 顶栏标题文本（logo 模式下不显示，切到 text-icon 模式时会用到）
+		text: "奇奇莫拉の日记本",
 		// 顶栏标题图标路径，默认使用 public/assets/home/home.png
 		icon: "assets/home/home.png",
 		// 网站Logo图片路径
-		logo: "assets/home/default-logo.png",
+		logo: "assets/home/logo.png",
 	},
 
 	// 页面自动缩放配置
@@ -68,12 +68,12 @@ export const siteConfig: SiteConfig = {
 	},
 
 	bangumi: {
-		userId: "your-bangumi-id", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
+		userId: "", // 留空 = 不启用 Bangumi 数据源（番剧页面当前走 anime.mode: "local" 本地配置）。要启用时填你的 Bangumi 用户 ID，可设 "sai" 测试
 		fetchOnDev: false, // 是否在开发环境下获取 Bangumi 数据（默认 false），获取前先执行 pnpm build 构建 json 文件
 	},
 
 	bilibili: {
-		vmid: "your-bilibili-vmid", // 在此处设置你的Bilibili用户ID (uid)，例如 "1129280784"
+		vmid: "1808504869", // 你的B站 uid（来自空间链接 space.bilibili.com/1808504869）
 		fetchOnDev: false, // 是否在开发环境下获取 Bilibili 数据（默认 false）
 		coverMirror: "", // 封面图片镜像源（可选，如果需要使用镜像源，例如 "https://images.weserv.nl/?url="）
 		useWebp: true, // 是否使用WebP格式（默认 true）
@@ -206,12 +206,21 @@ export const siteConfig: SiteConfig = {
 	showCoverInContent: true, // 在文章内容页显示文章封面
 	generateOgImages: false, // 启用生成OpenGraph图片功能,注意开启后要渲染很长时间，不建议本地调试的时候开启
 	favicon: [
-		// 留空以使用默认 favicon
-		// {
-		//   src: '/favicon/icon.png',    // 图标文件路径
-		//   theme: 'light',              // 可选，指定主题 'light' | 'dark'
-		//   sizes: '32x32',              // 可选，图标大小
-		// }
+		// 自己的头像做 favicon（903x903 方图，sharp 生成的 PNG 在 public/favicon/ 下）
+		{
+			src: "/favicon/icon.png",
+			theme: "light",
+			sizes: "512x512",
+		},
+		{
+			src: "/favicon/icon.png",
+			theme: "dark",
+			sizes: "512x512",
+		},
+		{
+			src: "/favicon/icon-32.png",
+			sizes: "32x32",
+		},
 	],
 
 	// 字体配置
@@ -301,7 +310,7 @@ export const navBarConfig: NavBarConfig = {
 		},
 		{
 			name: "My",
-			url: "/content/",
+			url: "#", // 父级带子菜单时渲染为按钮不导航，此 url 仅作兜底
 			icon: "material-symbols:person",
 			children: [
 				{
@@ -321,7 +330,7 @@ export const navBarConfig: NavBarConfig = {
 				},
 				{
 					name: "Devices",
-					url: "devices/",
+					url: "/devices/",
 					icon: "material-symbols:devices",
 					external: false,
 				},
@@ -329,7 +338,7 @@ export const navBarConfig: NavBarConfig = {
 		},
 		{
 			name: "About",
-			url: "/content/",
+			url: "#", // 父级带子菜单时渲染为按钮不导航，此 url 仅作兜底
 			icon: "material-symbols:info",
 			children: [
 				{
@@ -448,9 +457,9 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 };
 
 export const commentConfig: CommentConfig = {
-	enable: false, // 启用评论功能。当设置为 false 时，评论组件将不会显示在文章区域。
+	enable: false, // 暂不启用评论。想开的话：按 https://twikoo.js.org/ 自部署一份后端，把 envId 换成自己的地址，再改 true
 	twikoo: {
-		envId: "https://twikoo.vercel.app",
+		envId: "", // 留空：https://twikoo.vercel.app 是官方演示环境，数据不归自己，直接开也用不了
 		lang: SITE_LANG,
 	},
 };
@@ -486,8 +495,22 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 };
 
 export const footerConfig: FooterConfig = {
-	enable: false, // 是否启用Footer HTML注入功能
-	customHtml: "", // HTML格式的自定义页脚信息，例如备案号等，默认留空
+	enable: true, // 是否启用Footer HTML注入功能
+	customHtml: `
+<div class="flex flex-col items-center gap-1 py-2 text-sm">
+	<div>
+		© ${new Date().getFullYear()}
+		<a href="/about/" class="transition hover:text-[var(--primary)]">奇奇莫拉</a>
+		· Powered by
+		<a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="transition hover:text-[var(--primary)]">Astro</a>
+	</div>
+	<!--
+		ICP 备案号位置：暂不展示（避免出现未确认的号码）。
+		拿到真实备案号后，在此处加入一行：
+		    <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">你的备案号</a>
+		查询入口：https://beian.miit.gov.cn/
+	-->
+</div>`,
 	// 也可以直接编辑 FooterConfig.html 文件来添加备案号等自定义内容
 	// 注意：若 customHtml 不为空，则使用 customHtml 中的内容；若 customHtml 留空，则使用 FooterConfig.html 文件中的内容
 	// FooterConfig.html 可能会在未来的某个版本弃用

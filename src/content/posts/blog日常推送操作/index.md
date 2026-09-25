@@ -8,8 +8,6 @@ category: 其他
 licenseName: "Unlicensed"
 author: qiqimora
 draft: false
-date: 2026-03-15
-pubDate: 2026-03-15
 ---
 
 # 博客日常推送操作

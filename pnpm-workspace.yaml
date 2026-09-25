@@ -1,6 +1,14 @@
+# pnpm 10.6+ 的配置文件（settings 原来放在 package.json 的 pnpm 字段，现已废弃）
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
   - sharp
   - swup
   - ttf2woff2
+
+# 说明：上游 Mizuki 曾在 package.json 里给 @emmetio/css-parser 打过补丁 override，
+# 但 pnpm 10 起该字段被忽略（安装时会打印 WARN），而项目在没有它的情况下构建正常，
+# 因此 2026-09 已删除。如果未来 Stylus 构建报 css 解析错误，在下面取消注释恢复：
+# overrides:
+#   '@emmetio/css-parser': 'https://codeload.github.com/ramya-rao-a/css-parser/tar.gz/370c480ac103bd17c7bcfb34bf5d577dc40d3660'

@@ -1,27 +1,14 @@
 ---
 title: MySQL整理
-# 文章标题(必需)
 published: 2025-09-16
-# 文章发布日期，格式为YYYY-MM-DD
+updated: 2026-03-15
 pinned: false
-# 是否置顶文章，true表示置顶
 description: 这是MySQL的学习笔记，记录了我在学习MySQL过程中的一些知识和经验。
-# 文章描述(必需)
 tags: [MySQL]
-# 文章标签数组，用于标记文章主题
 category: 计算机基础
-# 文章分类，用于组织文章
-
 licenseName: "Unlicensed"
-# 文章许可证名称，如"MIT"、"CC BY 4.0"等
 author: qiqimora
-# 文章作者姓名
 draft: false
-# 是否为草稿，true表示草稿，false表示正式发布
-date: 2025-09-02
-# 文章创建日期
-pubDate: 2025-09-16
-# 文章发布日期(与published类似)
 ---
 
 # MySQL

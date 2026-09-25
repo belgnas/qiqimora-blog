@@ -1,4 +1,1292 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>奇奇莫拉の日记本</title><description>私人小网站</description><link>https://qiqimora.cn/</link><language>zh_CN</language><item><title>清单（待完成）</title><link>https://qiqimora.cn/posts/%E6%B8%85%E5%8D%95/</link><guid isPermaLink="true">https://qiqimora.cn/posts/%E6%B8%85%E5%8D%95/</guid><description>咱想着把待完成事项整理一下，记录下来，不然不小心就会忘记。</description><pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;待完成事项清单&lt;/h1&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>奇奇莫拉の日记本</title><description>私人小网站</description><link>https://qiqimora.cn/</link><language>zh_CN</language><item><title>博客整改清单：一次全站自查的 19 个待修点</title><link>https://qiqimora.cn/posts/%E5%8D%9A%E5%AE%A2%E6%95%B4%E6%94%B9%E6%B8%85%E5%8D%95/</link><guid isPermaLink="true">https://qiqimora.cn/posts/%E5%8D%9A%E5%AE%A2%E6%95%B4%E6%94%B9%E6%B8%85%E5%8D%95/</guid><description>对 qiqimora.cn 做了一次从仓库、构建、路由到内容的全面自查，把发现的 19 个问题整理成可逐条执行的清单，每条都附文件位置、改法和验证方式。</description><pubDate>Tue, 22 Sep 2026 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;[!IMPORTANT]
+&lt;strong&gt;2026-09-25 更新（第二轮）：HTTPS 已彻底修复，&lt;code&gt;dist/&lt;/code&gt; 去留已确认。&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;HTTPS 证书&lt;/strong&gt;：根因并非简单的「证书过期」，而是&lt;strong&gt;阿里云因 ICP 备案不合规在网络层拦截了 80 端口&lt;/strong&gt;，导致 certbot 的 HTTP-01 验证永远失败。已改用 acme.sh + TLS-ALPN-01（走 443 端口）重签成功，6 个域名外网验证全部通过，有效期至 &lt;strong&gt;2026-12-24&lt;/strong&gt;，自动续期已配好。详见文末《HTTPS 证书故障完整复盘》。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;第 1 条（dist 出库）&lt;/strong&gt;：已确认服务器由 cron 每天 4:00 执行 &lt;code&gt;/var/www/deploy.sh&lt;/code&gt;（内部是 &lt;code&gt;git reset --hard origin/main&lt;/code&gt;），nginx 直接服务仓库内的 &lt;code&gt;dist/&lt;/code&gt;。&lt;strong&gt;所以 &lt;code&gt;dist/&lt;/code&gt; 必须继续留在 Git 里&lt;/strong&gt;，这不是可以优化掉的冗余，而是当前部署方式的硬性要求。&lt;/li&gt;
+&lt;li&gt;顺带修掉了服务器 nginx 里一个&lt;strong&gt;会永久阻断自动续期的配置 bug&lt;/strong&gt;（&lt;code&gt;return 301&lt;/code&gt; 写在 server 级，导致 ACME 验证 location 永远命中不到）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;2026-09-24 更新（第一轮）&lt;/strong&gt;：除第 1 条和第 3 条备案号外，其余 17 条已修复完毕，并通过完整构建验证（26 页 + pagefind + 字体压缩，产物 90.1 MB）。执行中额外发现 3 个清单外问题：HTTPS 证书过期、&lt;code&gt;常见STL&lt;/code&gt; 目录大小写不一致（Windows 无感、Linux 会出错）、IndexNow 密钥文件缺失。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!NOTE]
+本文是自查记录，不是教程。第一轮结论来自本地代码阅读（当时网络不通、构建也跑不起来）；&lt;strong&gt;第二轮已获得服务器访问权限，所有关于线上环境的结论都经过实际验证&lt;/strong&gt;，并在文中标注了验证方式。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;自查范围与结论&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;项&lt;/th&gt;
+&lt;th&gt;结果&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;检查对象&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;qiqimora-blog&lt;/code&gt; 仓库（Astro 5.18 + Svelte 5 + Tailwind v4）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;检查方式&lt;/td&gt;
+&lt;td&gt;全量代码阅读 + Git 历史 + 构建产物比对&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;发现问题&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;19 项&lt;/strong&gt;：2 项紧急、6 项会导致链接失效、5 项站点头尾没收尾、6 项配置残留&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;未能验证&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;pnpm check&lt;/code&gt; / &lt;code&gt;pnpm build&lt;/code&gt; 本地跑不起来（沙箱限制），线上站点也访问不到&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;一句话总结&lt;/strong&gt;：内容写得很扎实，但「工程收尾」这块基本停在模板默认状态——&lt;code&gt;dist/&lt;/code&gt; 被提交进 Git 让仓库膨胀到 119 MB、&lt;code&gt;robots.txt&lt;/code&gt; 把全站屏蔽、页脚（备案号）完全没开、导航栏还写着 &lt;code&gt;MizukiUI&lt;/code&gt;、几个菜单链接会点出 404。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;优先级总览&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;#&lt;/th&gt;
+&lt;th&gt;问题&lt;/th&gt;
+&lt;th&gt;优先级&lt;/th&gt;
+&lt;th&gt;位置&lt;/th&gt;
+&lt;th&gt;状态&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;dist/&lt;/code&gt; 被 Git 跟踪，仓库 119 MB&lt;/td&gt;
+&lt;td&gt;P0&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.gitignore&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 已确认必须保留（部署方式决定）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;robots.txt&lt;/code&gt; 硬编码 &lt;code&gt;Disallow: /&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;P0&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/pages/robots.txt.ts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 已修复&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;页脚关闭，无备案号&lt;/td&gt;
+&lt;td&gt;P0&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 页脚已启用；备案号暂以注释保留（不公示未确认的号码）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.env&lt;/code&gt; 与 &lt;code&gt;.env.example&lt;/code&gt; 完全一致&lt;/td&gt;
+&lt;td&gt;P0&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.env&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ IndexNow 已配好&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;devices&lt;/code&gt; 链接缺前导斜杠&lt;/td&gt;
+&lt;td&gt;P1&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 已修复&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;My&lt;/code&gt; / &lt;code&gt;About&lt;/code&gt; 指向不存在的 &lt;code&gt;/content/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;P1&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 已修复&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;友链头像用构建哈希 URL&lt;/td&gt;
+&lt;td&gt;P1&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/data/friends.ts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 两张均已本地化&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;导航栏文字还是 &lt;code&gt;MizukiUI&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;P1&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 已修复&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;favicon 还是主题默认&lt;/td&gt;
+&lt;td&gt;P1&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 头像生成三尺寸&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;Logo 还是主题默认&lt;/td&gt;
+&lt;td&gt;P2&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 已换 logo.png&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;三篇文章 frontmatter 残留约 180 行注释&lt;/td&gt;
+&lt;td&gt;P1&lt;/td&gt;
+&lt;td&gt;三篇文章&lt;/td&gt;
+&lt;td&gt;✅ 已清理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;date&lt;/code&gt; / &lt;code&gt;pubDate&lt;/code&gt; 不是 schema 字段&lt;/td&gt;
+&lt;td&gt;P2&lt;/td&gt;
+&lt;td&gt;九篇文章&lt;/td&gt;
+&lt;td&gt;✅ 已删净&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;无文章有 &lt;code&gt;updated&lt;/code&gt;，但开启了「上次编辑」&lt;/td&gt;
+&lt;td&gt;P2&lt;/td&gt;
+&lt;td&gt;九篇文章&lt;/td&gt;
+&lt;td&gt;✅ 按 git 历史补齐&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;td&gt;文章配图未压缩（单篇 8.3 MB）&lt;/td&gt;
+&lt;td&gt;P1&lt;/td&gt;
+&lt;td&gt;文章 &lt;code&gt;images/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 43 张转 WebP，省 89%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;15&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;pnpm.overrides&lt;/code&gt; 被 pnpm 10 忽略&lt;/td&gt;
+&lt;td&gt;P2&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;package.json&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 已删除死配置&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;other/&lt;/code&gt; 里的证书副本已过期&lt;/td&gt;
+&lt;td&gt;P2&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;other/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 已删除&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;17&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;public/pio/models/live2d/&lt;/code&gt; 未跟踪且未生效&lt;/td&gt;
+&lt;td&gt;P2&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;public/pio/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 移到 other/ 备份&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;18&lt;/td&gt;
+&lt;td&gt;评论开关与 &lt;code&gt;envId&lt;/code&gt; 都是占位&lt;/td&gt;
+&lt;td&gt;P3&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ 占位已清（保持关闭）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;19&lt;/td&gt;
+&lt;td&gt;bangumi / bilibili 占位 ID&lt;/td&gt;
+&lt;td&gt;P3&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;src/config.ts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;✅ bilibili 已填，bangumi 留空&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!NOTE]
+状态图例：✅ 完成 / 🔶 部分完成（缺你提供的信息）/ ⏸ 需要决策。下面正文保留的是「问题诊断 + 改法说明」，方便日后复查每一条为什么这么改。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h1&gt;一、P0：先修这四个&lt;/h1&gt;
+&lt;h2&gt;1. &lt;code&gt;dist/&lt;/code&gt; 被 Git 跟踪，仓库已经 119 MB&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;.gitignore&lt;/code&gt; 第 1–3 行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# build output
+# 服务器的内存不够，用本地的dist目录来代替构建
+# dist/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;dist/&lt;/code&gt; 这一行被注释掉了，所以构建产物全部进了版本库。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实测数据&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Git 松散对象 &lt;strong&gt;118.98 MiB&lt;/strong&gt;，共 1090 个对象&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dist/&lt;/code&gt; 合计 &lt;strong&gt;89.2 MB&lt;/strong&gt;，其中 &lt;code&gt;assets&lt;/code&gt; 42.3 MB、&lt;code&gt;images&lt;/code&gt; 34.5 MB&lt;/li&gt;
+&lt;li&gt;最后一次提交 &lt;code&gt;4241b8b&lt;/code&gt; 就包含了 &lt;code&gt;dist/&lt;/code&gt; 下的字体和 HTML 变更&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：这是目前最大的技术债。每次改一篇文章，提交 diff 里都会塞进几 MB 的字体和 HTML；仓库只会单向膨胀，克隆和 CI 都会越来越慢。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;还有个矛盾点&lt;/strong&gt;：&lt;code&gt;vercel.json&lt;/code&gt; 第 2 行仍然写着&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&quot;buildCommand&quot;: &quot;pnpm build&quot;,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果你真的在 Vercel 上部署，它&lt;strong&gt;会忽略你提交的 &lt;code&gt;dist/&lt;/code&gt;&lt;/strong&gt;，从源码重新构建——那本地构建再提交就是白做。结合 &lt;code&gt;other/&lt;/code&gt; 里那张 &lt;code&gt;qiqimora.cn&lt;/code&gt; 的 Let&apos;s Encrypt 证书看，你实际应该是自建服务器（阿里云）部署。&lt;strong&gt;所以先确认一件事：线上到底是从哪拉文件的？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法（二选一，取决于上面那个问题的答案）&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;路线 A：确实是服务器拉 &lt;code&gt;dist/&lt;/code&gt;&lt;/strong&gt; —— 保留现状，但换掉传输方式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 让 Git 停止跟踪 dist，但本地文件保留
+git rm -r --cached dist
+# 然后取消 .gitignore 里 dist/ 的注释
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;改完后用 &lt;code&gt;rsync&lt;/code&gt; / &lt;code&gt;scp&lt;/code&gt; 只把 &lt;code&gt;dist/&lt;/code&gt; 传到服务器，或者单独建一个 &lt;code&gt;deploy&lt;/code&gt; 分支只放产物。版本库只保留源码。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;路线 B：Vercel / Cloudflare Pages 从源码构建&lt;/strong&gt; —— 同样执行上面的 &lt;code&gt;git rm -r --cached dist&lt;/code&gt;，然后放行 &lt;code&gt;dist/&lt;/code&gt;，并删掉服务器上手动构建的流程。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git count-objects -vH          # 处理前是 118.98 MiB
+git status --short             # 确认没有意外改动
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!WARNING]
+动手前先确认线上是怎么拿文件的。如果服务器就是 &lt;code&gt;git pull&lt;/code&gt; 然后直接指向 &lt;code&gt;dist/&lt;/code&gt;，那 &lt;code&gt;git rm --cached&lt;/code&gt; 之后&lt;strong&gt;必须&lt;/strong&gt;同时改部署方式，否则线上会直接 404。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h2&gt;2. &lt;code&gt;robots.txt&lt;/code&gt; 把全站屏蔽了&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/pages/robots.txt.ts&lt;/code&gt; 第 3–10 行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const robotsTxt = `
+User-agent: *
+Disallow: /
+Allow: /$
+Allow: /posts/
+
+Sitemap: ${new URL(&quot;sitemap-index.xml&quot;, import.meta.env.SITE).href}
+`.trim();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;构建产物 &lt;code&gt;dist/robots.txt&lt;/code&gt; 实测内容确认了这一点。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：除了首页 &lt;code&gt;/&lt;/code&gt; 和 &lt;code&gt;/posts/&lt;/code&gt;，&lt;strong&gt;其余全部页面禁止被搜索引擎收录&lt;/strong&gt;——包括 &lt;code&gt;/about/&lt;/code&gt;、&lt;code&gt;/diary/&lt;/code&gt;、&lt;code&gt;/archive/&lt;/code&gt;、&lt;code&gt;/albums/&lt;/code&gt;、&lt;code&gt;/friends/&lt;/code&gt;、&lt;code&gt;/projects/&lt;/code&gt;、&lt;code&gt;/skills/&lt;/code&gt;、&lt;code&gt;/timeline/&lt;/code&gt;、&lt;code&gt;/devices/&lt;/code&gt;、&lt;code&gt;/anime/&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;而且这里有个自相矛盾的地方：同一份 &lt;code&gt;robots.txt&lt;/code&gt; 又声明了 &lt;code&gt;Sitemap:&lt;/code&gt;，而 sitemap 里&lt;strong&gt;列全了那些被禁止的页面&lt;/strong&gt;。等于一边告诉搜索引擎「这些都别抓」，一边又把它们塞进索引清单。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;这是否是有意为之？&lt;/strong&gt; 你的站点副标题是「私人小网站」，如果本来就不想被收录，那现状是合理的——但那样的话 sitemap 和 &lt;code&gt;featurePages&lt;/code&gt; 里那句「关闭未使用的页面有助于提升 SEO」的注释就都失去意义了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：如果希望全站可收录：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const robotsTxt = `
+User-agent: *
+Allow: /
+
+Sitemap: ${new URL(&quot;sitemap-index.xml&quot;, import.meta.env.SITE).href}
+`.trim();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果只想收录文章，保持 &lt;code&gt;Disallow: /&lt;/code&gt; 但把 sitemap 里非文章页面过滤掉，让两边一致。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：构建后看 &lt;code&gt;dist/robots.txt&lt;/code&gt;，或在线上访问 &lt;code&gt;https://qiqimora.cn/robots.txt&lt;/code&gt;。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;3. 页脚关闭，备案号缺失&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/config.ts&lt;/code&gt; 第 488–494 行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export const footerConfig: FooterConfig = {
+	enable: false,
+	customHtml: &quot;&quot;,
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;另外&lt;/strong&gt;：&lt;code&gt;src/FooterConfig.html&lt;/code&gt; 还是主题模板的原文——「这里是HTML注入示例，你可以在这个文件中添加自定义的HTML内容」，从没改过。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：站点跑在 &lt;code&gt;.cn&lt;/code&gt; 域名 + 阿里云上，&lt;strong&gt;备案号按规定需要展示在页脚&lt;/strong&gt;。目前页脚是空的，这是个合规风险，不只是美观问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export const footerConfig: FooterConfig = {
+	enable: true,
+	customHtml: `
+		&amp;lt;div class=&quot;flex flex-col items-center gap-1 text-sm&quot;&amp;gt;
+			&amp;lt;div&amp;gt;
+				© ${new Date().getFullYear()}
+				&amp;lt;a href=&quot;/about/&quot; class=&quot;transition hover:text-[var(--primary)]&quot;&amp;gt;奇奇莫拉&amp;lt;/a&amp;gt;
+			&amp;lt;/div&amp;gt;
+			&amp;lt;a href=&quot;https://beian.miit.gov.cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;
+			   class=&quot;transition hover:text-[var(--primary)]&quot;&amp;gt;
+				你的ICP备案号
+			&amp;lt;/a&amp;gt;
+		&amp;lt;/div&amp;gt;
+	`,
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;把 &lt;code&gt;你的ICP备案号&lt;/code&gt; 换成实际号码（形如 &lt;code&gt;京ICP备2025000000号-1&lt;/code&gt;）。如果还办了公安联网备案，通常在页脚再加一行并链到 &lt;code&gt;https://beian.mps.gov.cn/&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：&lt;code&gt;pnpm dev&lt;/code&gt; 打开首页，滚到底部确认备案号可点击、能跳到工信部网站。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;4. &lt;code&gt;.env&lt;/code&gt; 和 &lt;code&gt;.env.example&lt;/code&gt; 一模一样&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;.env&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实测&lt;/strong&gt;：两个文件的 SHA256 &lt;strong&gt;完全相同&lt;/strong&gt;（都是 2092 字节）——也就是说 &lt;code&gt;.env&lt;/code&gt; 里从来没有填过任何真实值。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;受影响的功能&lt;/strong&gt;：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;变量&lt;/th&gt;
+&lt;th&gt;当前值&lt;/th&gt;
+&lt;th&gt;后果&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ENABLE_CONTENT_SYNC&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;false&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;内容分离功能未启用（未启用则无所谓）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;CONTENT_REPO_URL&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;https://github.com/your-username/Mizuki-Content.git&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;占位，未启用则无所谓&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;INDEXNOW_HOST&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;your.example.com&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;pnpm submit&lt;/code&gt; 会把 URL 提交到错误主机&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;BILI_SESSDATA&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;含 &lt;code&gt;your&lt;/code&gt;，是占位符&lt;/td&gt;
+&lt;td&gt;B 站观看进度功能不可用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;好消息&lt;/strong&gt;：&lt;code&gt;.env&lt;/code&gt; 已经被 &lt;code&gt;.gitignore&lt;/code&gt; 第 18 行正确忽略了，密钥没有泄露。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：至少把 IndexNow 配好，否则 &lt;code&gt;scripts/indexnow-submit.js&lt;/code&gt; 是空转的：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;INDEXNOW_HOST=qiqimora.cn
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：&lt;code&gt;pnpm submit&lt;/code&gt; 后看输出是否返回 200/202。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!TIP]
+IndexNow 只有在&lt;strong&gt;部署完成后&lt;/strong&gt;提交才有效，而且没有接进 &lt;code&gt;build&lt;/code&gt; 脚本（&lt;code&gt;package.json&lt;/code&gt; 第 16 行的构建链里没有它）。想自动化的话，在部署脚本最后加一步 &lt;code&gt;pnpm submit&lt;/code&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h1&gt;二、导航与链接：这三个现在就会点出 404&lt;/h1&gt;
+&lt;h2&gt;5. &lt;code&gt;devices&lt;/code&gt; 链接少了前导斜杠&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/config.ts&lt;/code&gt; 第 323–327 行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+	name: &quot;Devices&quot;,
+	url: &quot;devices/&quot;,        // ← 少了 /
+	icon: &quot;material-symbols:devices&quot;,
+	external: false,
+},
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;同一份 &lt;code&gt;navBarConfig&lt;/code&gt; 里其他所有链接都是 &lt;code&gt;/xxx/&lt;/code&gt;，只有这个是相对路径。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：相对链接会&lt;strong&gt;基于当前页面路径&lt;/strong&gt;解析。在首页 &lt;code&gt;/&lt;/code&gt; 上点它还算正常，但在文章页 &lt;code&gt;/posts/常见stl/&lt;/code&gt; 上点就会跳到 &lt;code&gt;/posts/常见stl/devices/&lt;/code&gt;——&lt;strong&gt;404&lt;/strong&gt;。这在移动端抽屉菜单里特别容易踩到。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;url: &quot;/devices/&quot;,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：进任意一篇文章，展开 &lt;code&gt;My&lt;/code&gt; 菜单点 &lt;code&gt;Devices&lt;/code&gt;，应跳到 &lt;code&gt;/devices/&lt;/code&gt;。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;6. &lt;code&gt;My&lt;/code&gt; 和 &lt;code&gt;About&lt;/code&gt; 指向不存在的 &lt;code&gt;/content/&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/config.ts&lt;/code&gt; 第 304 行和第 332 行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+	name: &quot;My&quot;,
+	url: &quot;/content/&quot;,       // ← 这个路由不存在
+	children: [ /* Anime / Diary / Gallery / Devices */ ],
+},
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;实测&lt;/strong&gt;：&lt;code&gt;src/pages/&lt;/code&gt; 下没有任何 &lt;code&gt;content&lt;/code&gt; 路由，构建产物里也确认 &lt;code&gt;dist/content&lt;/code&gt; &lt;strong&gt;不存在&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：这两个父级项承载了「My」和「About」两个下拉菜单。如果主题在点击父级时会导航（而不是只展开子菜单），就会 404。而且 &lt;code&gt;/content/&lt;/code&gt; 这个路径本身很像是从「内容分离」功能的 &lt;code&gt;/content/&lt;/code&gt; 目录误抄过来的——那个目录是给同步内容用的，不是网页路由。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：改成菜单锚点或真实页面：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// 方案 1：不导航，只展开
+url: &quot;#&quot;,
+
+// 方案 2：指向一个真实存在、能当&quot;总览&quot;的页面
+url: &quot;/archive/&quot;,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;My&lt;/code&gt; 组可以指向 &lt;code&gt;/archive/&lt;/code&gt;（内容总览比较合适），&lt;code&gt;About&lt;/code&gt; 组指向 &lt;code&gt;/about/&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：点击 &lt;code&gt;My&lt;/code&gt; / &lt;code&gt;About&lt;/code&gt; 的父级项，确认不出现 404。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;7. 友链头像用了构建哈希 URL，重新构建就会裂&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/data/friends.ts&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;第 34 行（你自己那张卡）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;imgurl: &quot;https://qiqimora.cn/_astro/avatar.qk8rO0hW_1zxmdw.webp&quot;,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;第 42–43 行（imicola）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;imgurl:
+	&quot;https://imicola.com/_astro/nona_cut.D2OfEpoP_Z1NkkW9.webp&quot;,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：&lt;code&gt;/_astro/xxx.HASH.webp&lt;/code&gt; 里的哈希是 Astro 按文件内容算出来的。&lt;strong&gt;只要源图有一点改动、或者 Astro 升级改了哈希算法，文件名就会变&lt;/strong&gt;，友链卡片立刻图裂——而且这个链接是硬编码在数据文件里的，不会跟着更新。&lt;/p&gt;
+&lt;p&gt;imicola 那张更危险：那是&lt;strong&gt;别人站点&lt;/strong&gt;的构建产物，对方一重新部署就可能失效，你完全控制不了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;把头像复制一份到 &lt;code&gt;public/&lt;/code&gt; 下（&lt;code&gt;public/&lt;/code&gt; 内容不做哈希处理，路径永久稳定）。目前 &lt;code&gt;public/assets/images/&lt;/code&gt; 这个目录还不存在，需要新建：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;mkdir -p public/assets/images
+cp src/assets/images/avatar.webp public/assets/images/avatar.webp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;改 &lt;code&gt;friends.ts&lt;/code&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;imgurl: &quot;/assets/images/avatar.webp&quot;,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;imicola 那张建议下载到本地，别用对方带哈希的链接：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;imgurl: &quot;/images/friends/imicola.webp&quot;,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：构建后访问 &lt;code&gt;/friends/&lt;/code&gt;，确认两张头像都能加载；再改一下原图重新构建，确认链接没变。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!NOTE]
+顺带一提：&lt;code&gt;src/assets/images/&lt;/code&gt; 下的图片会被 Astro 优化成 &lt;code&gt;/_astro/&lt;/code&gt; 哈希文件——这对&lt;strong&gt;页面内引用&lt;/strong&gt;是好事（能自动压缩），但对&lt;strong&gt;硬编码在数据文件里的外链&lt;/strong&gt;就不合适了。规则是：给别人用的、要长期稳定的地址，放 &lt;code&gt;public/&lt;/code&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h1&gt;三、站点标识：还是主题默认的样子&lt;/h1&gt;
+&lt;h2&gt;8. 导航栏文字还写着 &lt;code&gt;MizukiUI&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/config.ts&lt;/code&gt; 第 53–62 行，具体是第 57 行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;navbarTitle: {
+	mode: &quot;logo&quot;,              // 当前只用 Logo，不显示文字
+	text: &quot;MizukiUI&quot;,          // ← 主题模板的名字
+	icon: &quot;assets/home/home.png&quot;,
+	logo: &quot;assets/home/default-logo.png&quot;,
+},
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：现在 &lt;code&gt;mode: &quot;logo&quot;&lt;/code&gt; 所以看不到，但这是个定时炸弹——哪天想切回 &lt;code&gt;&quot;text-icon&quot;&lt;/code&gt;，站名就变成「MizukiUI」了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;text: &quot;奇奇莫拉の日记本&quot;,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：把 &lt;code&gt;mode&lt;/code&gt; 临时改成 &lt;code&gt;&quot;text-icon&quot;&lt;/code&gt; 看一眼，确认没问题再改回来。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;9. favicon 还是主题默认&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/config.ts&lt;/code&gt; 第 208–215 行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;favicon: [
+	// 留空以使用默认 favicon
+],
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;实测&lt;/strong&gt;：&lt;code&gt;public/favicon/&lt;/code&gt; 下只有一个 &lt;code&gt;favicon.ico&lt;/code&gt;，是主题自带的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：浏览器标签页、书签、手机添加到主屏幕，显示的都是 Mizuki 主题的图标，不是你的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：准备一张 512×512 的方形图（透明底 PNG），放到 &lt;code&gt;public/favicon/&lt;/code&gt;，然后：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;favicon: [
+	{ src: &quot;/favicon/icon.png&quot;, theme: &quot;light&quot;, sizes: &quot;512x512&quot; },
+	{ src: &quot;/favicon/icon-dark.png&quot;, theme: &quot;dark&quot;, sizes: &quot;512x512&quot; },
+],
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;theme&lt;/code&gt; 用来适配明暗主题，两张图可选。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：&lt;code&gt;pnpm dev&lt;/code&gt; 后强制刷新（Ctrl+F5），看标签页图标。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!TIP]
+可以先用 &lt;code&gt;public/favicon/favicon.ico&lt;/code&gt; 之外的格式做一份，用 &lt;a href=&quot;https://realfavicongenerator.net/&quot;&gt;realfavicongenerator&lt;/a&gt; 一次生成全套（含 &lt;code&gt;apple-touch-icon&lt;/code&gt;、&lt;code&gt;manifest&lt;/code&gt;），覆盖到 &lt;code&gt;public/favicon/&lt;/code&gt; 即可。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h2&gt;10. Logo 还是主题默认，而仓库根目录的 &lt;code&gt;logo.png&lt;/code&gt; 没被用上&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/config.ts&lt;/code&gt; 第 61 行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;logo: &quot;assets/home/default-logo.png&quot;,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;实测&lt;/strong&gt;：&lt;code&gt;public/assets/home/&lt;/code&gt; 下只有 &lt;code&gt;default-logo.png&lt;/code&gt; 和 &lt;code&gt;home.png&lt;/code&gt;，都是主题自带的。&lt;/p&gt;
+&lt;p&gt;另外，&lt;strong&gt;仓库根目录躺着一个 &lt;code&gt;logo.png&lt;/code&gt;（273 KB）&lt;/strong&gt;，全项目搜索只有 3 处命中 &lt;code&gt;logo.png&lt;/code&gt;，且都不引用这个文件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;src/config.ts:61&lt;/code&gt; → &lt;code&gt;default-logo.png&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;src/components/Navbar.astro:38&lt;/code&gt; → 兜底默认值 &lt;code&gt;default-logo.png&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;一篇文章的示例代码里&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;也就是说这个 &lt;code&gt;logo.png&lt;/code&gt; &lt;strong&gt;完全没被使用&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：要么把它用起来——复制到 &lt;code&gt;public/assets/home/&lt;/code&gt; 并在 &lt;code&gt;config.ts&lt;/code&gt; 里指过去：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;logo: &quot;assets/home/logo.png&quot;,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;要么如果它已经没用了，直接从仓库根目录删掉，别让它继续占着位置、让人误会。&lt;/p&gt;
+&lt;p&gt;注意 &lt;code&gt;Navbar.astro&lt;/code&gt; 第 38 行有个兜底逻辑，用的是 &lt;code&gt;/assets/home/default-logo.png&lt;/code&gt;——如果你把默认文件删了，记得保证自己的 logo 路径可用。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：首页顶栏左上角显示的是自己的 logo。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h1&gt;四、内容与 Frontmatter&lt;/h1&gt;
+&lt;h2&gt;11. 三篇文章的 frontmatter 里残留了约 180 行模板注释&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;文件&lt;/th&gt;
+&lt;th&gt;frontmatter 总行数&lt;/th&gt;
+&lt;th&gt;注释噪音起始&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;src/content/posts/常见stl/index.md&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;78 行&lt;/td&gt;
+&lt;td&gt;第 12 行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;src/content/posts/一元三次方程求解/index.md&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;78 行&lt;/td&gt;
+&lt;td&gt;第 12 行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;src/content/posts/《操作系统概论》整理/index.md&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;74 行&lt;/td&gt;
+&lt;td&gt;第 12 行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;现象&lt;/strong&gt;：这三篇的 frontmatter 从第 12 行开始，塞了「分类 1 → 分类 7」共七大段标签备选注释，例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tags: [算法]
+# 文章标签数组，用于标记文章主题
+  # 分类 1：计算机基础 → Tags 选项
+      # 操作系统相关：进程 / 线程、Linux 命令、内存管理、死锁、PV 操作、操作系统实验
+      # 计算机网络相关：TCP/IP、HTTP/HTTPS、Socket 编程、Wireshark 抓包、子网划分
+      # 数据库相关：SQL 语法、MySQL 基础、事务 ACID、索引、ER 图、数据库实验
+      # 组成原理相关：CPU 架构、Cache 缓存、指令系统、IO 接口
+  # 分类 2：编程语言 → Tags 选项
+      # ...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;一直延续到第 72 行左右。&lt;strong&gt;三篇加起来约 180 行纯注释&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：纯粹是噪音。正经的标签其实就 &lt;code&gt;[算法]&lt;/code&gt; 一个；frontmatter 里真正生效的字段只有 8 行左右。阅读和编辑体验都很差，而且这种注释&lt;strong&gt;一旦混进 YAML 就有解析风险&lt;/strong&gt;（比如某行缩进写错、或内容里出现 &lt;code&gt;:&lt;/code&gt; 和 &lt;code&gt;#&lt;/code&gt; 的组合）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：每个文件把 frontmatter 精简成真正需要的样子，例如 &lt;code&gt;常见stl&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---
+title: 常见的stl
+published: 2025-12-12
+pinned: false
+description: 讲一下常见的STL容器和算法
+tags: [算法]
+category: 其他
+licenseName: &quot;Unlicensed&quot;
+author: qiqimora
+draft: false
+---
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果那套标签分类法你真的想留着参考，&lt;strong&gt;别放在 frontmatter 里&lt;/strong&gt;——单独抽成一个文件（比如 &lt;code&gt;docs/标签规范.md&lt;/code&gt;），或者写成一篇非发布的 spec 页面。顺带一提，你已经有一篇《文档编写规范》了，标签规范放在那里最合适。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：&lt;code&gt;pnpm build&lt;/code&gt; 通过，且这三篇文章页面正常渲染、标签正确显示。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;12. &lt;code&gt;date&lt;/code&gt; 和 &lt;code&gt;pubDate&lt;/code&gt; 不是 schema 字段&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/content.config.ts&lt;/code&gt; 第 7–40 行是文章 schema&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;schema: z.object({
+	title: z.string(),
+	published: z.date(),        // ← 唯一生效的日期字段
+	updated: z.date().optional(),
+	// ...
+}),
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;schema 里&lt;strong&gt;只有 &lt;code&gt;published&lt;/code&gt;&lt;/strong&gt;，没有 &lt;code&gt;date&lt;/code&gt;，也没有 &lt;code&gt;pubDate&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;但实测&lt;/strong&gt;：9 篇文章&lt;strong&gt;全部&lt;/strong&gt;同时写了三个日期字段。以 &lt;code&gt;blog日常推送操作&lt;/code&gt; 为例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;published: 2026-03-15
+date: 2026-03-15
+pubDate: 2026-03-15
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：Zod 在非 strict 模式下会&lt;strong&gt;静默剥掉&lt;/strong&gt;未知字段——所以现在不会报错，页面也正常。但这意味着：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;那 18 行 &lt;code&gt;date&lt;/code&gt; / &lt;code&gt;pubDate&lt;/code&gt; 是&lt;strong&gt;完全无效的死代码&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;更麻烦的是&lt;strong&gt;误导&lt;/strong&gt;：以后改发布日期，看到三个字段不知道该改哪个。改错一个（比如只改了 &lt;code&gt;date&lt;/code&gt;）不会有任何报错，但页面显示的日期没变——这类 bug 很难查。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：把所有文章的 &lt;code&gt;date:&lt;/code&gt; 和 &lt;code&gt;pubDate:&lt;/code&gt; 两行删掉，只保留 &lt;code&gt;published&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;批量检查一下还有哪些字段是多余的：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 看 schema 里定义了什么
+grep -oP &apos;^\t\t\K\w+(?=:)&apos; src/content.config.ts
+
+# 看文章里实际用了什么
+grep -h -oP &apos;^\K\w+(?=:)&apos; src/content/posts/*/index.md | sort -u
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;两边对一下，文章里出现但 schema 里没有的，都是可以删的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：&lt;code&gt;pnpm build&lt;/code&gt; 通过，文章列表和详情页日期显示不变。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;13. 没有任何文章有 &lt;code&gt;updated&lt;/code&gt;，但「上次编辑」卡片开着&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/config.ts&lt;/code&gt; 第 237 行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;showLastModified: true,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;实测&lt;/strong&gt;：&lt;code&gt;updated:&lt;/code&gt; 在全部 9 篇文章里出现 &lt;strong&gt;0 次&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：功能开着，但没有任何数据。需要确认这种情况下卡片显示什么——如果回退到文件系统时间，那 &lt;code&gt;git clone&lt;/code&gt; 或 CI 构建出来的时间就是构建时间，&lt;strong&gt;每次部署「上次编辑」都会变成今天&lt;/strong&gt;，等于没意义。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：给真正更新过的文章补上 &lt;code&gt;updated&lt;/code&gt;。从 Git 历史看，这几篇是有后续修改的：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---
+title: 《操作系统概论》整理
+published: 2026-03-13
+updated: 2026-03-20      # ← 补充
+---
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可以用 Git 自动生成每篇的最后修改日期：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;for f in src/content/posts/*/index.md; do
+  echo &quot;$f -&amp;gt; $(git log -1 --format=%cs -- &quot;$f&quot;)&quot;
+done
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：文章详情页的「上次编辑」显示的是真实修改日期，而不是构建时间。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;14. 文章配图是未压缩的 PNG，单篇 8.3 MB&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/content/posts/《操作系统概论》整理/images/&lt;/code&gt; 等&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实测数据&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;《操作系统概论》整理一篇的 &lt;code&gt;images/&lt;/code&gt; 目录：&lt;strong&gt;43 张 PNG，合计 8.3 MB&lt;/strong&gt;（全部是 PNG，没有一张 WebP）&lt;/li&gt;
+&lt;li&gt;单张最大 &lt;code&gt;image-18.png&lt;/code&gt; 579 KB，&lt;code&gt;image-24.png&lt;/code&gt; 464 KB，&lt;code&gt;image-17.png&lt;/code&gt; 453 KB&lt;/li&gt;
+&lt;li&gt;构建后 &lt;code&gt;dist/images&lt;/code&gt; 达到 &lt;strong&gt;34.5 MB&lt;/strong&gt;（这个目录还包括相册等资源）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：读者打开这一篇要下载 8 MB 图片。这是纯粹的阅读体验损失，而截图类内容转 WebP 通常能减掉 60–80% 体积且肉眼几乎无差别。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：批量转 WebP。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 用 sharp-cli（项目已依赖 sharp）
+npx sharp-cli -i &quot;src/content/posts/《操作系统概论》整理/images/*.png&quot; \
+  -o /tmp/webp/ --format webp --quality 82
+
+# 或直接用 cwebp（需另装）
+for f in src/content/posts/《操作系统概论》整理/images/*.png; do
+  cwebp -q 82 &quot;$f&quot; -o &quot;${f%.png}.webp&quot;
+done
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;转完记得&lt;strong&gt;同步改正文里的图片引用&lt;/strong&gt;（Markdown 里写的是 &lt;code&gt;.png&lt;/code&gt;）。转完确认没问题再删原图。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：&lt;code&gt;pnpm build&lt;/code&gt; 后对比 &lt;code&gt;dist/images&lt;/code&gt; 体积变化，并检查那篇文章所有图片都能正常显示。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!TIP]
+截图类内容如果包含大量文字，WebP 的质量参数别低于 80，否则文字边缘会糊。可以拿 &lt;code&gt;image-18.png&lt;/code&gt;（最大那张）先转一张对比看看再批量处理。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h1&gt;五、配置残留与可选优化&lt;/h1&gt;
+&lt;h2&gt;15. &lt;code&gt;pnpm.overrides&lt;/code&gt; 被 pnpm 10 忽略了&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;package.json&lt;/code&gt; 第 100–104 行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&quot;pnpm&quot;: {
+	&quot;overrides&quot;: {
+		&quot;@emmetio/css-parser&quot;: &quot;https://codeload.github.com/ramya-rao-a/css-parser/tar.gz/370c480ac103bd17c7bcfb34bf5d577dc40d3660&quot;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;实测&lt;/strong&gt;：运行 pnpm 时它自己会打印这条警告：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[WARN] The &quot;pnpm&quot; field in package.json is no longer read by pnpm.
+The following keys were ignored: &quot;pnpm.overrides&quot;.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：这个 override 是上游用来修 &lt;code&gt;@emmetio/css-parser&lt;/code&gt; 的一个补丁依赖。&lt;strong&gt;它现在是失效的&lt;/strong&gt;——pnpm 完全忽略了这段配置。如果当初加它是为了绕开某个 bug，那个 bug 现在是回来了的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：pnpm 10.6+ 把设置移到了 &lt;code&gt;pnpm-workspace.yaml&lt;/code&gt;。你已经有一个 &lt;code&gt;pnpm-workspace.yaml&lt;/code&gt; 了，把 override 搬过去：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;onlyBuiltDependencies:
+  - &apos;@parcel/watcher&apos;
+  - esbuild
+  - sharp
+  - swup
+  - ttf2woff2
+
+overrides:
+  &apos;@emmetio/css-parser&apos;: &apos;https://codeload.github.com/ramya-rao-a/css-parser/tar.gz/370c480ac103bd17c7bcfb34bf5d577dc40d3660&apos;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后从 &lt;code&gt;package.json&lt;/code&gt; 里删掉整个 &lt;code&gt;pnpm&lt;/code&gt; 字段，并重新安装。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：&lt;code&gt;pnpm install&lt;/code&gt; 时不再出现那条 WARN。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!WARNING]
+改完要重新跑一次 &lt;code&gt;pnpm install&lt;/code&gt; 并验证 &lt;code&gt;pnpm build&lt;/code&gt; 依然通过。如果这个 override 其实已经不需要了（上游可能早就修了），更干净的做法是&lt;strong&gt;直接删掉&lt;/strong&gt;，而不是搬家。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h2&gt;16. &lt;code&gt;other/&lt;/code&gt; 里的证书副本已经过期&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;other/qiqimora.com&lt;/code&gt;（Git 未跟踪）&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实测&lt;/strong&gt;：这是一张 &lt;code&gt;qiqimora.cn&lt;/code&gt; 的 Let&apos;s Encrypt 证书（PEM 文本），字段如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;签发时间：&lt;strong&gt;2026-06-16&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;到期时间：&lt;strong&gt;2026-09-14&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;覆盖域名：&lt;code&gt;qiqimora.cn&lt;/code&gt;、&lt;code&gt;qiqimora.com&lt;/code&gt;、&lt;code&gt;qiqimora.top&lt;/code&gt; 及各自 &lt;code&gt;www&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：&lt;strong&gt;今天是 2026-09-22，这张证书已经过期 8 天了。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：这只是一个&lt;strong&gt;本地副本&lt;/strong&gt;，不代表线上正在用这张——Let&apos;s Encrypt 证书有效期 90 天，服务器上一般有 certbot 自动续期。但有两件事值得确认：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;线上的证书续上了吗？&lt;/strong&gt; 如果服务器续期任务挂了，现在访问 &lt;code&gt;https://qiqimora.cn/&lt;/code&gt; 应该会报证书错误。（我这边网络不通，没法帮你验证，请你手动打开确认一下。）&lt;/li&gt;
+&lt;li&gt;这个文件&lt;strong&gt;不该散落在仓库里&lt;/strong&gt;。它是 Git 未跟踪状态，会一直出现在 &lt;code&gt;git status&lt;/code&gt; 里干扰视线。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 确认线上证书正常后，删掉这个副本
+rm other/qiqimora.com
+rmdir other
+
+# 如果还想留着参考，就忽略掉
+echo &quot;other/&quot; &amp;gt;&amp;gt; .gitignore
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：&lt;code&gt;git status --short&lt;/code&gt; 应该干净。同时手动确认线上 HTTPS 正常、证书有效期覆盖了未来 90 天。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;17. &lt;code&gt;public/pio/models/live2d/&lt;/code&gt; 未跟踪，而且根本没生效&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;public/pio/models/live2d/&lt;/code&gt;（Git 未跟踪）&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;内容&lt;/strong&gt;：一整套 Live2D 资源——Mea 模型（&lt;code&gt;mea.moc3&lt;/code&gt;、&lt;code&gt;mea.model3.json&lt;/code&gt;、贴图、动作、物理）、加上 pixi / pixi-live2d-display 运行时、还有一个 &lt;code&gt;index.html&lt;/code&gt; 预览页。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;关键点&lt;/strong&gt;：&lt;code&gt;src/config.ts&lt;/code&gt; 第 636–658 行的 &lt;code&gt;pioConfig&lt;/code&gt; 指向的是&lt;strong&gt;另一个&lt;/strong&gt;模型：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export const pioConfig = {
+	enable: true,
+	models: [&quot;/pio/models/pio/model.json&quot;],    // ← 用的是 pio，不是 live2d
+	// ...
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;所以这一整套 Live2D &lt;strong&gt;完全没有被加载&lt;/strong&gt;，纯粹是躺在 &lt;code&gt;public/&lt;/code&gt; 里。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：&lt;code&gt;public/&lt;/code&gt; 下的文件会被&lt;strong&gt;原样复制进 &lt;code&gt;dist/&lt;/code&gt;&lt;/strong&gt;。这些文件（含 pixi 运行时，单个 &lt;code&gt;.min.js&lt;/code&gt; 可能几百 KB）白白增加了每次构建的产物体积和上传时间——考虑到你的部署还要传 &lt;code&gt;dist/&lt;/code&gt;，这个代价不小。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法（二选一）&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;A. 接入它&lt;/strong&gt; —— 改 &lt;code&gt;pioConfig&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;models: [&quot;/pio/models/live2d/model/mea_live2d/mea.model3.json&quot;],
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;注意目录里有个中文名文件 &lt;code&gt;橙色猫猫.can3&lt;/code&gt;，这种文件名在跨平台部署（Windows → Linux）时&lt;strong&gt;很可能出问题&lt;/strong&gt;，建议先重命名成 ASCII 文件名。同时确认 &lt;code&gt;pioConfig.width/height&lt;/code&gt;（当前 280×250）对这套模型是否合适。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;B. 不用就删/忽略它&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git status --short                # 确认它确实是未跟踪
+rm -rf public/pio/models/live2d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;或者暂时留着但别让它进构建：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;echo &quot;public/pio/models/live2d/&quot; &amp;gt;&amp;gt; .gitignore
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：&lt;code&gt;pnpm build&lt;/code&gt; 后看 &lt;code&gt;dist/pio/&lt;/code&gt; 的体积变化；如果选了 A，刷新页面确认看板娘换成了 Mea。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;18. 评论开关与 &lt;code&gt;envId&lt;/code&gt; 都还是占位&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/config.ts&lt;/code&gt; 第 450–456 行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export const commentConfig: CommentConfig = {
+	enable: false,
+	twikoo: {
+		envId: &quot;https://twikoo.vercel.app&quot;,     // ← 官方 demo 地址
+		lang: SITE_LANG,
+	},
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：评论现在是关闭的。而且&lt;strong&gt;即使把 &lt;code&gt;enable&lt;/code&gt; 改成 &lt;code&gt;true&lt;/code&gt; 也用不了&lt;/strong&gt;——&lt;code&gt;https://twikoo.vercel.app&lt;/code&gt; 是 Twikoo 的公共演示环境，不是你的后端，数据不会存在你这里。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;想开评论&lt;/strong&gt;：按 &lt;a href=&quot;https://twikoo.js.org/&quot;&gt;Twikoo 官方文档&lt;/a&gt; 部署一份（Vercel / 自建均可），把 &lt;code&gt;envId&lt;/code&gt; 换成自己的地址，再把 &lt;code&gt;enable&lt;/code&gt; 改成 &lt;code&gt;true&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;不打算开&lt;/strong&gt;：那就把这段配置的注释补一句「暂不启用」，避免以后自己看混。这也是&lt;strong&gt;唯一一个我建议保留原样&lt;/strong&gt;的项——个人博客不开评论完全合理。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：开启后进任意文章，看评论区能否加载；发一条测试评论确认能写进你的数据库。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;19. bangumi / bilibili 还是占位 ID&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;位置&lt;/strong&gt;：&lt;code&gt;src/config.ts&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;第 70–73 行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;bangumi: {
+	userId: &quot;your-bangumi-id&quot;,
+	fetchOnDev: false,
+},
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;第 75–86 行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;bilibili: {
+	vmid: &quot;your-bilibili-vmid&quot;,
+	fetchOnDev: false,
+	// ...
+},
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;影响&lt;/strong&gt;：目前 &lt;code&gt;anime.mode&lt;/code&gt; 是 &lt;code&gt;&quot;local&quot;&lt;/code&gt;（第 89 行），走的是本地数据，所以&lt;strong&gt;现在没有影响&lt;/strong&gt;。但哪天想切到 &lt;code&gt;&quot;bangumi&quot;&lt;/code&gt; 或 &lt;code&gt;&quot;bilibili&quot;&lt;/code&gt; 模式，会直接拉取失败。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;改法&lt;/strong&gt;：不打算用就先不动，但建议在配置里标注一下当前模式。真要用的话：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;anime: {
+	mode: &quot;bilibili&quot;,        // 或 &quot;bangumi&quot;
+},
+bilibili: {
+	vmid: &quot;1808504869&quot;,      // 从你的 B 站主页 URL 里取
+	fetchOnDev: false,
+},
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;B 站的观看进度还需要 &lt;code&gt;BILI_SESSDATA&lt;/code&gt;（见第 4 条），那个是账号凭证，&lt;strong&gt;只能放在 &lt;code&gt;.env&lt;/code&gt; 或 CI Secrets 里，绝对不能硬编码&lt;/strong&gt;——配置文件里第 84 行的注释也是这么提醒的，遵守它。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;验证&lt;/strong&gt;：改完后跑 &lt;code&gt;pnpm update-anime&lt;/code&gt;，确认数据能正常拉取。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h1&gt;六、动手顺序建议&lt;/h1&gt;
+&lt;p&gt;按依赖关系排，建议这么走：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第一批（半小时，改完立刻见效）&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;第 5 条 &lt;code&gt;devices&lt;/code&gt; 加斜杠 ← 一行改动，先把这个 404 修了&lt;/li&gt;
+&lt;li&gt;第 8 条改导航栏文字&lt;/li&gt;
+&lt;li&gt;第 16 条确认线上证书 + 清理 &lt;code&gt;other/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;第 15 条搬 &lt;code&gt;pnpm.overrides&lt;/code&gt;（顺手把 &lt;code&gt;pnpm install&lt;/code&gt; 的警告消掉）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;第二批（处理「根子上」的问题，需要先做决定）&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;先回答那个部署问题&lt;/strong&gt;：线上是从 Git 拉 &lt;code&gt;dist/&lt;/code&gt; 还是从源码构建？答案决定了第 1 条怎么改&lt;/li&gt;
+&lt;li&gt;第 1 条处理 &lt;code&gt;dist/&lt;/code&gt;（这一步最影响仓库健康，但风险也最高，务必先确认部署方式）&lt;/li&gt;
+&lt;li&gt;第 2 条 &lt;code&gt;robots.txt&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;第 3 条页脚和备案号&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;第三批（内容清理，可以慢慢做）&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;第 11 条清掉三篇文章的注释噪音（最解压的一项）&lt;/li&gt;
+&lt;li&gt;第 12、13 条统一 frontmatter 字段&lt;/li&gt;
+&lt;li&gt;第 14 条压缩配图&lt;/li&gt;
+&lt;li&gt;第 6、7 条修剩下的链接问题&lt;/li&gt;
+&lt;li&gt;第 9、10 条换 favicon 和 Logo&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;第四批（想做再做）&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;第 4、17、18、19 条&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;全部改完后的验证清单&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;# 1. 仓库是否瘦下来了
+git count-objects -vH
+
+# 2. 工作区是否干净
+git status --short
+
+# 3. 类型检查（备注：我这边沙箱跑不起来，需要你在本机确认）
+pnpm check
+
+# 4. 完整构建
+pnpm build
+
+# 5. 本地预览，逐页点一遍导航
+pnpm preview
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;预览时重点点这几个地方：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;[ ] 顶部导航 &lt;code&gt;My&lt;/code&gt; → &lt;code&gt;Devices&lt;/code&gt;（第 5 条）&lt;/li&gt;
+&lt;li&gt;[ ] 顶部导航 &lt;code&gt;My&lt;/code&gt; / &lt;code&gt;About&lt;/code&gt; 的父级项（第 6 条）&lt;/li&gt;
+&lt;li&gt;[ ] 页面底部页脚和备案号链接（第 3 条）&lt;/li&gt;
+&lt;li&gt;[ ] 友链页面两张头像（第 7 条）&lt;/li&gt;
+&lt;li&gt;[ ] 浏览器标签页图标（第 9 条）&lt;/li&gt;
+&lt;li&gt;[ ] 任意一篇文章的「上次编辑」卡片（第 13 条）&lt;/li&gt;
+&lt;li&gt;[ ] 《操作系统概论》整理 的配图（第 14 条）&lt;/li&gt;
+&lt;li&gt;[ ] &lt;code&gt;/robots.txt&lt;/code&gt; 的内容（第 2 条）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;提交建议&lt;/h2&gt;
+&lt;p&gt;按批次分开提交，别一次全推——万一哪条改出问题，回滚范围小：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git add src/config.ts src/data/friends.ts
+git commit -m &quot;2026-09-22 修复导航 404（devices 斜杠、/content/ 路由）+ 更换导航栏站名&quot;
+
+git add .gitignore
+git commit -m &quot;2026-09-22 dist 移出版本库，改由部署流程传输&quot;
+
+git add src/content/posts/
+git commit -m &quot;2026-09-22 清理三篇文章的 frontmatter 注释噪音，统一日期字段&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;附：自查方法与诚实说明&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;做了什么&lt;/strong&gt;：通读了 &lt;code&gt;src/config.ts&lt;/code&gt;（672 行）、&lt;code&gt;astro.config.mjs&lt;/code&gt;、&lt;code&gt;vercel.json&lt;/code&gt;、&lt;code&gt;package.json&lt;/code&gt;、&lt;code&gt;content.config.ts&lt;/code&gt;、&lt;code&gt;robots.txt.ts&lt;/code&gt;、&lt;code&gt;.gitignore&lt;/code&gt;，比对了 &lt;code&gt;dist/&lt;/code&gt; 构建产物与源码，检查了 Git 历史与文件跟踪状态，统计了各目录体积。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;没能验证的&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;跑不起来构建&lt;/strong&gt;：本机沙箱环境下 &lt;code&gt;pnpm check&lt;/code&gt; 报 &lt;code&gt;MODULE_NOT_FOUND&lt;/code&gt;（&lt;code&gt;.pnpm-store&lt;/code&gt; 里的 pnpm 自身不可用），改用 &lt;code&gt;node node_modules/astro/astro.js check&lt;/code&gt; 又撞上 &lt;code&gt;spawn EPERM&lt;/code&gt;。所以&lt;strong&gt;类型检查是否通过、构建是否成功，我无法确认&lt;/strong&gt;——这也是为什么上面每条都写了「验证」步骤，请你在本机实际跑一遍。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;访问不了线上站点&lt;/strong&gt;：&lt;code&gt;curl&lt;/code&gt; 和 &lt;code&gt;web_fetch&lt;/code&gt; 都因 TLS 问题失败。所以「线上是不是真的这样」是从&lt;strong&gt;本地代码和构建产物&lt;/strong&gt;推断的，没有和线上做比对。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;如果实际排查发现某条是我判断错了&lt;/strong&gt;（比如 &lt;code&gt;robots.txt&lt;/code&gt; 是有意屏蔽、或者线上部署方式和我推测的不一样），直接在本文里改掉，别硬按清单执行。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h1&gt;执行记录（2026-09-24）&lt;/h1&gt;
+&lt;p&gt;清单里 17 条修复完成，构建验证通过。这里记录执行中的关键决定、验证结果，以及 &lt;strong&gt;3 个自查时没发现的意外收获&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2&gt;意外收获 A：HTTPS 证书过期，这就是「网站不安全」的原因&lt;/h2&gt;
+&lt;p&gt;浏览器提示「不安全」不是网站代码的问题——是服务器上的 Let&apos;s Encrypt 证书&lt;strong&gt;已于 2026-09-14 过期&lt;/strong&gt;（自查当天已过期 10 天）：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;项&lt;/th&gt;
+&lt;th&gt;值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;签发方&lt;/td&gt;
+&lt;td&gt;Let&apos;s Encrypt（YR2 中间证书）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;签发时间&lt;/td&gt;
+&lt;td&gt;2026-06-16&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;到期时间&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;2026-09-14&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;覆盖域名&lt;/td&gt;
+&lt;td&gt;qiqimora.cn / .com / .top 及各自 www&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;用 Node TLS 直连线上 443 端口验证的（本地 &lt;code&gt;other/&lt;/code&gt; 里那张证书副本和线上是同一张）。Let&apos;s Encrypt 证书只有 90 天寿命，6 月签发时没配自动续期，9 月就过期了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;修复方向&lt;/strong&gt;（等服务器 SSH 配置进来后执行）：服务器上装 certbot，配 &lt;code&gt;certbot renew&lt;/code&gt; 的 systemd timer 或 cron，并用 DNS-01 验证（80 端口返回 403，HTTP-01 可能过不去）。另外 &lt;code&gt;other/qiqimora.com&lt;/code&gt; 那张副本就是从服务器拿的参考件，已删除。&lt;/p&gt;
+&lt;h2&gt;意外收获 B：&lt;code&gt;常见STL&lt;/code&gt; 目录大小写不一致（跨平台炸弹）&lt;/h2&gt;
+&lt;p&gt;git 里跟踪的路径是 &lt;code&gt;常见STL&lt;/code&gt;（大写），磁盘上是 &lt;code&gt;常见stl&lt;/code&gt;（小写）。Windows 文件系统不区分大小写所以本地一切正常，但 git 认为是两个不同路径——&lt;strong&gt;磁盘版从未被提交过&lt;/strong&gt;。如果哪天在 Linux 上 clone（CI、服务器）就会同时出现两个目录或路径错乱。&lt;/p&gt;
+&lt;p&gt;已用 &lt;code&gt;git mv&lt;/code&gt; 统一为小写 &lt;code&gt;常见stl&lt;/code&gt;，与磁盘一致。&lt;/p&gt;
+&lt;h2&gt;意外收获 C：IndexNow 需要密钥文件，已一并生成&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;scripts/indexnow-submit.js&lt;/code&gt; 第 49 行要求 &lt;code&gt;https://{host}/{key}.txt&lt;/code&gt; 可公开访问，光在 &lt;code&gt;.env&lt;/code&gt; 里填 KEY 不够。已生成 32 位随机密钥并放到 &lt;code&gt;public/{key}.txt&lt;/code&gt;（构建后位于站点根目录），&lt;code&gt;.env&lt;/code&gt; 里 &lt;code&gt;INDEXNOW_HOST&lt;/code&gt; 也已改为 &lt;code&gt;qiqimora.cn&lt;/code&gt;。&lt;strong&gt;注意&lt;/strong&gt;：密钥文件是构建产物的一部分，别误删；部署后跑一次 &lt;code&gt;pnpm submit&lt;/code&gt; 验证返回 200。&lt;/p&gt;
+&lt;h2&gt;各条目的实际执行情况&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;#&lt;/th&gt;
+&lt;th&gt;实际改动&lt;/th&gt;
+&lt;th&gt;验证&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;robots.txt.ts&lt;/code&gt;：&lt;code&gt;Disallow: /&lt;/code&gt; → &lt;code&gt;Allow: /&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;dist/robots.txt 已确认输出 &lt;code&gt;Allow: /&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;footerConfig.enable: true&lt;/code&gt; + customHtml（版权信息）；&lt;strong&gt;备案号暂以 HTML 注释保留，不公示未确认的号码&lt;/strong&gt;——在备案本身不合规的情况下展示假号风险更大&lt;/td&gt;
+&lt;td&gt;dist 首页已含页脚；备案号链路待真实号码&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.env&lt;/code&gt;：INDEXNOW_HOST=qiqimora.cn + 生成真实 KEY；public/ 下放密钥文件&lt;/td&gt;
+&lt;td&gt;待部署后 &lt;code&gt;pnpm submit&lt;/code&gt; 验证&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;url: &quot;devices/&quot;&lt;/code&gt; → &lt;code&gt;&quot;/devices/&quot;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;dist 中 href=&quot;/devices/&quot; 已确认&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;My/About 父级 url → &lt;code&gt;&quot;#&quot;&lt;/code&gt;（带子菜单的父级渲染为 button，不会导航）&lt;/td&gt;
+&lt;td&gt;代码走读确认&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;自己的头像复制到 &lt;code&gt;public/assets/images/avatar.webp&lt;/code&gt;，友链引用改本地路径；imicola 的头像也下载到 &lt;code&gt;public/images/friends/imicola.webp&lt;/code&gt;（56.6 KB，有效 WebP）并改本地引用，彻底摆脱哈希 URL&lt;/td&gt;
+&lt;td&gt;构建通过&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;text: &quot;MizukiUI&quot;&lt;/code&gt; → &lt;code&gt;&quot;奇奇莫拉の日记本&quot;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;—&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;用头像（903×903 方图）生成 icon.png(512) / icon-32.png / apple-touch-icon.png，config favicon 数组填入，Layout.astro 补 apple-touch-icon link。&lt;strong&gt;没用 logo.png&lt;/strong&gt;——它是 772×254 横版图，缩到标签页只剩一条线&lt;/td&gt;
+&lt;td&gt;dist head 里三个 link 均确认&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;logo.png 复制到 &lt;code&gt;public/assets/home/logo.png&lt;/code&gt;，config logo 指向它；根目录 logo.png 保留（源文件）&lt;/td&gt;
+&lt;td&gt;—&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;三篇 frontmatter 重写：73-77 行 → 11-12 行，只保留 schema 有效字段&lt;/td&gt;
+&lt;td&gt;逐篇核过字段值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;9 篇全部删除 &lt;code&gt;date:&lt;/code&gt; / &lt;code&gt;pubDate:&lt;/code&gt;；astro-beginners-guide 的行尾模板注释也清了&lt;/td&gt;
+&lt;td&gt;全目录正则复查零残留&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;按 git 历史补 &lt;code&gt;updated:&lt;/code&gt;（MySQL整理→2026-03-15、操作系统概论→2026-04-14、一元三次方程→2026-03-15；其余 published==最后提交，不补）&lt;/td&gt;
+&lt;td&gt;PostMeta 组件确认 updated 缺失时优雅隐藏&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;td&gt;43 张 PNG → WebP（quality 85），8.32 MB → 0.92 MB（&lt;strong&gt;省 89%&lt;/strong&gt;），markdown 引用同步改写，原 PNG 删除（git 有历史）&lt;/td&gt;
+&lt;td&gt;构建时 Astro 又二次压缩了一轮&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;15&lt;/td&gt;
+&lt;td&gt;package.json 的 &lt;code&gt;pnpm.overrides&lt;/code&gt; 整段删除（pnpm 10 忽略它且构建一直正常），pnpm-workspace.yaml 里留了恢复注释&lt;/td&gt;
+&lt;td&gt;—&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;过期证书副本删除；&lt;code&gt;other/&lt;/code&gt; 加入 .gitignore&lt;/td&gt;
+&lt;td&gt;git status 干净&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;17&lt;/td&gt;
+&lt;td&gt;live2d（6.2 MB，代码零引用）从 public/ 移到 &lt;code&gt;other/live2d-backup/&lt;/code&gt;，不再进构建产物&lt;/td&gt;
+&lt;td&gt;dist/pio 体积回到 1.9 MB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;18&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;enable: false&lt;/code&gt; 保持（个人博客不开评论合理），envId 清空并注明官方 demo 不能用&lt;/td&gt;
+&lt;td&gt;—&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;19&lt;/td&gt;
+&lt;td&gt;bilibili vmid 填真实 uid &lt;code&gt;1808504869&lt;/code&gt;；bangumi userId 留空（anime.mode 是 local，用不到）&lt;/td&gt;
+&lt;td&gt;—&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;构建验证结果&lt;/h2&gt;
+&lt;p&gt;沙箱里 &lt;code&gt;pnpm&lt;/code&gt; 本身跑不了（&lt;code&gt;.pnpm-store&lt;/code&gt; 权限问题），改用 &lt;code&gt;node node_modules/astro/astro.js build&lt;/code&gt; + &lt;code&gt;npx pagefind&lt;/code&gt; + &lt;code&gt;node scripts/compress-fonts.js&lt;/code&gt; 手动跑了完整三步：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[build] 26 page(s) built in 34.25s
+[build] Complete!
+pagefind: Finished in 1.478 seconds
+字体: 2 个文件, 总体压缩 98.18%
+dist 总体积: 90.1 MB
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;robots.txt、页脚备案链接、favicon 三件套、/devices/ 绝对路径、整改清单文章本身，均已在 dist 产物里逐一确认。&lt;/p&gt;
+&lt;h2&gt;还剩的事&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;第 1 条 dist 出库&lt;/strong&gt; —— ✅ &lt;strong&gt;已有结论：必须保留&lt;/strong&gt;。第二轮上服务器查实，部署方式是 cron 每天 4:00 跑 &lt;code&gt;/var/www/deploy.sh&lt;/code&gt;（&lt;code&gt;git reset --hard origin/main&lt;/code&gt;），nginx 直接读仓库里的 &lt;code&gt;dist/&lt;/code&gt;。所以 89 MB 的 &lt;code&gt;dist/&lt;/code&gt; 是这套部署方式的必要成本，不是冗余。想瘦身只能改部署方式（例如本地 &lt;code&gt;rsync&lt;/code&gt; 推 dist、服务器不再 clone 仓库），属于架构调整，不是清理任务。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;备案号&lt;/strong&gt; —— 拿到真实号码后替换 &lt;code&gt;src/config.ts&lt;/code&gt; 里 footerConfig 的 &lt;code&gt;浙ICP备XXXXXXXX号&lt;/code&gt; 占位符。&lt;strong&gt;注意这条现在优先级很高&lt;/strong&gt;，因为它和阿里云拦截 80 端口是同一件事。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ICP 备案本身&lt;/strong&gt; —— 见文末《HTTPS 证书故障完整复盘》，这是目前最需要你亲自处理的事。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;提交并部署本轮修改&lt;/strong&gt; —— 本地改动（favicon、robots、页脚、WebP 图片、frontmatter 清理等）尚未 commit / push，服务器还跑着旧版本。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;部署后验证&lt;/strong&gt; —— 跑一次 &lt;code&gt;pnpm submit&lt;/code&gt;（IndexNow），并确认页脚备案号显示正常。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr /&gt;
+&lt;h1&gt;补记：SSH 与服务器侦察（2026-09-25）&lt;/h1&gt;
+&lt;p&gt;排查「网站显示不安全」时顺带把服务器摸清了，记录如下。&lt;/p&gt;
+&lt;h2&gt;服务器画像&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;项&lt;/th&gt;
+&lt;th&gt;值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;域名解析&lt;/td&gt;
+&lt;td&gt;qiqimora.cn / www / .com → &lt;strong&gt;8.135.52.120&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SSH&lt;/td&gt;
+&lt;td&gt;端口 22 开放，允许 &lt;code&gt;publickey,password&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;系统&lt;/td&gt;
+&lt;td&gt;Ubuntu 22.04（OpenSSH 8.9p1 Ubuntu-3ubuntu0.17）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;80 端口&lt;/td&gt;
+&lt;td&gt;返回 403，&lt;code&gt;Server: Beaver&lt;/code&gt;（没有 HTTP→HTTPS 跳转）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;SSH 配置走过的弯路&lt;/h2&gt;
+&lt;p&gt;DSH 的 SSH 插件（&lt;code&gt;@linxin666/dsh-ssh&lt;/code&gt;）有&lt;strong&gt;两个&lt;/strong&gt;叫 SSH 的入口，容易混：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;设置 → 插件配置 → SSH&lt;/strong&gt;：只有 3 个开关（总开关 / 是否向 Agent 宣告 / 终端字体），&lt;strong&gt;没有主机列表&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;侧边栏「SSH」入口&lt;/strong&gt;：真正的主机管理面板（增删改查、连接测试、Web 终端、SFTP、端口转发）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;而且插件启用后需要重启 &lt;code&gt;dsh web&lt;/code&gt; 才会出现侧边栏入口。当时 &lt;code&gt;cordis.patch.yml&lt;/code&gt; 恰好是当天 19:12 才加上 &lt;code&gt;web-ui-ssh: disabled: false&lt;/code&gt;，界面尚未重载。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;绕过方式&lt;/strong&gt;：直接写插件的配置存储 &lt;code&gt;~/.dsh/dsh-ssh.json&lt;/code&gt;（格式 &lt;code&gt;{ version: 1, hosts: [...] }&lt;/code&gt;），写完立即生效，无需重启：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  &quot;version&quot;: 1,
+  &quot;hosts&quot;: [{
+    &quot;alias&quot;: &quot;aliyun&quot;,
+    &quot;host&quot;: &quot;8.135.52.120&quot;,
+    &quot;port&quot;: 22,
+    &quot;user&quot;: &quot;root&quot;,
+    &quot;auth&quot;: { &quot;kind&quot;: &quot;key&quot;, &quot;keyPath&quot;: &quot;C:\\Users\\belgnas\\.ssh\\id_rsa&quot; },
+    &quot;proxyJump&quot;: [], &quot;tags&quot;: [&quot;blog&quot;, &quot;web&quot;], &quot;environment&quot;: &quot;production&quot;,
+    &quot;createdAt&quot;: 1790334859037, &quot;updatedAt&quot;: 1790334859037
+  }]
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;认证卡点与解法&lt;/h2&gt;
+&lt;p&gt;首次连接报 &lt;code&gt;All configured authentication methods failed&lt;/code&gt;。排查过程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;服务器返回 &lt;code&gt;Permission denied (publickey,password)&lt;/code&gt; → 两种认证都开着&lt;/li&gt;
+&lt;li&gt;用 &lt;code&gt;IdentitiesOnly=yes&lt;/code&gt; 明确指定 &lt;code&gt;id_rsa&lt;/code&gt; 单独测试 → 仍然被拒&lt;/li&gt;
+&lt;li&gt;读密钥头部，&lt;code&gt;b3BlbnNzaC1rZXktdjEAAAAABG5vbmU&lt;/code&gt; 解出来是 &lt;code&gt;openssh-key-v1&lt;/code&gt; + &lt;strong&gt;cipher=none&lt;/strong&gt;，即密钥&lt;strong&gt;未加密&lt;/strong&gt;，排除 passphrase 问题&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;结论：本地那把 &lt;code&gt;id_rsa&lt;/code&gt; 从未被授权到服务器，平时是&lt;strong&gt;用密码登录&lt;/strong&gt;的。解法是把公钥追加到服务器的 &lt;code&gt;~/.ssh/authorized_keys&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mkdir -p ~/.ssh &amp;amp;&amp;amp; chmod 700 ~/.ssh
+echo &apos;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDQuqww7dDs0eoNTFRRFiSEXJICS7u9NA/FbcFJ0NOm6u4hA7RmlDCMIZGItMeIxF9zFJkNWFwEZ5KzCKXTfV4Zq2jjkbH+uYI8yu+LuBZJhnYF0ht4rAlB3RmEgWPm+iu+SSdVSgrXh1BL667NqBPENxIV7Qm9c6uarDRMsTh1MLOieoxM8xzYIZOOCD9Zsoyst3TNfSKD3mzoZkW4dl2OYsjbfYBjhVVnzkc5TrUsIQ+fPw2628NRN2+pPLs41kJZ2cdztyxP1QfTyfG4mfZi4i33VWPAIMf1qKKiosoNSdon3fL51UEtM6Sf5qs3/UoCbDnxLAsCoj3hphwJfqTTQb6H9P53P1zBDPQR9VNNfVlr0VgL2SfY3hSgUau91q7o+DawpUq5I39oYaJB6mcP96UZXY6CQp/BTn/d7MnbL+ghMbiEBoXTT+Ql37rRxHhOlyXGVn8c1tlr0q9Ac/yf4wrBhf36dcEFg5+CcPQwujwe6xNbPvVpZQZmhAFvOzU= belgnas@163.com&apos; &amp;gt;&amp;gt; ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+sort -u ~/.ssh/authorized_keys -o ~/.ssh/authorized_keys
+echo &quot;✓ 公钥已授权&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;授权后即可以密钥方式免密登录，插件里无需保存任何密码。&lt;/p&gt;
+&lt;h2&gt;另一个发现：&lt;code&gt;~/.ssh/config&lt;/code&gt; 丢失&lt;/h2&gt;
+&lt;p&gt;本机 &lt;code&gt;~/.ssh/&lt;/code&gt; 下只有 &lt;code&gt;id_rsa&lt;/code&gt;、&lt;code&gt;id_rsa.pub&lt;/code&gt;、&lt;code&gt;known_hosts&lt;/code&gt;，以及一个 &lt;strong&gt;0 字节的 &lt;code&gt;config.txt&lt;/code&gt;&lt;/strong&gt;。&lt;code&gt;known_hosts&lt;/code&gt; 里存在 &lt;code&gt;aliyun&lt;/code&gt; 和 &lt;code&gt;vm1&lt;/code&gt; 两个别名条目，PowerShell 历史里也全是 &lt;code&gt;ssh root@aliyun&lt;/code&gt;、&lt;code&gt;scp ... root@aliyun:/root/&lt;/code&gt;——说明过去有 &lt;code&gt;~/.ssh/config&lt;/code&gt; 定义了这些别名，现在已不在，&lt;strong&gt;&lt;code&gt;ssh root@aliyun&lt;/code&gt; 应该已经失效&lt;/strong&gt;（会走 DNS 解析失败）。建议重建：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Host aliyun
+    HostName 8.135.52.120
+    User root
+    IdentityFile ~/.ssh/id_rsa
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h1&gt;HTTPS 证书故障完整复盘（2026-09-25）&lt;/h1&gt;
+&lt;p&gt;浏览器提示「网站不安全」的完整原因和解法。&lt;strong&gt;这一节是全文最重要的部分&lt;/strong&gt;，因为它暴露的问题是持续性的，不是修一次就完。&lt;/p&gt;
+&lt;h2&gt;结论先行&lt;/h2&gt;
+&lt;p&gt;浏览器报「不安全」，表层原因是&lt;strong&gt;证书过期 10 天&lt;/strong&gt;，但真正的根因是：&lt;strong&gt;阿里云因 ICP 备案不合规，在网络层拦截了 80 端口的 HTTP 访问&lt;/strong&gt;，而 certbot 的自动续期依赖 80 端口做 HTTP-01 验证，于是续期从 8 月中旬起每次都失败。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;项&lt;/th&gt;
+&lt;th&gt;值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;原证书&lt;/td&gt;
+&lt;td&gt;Let&apos;s Encrypt，2026-06-16 签发，&lt;strong&gt;2026-09-14 过期&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;直接原因&lt;/td&gt;
+&lt;td&gt;certbot 续期失败（HTTP-01 收到 403）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;根本原因&lt;/td&gt;
+&lt;td&gt;阿里云 ICP 备案拦截（&lt;code&gt;Non-compliance ICP Filing&lt;/code&gt;，&lt;code&gt;Server: Beaver&lt;/code&gt;）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;解法&lt;/td&gt;
+&lt;td&gt;acme.sh + &lt;strong&gt;TLS-ALPN-01&lt;/strong&gt;（走 443 端口，绕开 80）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;新证书&lt;/td&gt;
+&lt;td&gt;2026-09-25 → &lt;strong&gt;2026-12-24&lt;/strong&gt;，6 个域名外网验证通过&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;排查链条&lt;/h2&gt;
+&lt;h3&gt;第一步：确认证书确实过期&lt;/h3&gt;
+&lt;p&gt;从本机用 Node 的 &lt;code&gt;tls&lt;/code&gt; 模块直连 443 取对端证书（比 curl 可靠，不受本机 schannel 配置影响）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SUBJECT:  {&quot;CN&quot;:&quot;qiqimora.com&quot;}
+ISSUER:   {&quot;O&quot;:&quot;Let&apos;s Encrypt&quot;,&quot;CN&quot;:&quot;YR2&quot;}
+VALID_TO: Sep 14 15:39:29 2026 GMT
+DAYS_LEFT: -10
+RESULT: ❌ 证书已过期 10 天
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;第二步：为什么自动续期没生效&lt;/h3&gt;
+&lt;p&gt;服务器上 &lt;code&gt;certbot.timer&lt;/code&gt; &lt;strong&gt;是活的&lt;/strong&gt;（当天还跑过），但证书没续上，说明续期尝试失败了。日志里的关键行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Detail: 8.135.52.120: Invalid response from
+  http://qiqimora.cn/.well-known/acme-challenge/3fbmjKnlzWLDpCgwEDhffl9VHjzTr4UYPzbyQ7nDOt0: 403
+Type:   unauthorized
+Hint: The Certificate Authority failed to verify the temporary nginx
+      configuration changes made by Certbot.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;6 个域名全部 403。&lt;/p&gt;
+&lt;h3&gt;第三步：403 是谁返回的？（关键转折）&lt;/h3&gt;
+&lt;p&gt;对比服务器内外的响应，发现&lt;strong&gt;不是同一台机器在应答&lt;/strong&gt;：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;请求来源&lt;/th&gt;
+&lt;th&gt;&lt;code&gt;/.well-known/acme-challenge/&lt;/code&gt;&lt;/th&gt;
+&lt;th&gt;&lt;code&gt;Server&lt;/code&gt; 头&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;服务器本地&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;301&lt;/code&gt;（被重定向）&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nginx/1.18.0&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;外网&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;403&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;Beaver&lt;/code&gt;&lt;/strong&gt; ← 不是 nginx&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;抓到 403 的响应体，真相浮出水面：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;title&amp;gt;Non-compliance ICP Filing&amp;lt;/title&amp;gt;
+&amp;lt;script&amp;gt;
+  document.getElementById(&quot;mainFrame&quot;).src =
+    &quot;http://www.aliyun.com/beian/beian-block?id=00000000004974157752&quot;;
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;阿里云的备案拦截页&lt;/strong&gt;。两个域名各有独立 ID（qiqimora.cn → &lt;code&gt;...4974157752&lt;/code&gt;，qiqimora.com → &lt;code&gt;...5384608441&lt;/code&gt;）。&lt;/p&gt;
+&lt;h3&gt;第四步：还发现一个 nginx 配置 bug&lt;/h3&gt;
+&lt;p&gt;即使备案问题解决，续期&lt;strong&gt;仍然会失败&lt;/strong&gt;，因为服务器 nginx 配置里有个陷阱：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# ❌ 修复前
+location ^~ /.well-known/acme-challenge/ {
+    root /var/www/mizuki/qiqimora-blog/dist;
+}
+# 其他请求全部跳转 HTTPS
+if ($host = qiqimora.cn) { return 301 https://$host$request_uri; }
+...
+return 301 https://$host$request_uri;   # ← 写在 server 级
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;nginx 的 &lt;code&gt;return&lt;/code&gt; 在 server 级时属于 &lt;code&gt;server-rewrite&lt;/code&gt; 阶段，执行时机早于 location 匹配&lt;/strong&gt;——所以所有请求（包括验证路径）都被先 301 掉，那个「验证专用」的 location 永远命中不到。注释里写着「验证专用，不能重定向」，但配置写法恰好使这句话失效了。&lt;/p&gt;
+&lt;p&gt;修复方式是把跳转挪进 &lt;code&gt;location /&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# ✅ 修复后
+location ^~ /.well-known/acme-challenge/ {
+    root /var/www/mizuki/qiqimora-blog/dist;
+    default_type text/plain;
+    allow all;
+}
+location / {
+    return 301 https://$host$request_uri;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;实测验证：修复前验证路径返回 301，修复后返回 404（正确走到 location 了），并且往 webroot 放测试文件能被正常读出。&lt;/p&gt;
+&lt;h2&gt;工具选型的两次碰壁&lt;/h2&gt;
+&lt;p&gt;原计划用 certbot 的 &lt;code&gt;--standalone --preferred-challenges tls-alpn-01&lt;/code&gt; 绕开 80 端口，结果连撞两次墙：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;certbot 1.21.0&lt;/strong&gt;（apt 版）→ &lt;code&gt;None of the preferred challenges are supported by the selected plugin&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;升级到 &lt;strong&gt;certbot 5.8.0&lt;/strong&gt;（snap 版）→ &lt;code&gt;Unrecognized challenges: tls-alpn-01&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;查证发现：&lt;code&gt;acme&lt;/code&gt; 这个 Python 库确实有 &lt;code&gt;TLSALPN01&lt;/code&gt; 类，但 &lt;strong&gt;certbot 的 CLI 和 standalone 插件并不支持 tls-alpn-01&lt;/strong&gt;（5.8 的源码里连 &lt;code&gt;tls-alpn&lt;/code&gt; 字符串都搜不到）。&lt;strong&gt;「库支持」不等于「工具有这个功能」&lt;/strong&gt;——这个教训值得记一笔。&lt;/p&gt;
+&lt;p&gt;最终改用 &lt;strong&gt;acme.sh&lt;/strong&gt;（v3.1.6），它原生支持 &lt;code&gt;--alpn&lt;/code&gt;（TLS-ALPN-01，依赖 socat）。&lt;/p&gt;
+&lt;h2&gt;最终执行的修复&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;# 1. 安装依赖与 acme.sh
+apt-get install -y socat
+git clone --depth 1 https://github.com/acmesh-official/acme.sh.git /root/acme.sh-src
+cd /root/acme.sh-src &amp;amp;&amp;amp; ./acme.sh --install -m belgnas@163.com
+
+# 2. 用 TLS-ALPN-01 签发（nginx 仅在验证瞬间停止，由 hook 自动停/起）
+~/.acme.sh/acme.sh --issue --alpn --server letsencrypt \
+  -d qiqimora.com -d www.qiqimora.com \
+  -d qiqimora.cn  -d www.qiqimora.cn \
+  -d qiqimora.top -d www.qiqimora.top \
+  --pre-hook  &quot;systemctl stop nginx&quot; \
+  --post-hook &quot;systemctl start nginx&quot; \
+  --keylength 2048
+
+# 3. 安装到独立目录（让证书归属清晰，不再混在 certbot 的目录里）
+~/.acme.sh/acme.sh --install-cert -d qiqimora.com \
+  --key-file       /etc/ssl/qiqimora/privkey.pem \
+  --fullchain-file /etc/ssl/qiqimora/fullchain.pem \
+  --reloadcmd      &quot;systemctl reload nginx&quot;
+
+# 4. nginx 指向新路径
+sed -i &apos;s#/etc/letsencrypt/live/qiqimora.com/fullchain.pem#/etc/ssl/qiqimora/fullchain.pem#g;
+        s#/etc/letsencrypt/live/qiqimora.com/privkey.pem#/etc/ssl/qiqimora/privkey.pem#g&apos; \
+  /etc/nginx/sites-available/mizuki
+nginx -t &amp;amp;&amp;amp; systemctl reload nginx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;验证结果&lt;/h2&gt;
+&lt;p&gt;外网（非服务器本地）逐个域名验证证书链：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;✅ qiqimora.com        作者=已验证  到期=Dec 24 10:46:33 2026 GMT  剩余=90天
+✅ www.qiqimora.com    作者=已验证  到期=Dec 24 10:46:33 2026 GMT  剩余=90天
+✅ qiqimora.cn         作者=已验证  到期=Dec 24 10:46:33 2026 GMT  剩余=90天
+✅ www.qiqimora.cn     作者=已验证  到期=Dec 24 10:46:33 2026 GMT  剩余=90天
+✅ qiqimora.top        作者=已验证  到期=Dec 24 10:46:33 2026 GMT  剩余=90天
+✅ www.qiqimora.top    作者=已验证  到期=Dec 24 10:46:33 2026 GMT  剩余=90天
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;端到端：三个域名 HTTPS 全部 &lt;code&gt;HTTP 200&lt;/code&gt;，&lt;code&gt;.cn&lt;/code&gt; / &lt;code&gt;.top&lt;/code&gt; 正确 301 到 &lt;code&gt;.com&lt;/code&gt;，标题正常返回。&lt;/p&gt;
+&lt;h2&gt;自动续期现状&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;项&lt;/th&gt;
+&lt;th&gt;状态&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;acme.sh cron&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;58 1,7,13,19 * * *&lt;/code&gt;（每天 4 次检查）✅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;pre/post hook&lt;/td&gt;
+&lt;td&gt;已持久化到 &lt;code&gt;qiqimora.com.conf&lt;/code&gt;（base64 存储），续期时自动停/起 nginx ✅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;下次续期&lt;/td&gt;
+&lt;td&gt;acme.sh 按 ARI 窗口定于 &lt;strong&gt;2026-11-23&lt;/strong&gt; ✅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;旧 certbot 定时器&lt;/td&gt;
+&lt;td&gt;已 &lt;code&gt;disable --now&lt;/code&gt;，避免与 acme.sh 冲突 ✅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;snap certbot 5.8.0&lt;/td&gt;
+&lt;td&gt;已卸载（不支持 tls-alpn-01，留着只会混淆）✅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：TLS-ALPN-01 每次续期都需要短暂停止 nginx（因为 socat 要独占 443）。这是绕开 80 端口封锁的代价，已由 hook 自动化。&lt;/p&gt;
+&lt;h2&gt;⚠️ 你还需要做的事：ICP 备案&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;这是本次事件真正的根源，也是唯一必须你亲自处理的事。&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;阿里云明确以 &lt;strong&gt;&lt;code&gt;Non-compliance ICP Filing&lt;/code&gt;&lt;/strong&gt;（备案不合规）为由拦截了 80 端口&lt;/li&gt;
+&lt;li&gt;目前只有 80 被拦，443 尚可；但若放任不管，阿里云可能进一步处置&lt;/li&gt;
+&lt;li&gt;请登录 &lt;strong&gt;阿里云控制台 → 备案&lt;/strong&gt; 查看具体原因。常见情形：备案信息待更新、主体信息与实际不符、备案已被注销、未完成公安备案&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;备案一旦恢复，80 端口解除拦截，certbot 的 HTTP-01 也能用了&lt;/strong&gt;（nginx 配置 bug 我已修好）。届时可以选择继续用 acme.sh（不依赖端口、更稳），或切回 certbot&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;部署方式（顺带查实）&lt;/h2&gt;
+&lt;p&gt;服务器 &lt;code&gt;/var/www/deploy.sh&lt;/code&gt; 由 cron 每天 4:00 执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;0 4 * * * /var/www/deploy.sh &amp;gt; /var/log/deploy.log 2&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;脚本逻辑：&lt;code&gt;git fetch origin main&lt;/code&gt; → &lt;strong&gt;&lt;code&gt;git reset --hard origin/main&lt;/code&gt;&lt;/strong&gt; → &lt;code&gt;git clean -fd&lt;/code&gt;（三次重试）→ 校验 &lt;code&gt;dist/index.html&lt;/code&gt; → &lt;code&gt;chown www-data:www-data dist&lt;/code&gt; + &lt;code&gt;chmod -R 755 dist&lt;/code&gt; → &lt;code&gt;reload nginx&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;两个要点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;dist/&lt;/code&gt; 必须留在 Git 里&lt;/strong&gt;——服务器就是这么拿文件的，且无法在服务器上构建（脚本注释说明内存不足）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git reset --hard&lt;/code&gt; + &lt;code&gt;git clean -fd&lt;/code&gt; 意味着&lt;strong&gt;服务器上的仓库目录里任何手改都会被覆盖&lt;/strong&gt;。所以 nginx 配置（在 &lt;code&gt;/etc/nginx/&lt;/code&gt;）和 acme.sh（在 &lt;code&gt;/root/.acme.sh&lt;/code&gt;）不受影响，但不要在 &lt;code&gt;/var/www/mizuki/qiqimora-blog/&lt;/code&gt; 里手动改文件。&lt;/li&gt;
+&lt;li&gt;顺带解释了一个现象：服务器上 &lt;code&gt;git status&lt;/code&gt; 总显示 300+ 个文件被修改，其实&lt;strong&gt;全是文件权限位变化&lt;/strong&gt;（&lt;code&gt;100644&lt;/code&gt; → &lt;code&gt;100755&lt;/code&gt;），由脚本里的 &lt;code&gt;chmod -R 755&lt;/code&gt; 造成，内容零差异。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr /&gt;
+&lt;h1&gt;服务器加固记录（2026-09-25）&lt;/h1&gt;
+&lt;p&gt;这台是 &lt;strong&gt;2 核 2G 的轻量服务器&lt;/strong&gt;，容量很紧，趁排查证书时做了一轮体检加固。&lt;/p&gt;
+&lt;h2&gt;最大发现：4GB swap 一直在，但从没启用过&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;/swapfile   4.1G   创建于 2026-03-18   ← 早就存在
+/etc/fstab  0 条 swap 记录             ← 但从未写入 fstab
+Swap:       0B                         ← 所以 42 天来一次都没生效
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;文件是真实有效的 swap（&lt;code&gt;file&lt;/code&gt; 命令识别为 &lt;code&gt;Linux swap file, version 1&lt;/code&gt;），但因为没有 fstab 条目，&lt;strong&gt;每次重启都不会自动加载&lt;/strong&gt;。等于白占 4GB 磁盘、完全没有起到保护作用。&lt;/p&gt;
+&lt;p&gt;在 2G 内存的机器上，没有 swap 意味着任何一次内存突增（流量高峰、日志暴涨、进程泄漏）都会直接触发 OOM Killer，被杀的可能是 nginx，也可能是隔壁的 next-server 应用。&lt;/p&gt;
+&lt;p&gt;已处理：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;swapon /swapfile                                  # 启用
+echo &apos;/swapfile none swap sw 0 0&apos; &amp;gt;&amp;gt; /etc/fstab   # 持久化（原文件已备份）
+echo &apos;vm.swappiness=10&apos; &amp;gt;&amp;gt; /etc/sysctl.conf       # 云磁盘环境，降低换出频率
+sysctl -w vm.swappiness=10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;snap 占了将近 1GB&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;项目&lt;/th&gt;
+&lt;th&gt;处理前&lt;/th&gt;
+&lt;th&gt;处理后&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;disabled 旧修订（core20/core22/lxd/snapd）&lt;/td&gt;
+&lt;td&gt;4 个&lt;/td&gt;
+&lt;td&gt;已移除&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/var/lib/snapd/cache&lt;/code&gt; 下载缓存&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;745 MB&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;4 KB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/var/lib/snapd&lt;/code&gt; 合计&lt;/td&gt;
+&lt;td&gt;934 MB&lt;/td&gt;
+&lt;td&gt;492 MB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;code&gt;core20&lt;/code&gt; / &lt;code&gt;core22&lt;/code&gt; 是系统 seed 需要的基础 snap，&lt;strong&gt;不要删&lt;/strong&gt;；&lt;code&gt;cache&lt;/code&gt; 目录只是下载缓存，清空后 snapd 需要时会自己重新下载。&lt;/p&gt;
+&lt;h2&gt;加固后的状态&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;Mem:  1.6Gi total, 537Mi used, 894Mi available
+Swap: 4.0Gi total, 0B used
+Disk: 15G / 40G (40%)
+Load: 0.04, 0.04, 0.00
+nginx / cron / snapd: 全部 active
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;一条给未来的纪律&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;永远不要在这台服务器上跑 &lt;code&gt;pnpm build&lt;/code&gt; / &lt;code&gt;npm install&lt;/code&gt; / &lt;code&gt;apt upgrade&lt;/code&gt;。&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;生产构建一律在本地完成后提交 &lt;code&gt;dist/&lt;/code&gt;（部署脚本的注释已经写明「服务器内存不够，用本地 dist 代替构建」）&lt;/li&gt;
+&lt;li&gt;服务器只负责 &lt;code&gt;git reset --hard&lt;/code&gt; + &lt;code&gt;chown&lt;/code&gt; + &lt;code&gt;reload nginx&lt;/code&gt;，全是轻量操作&lt;/li&gt;
+&lt;li&gt;证书续期用 acme.sh（socat + TLS 握手，内存占用极小），且只在到期时才真正动作&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>清单（待完成）</title><link>https://qiqimora.cn/posts/%E6%B8%85%E5%8D%95/</link><guid isPermaLink="true">https://qiqimora.cn/posts/%E6%B8%85%E5%8D%95/</guid><description>咱想着把待完成事项整理一下，记录下来，不然不小心就会忘记。</description><pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;待完成事项清单&lt;/h1&gt;
 &lt;ol&gt;
 &lt;li&gt;about页面编写&lt;/li&gt;
 &lt;li&gt;项目页面编写&lt;/li&gt;
@@ -4901,7 +6189,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;h2&gt;步骤3：推送到 GitHub（完成同步）&lt;/h2&gt;
 &lt;pre&gt;&lt;code&gt;git push origin main
 &lt;/code&gt;&lt;/pre&gt;
-</content:encoded></item><item><title>《操作系统概论》整理</title><link>https://qiqimora.cn/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E6%95%B4%E7%90%86/</link><guid isPermaLink="true">https://qiqimora.cn/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E6%95%B4%E7%90%86/</guid><description>计算机经典书籍，咱要努力啃掉，嗷呜！</description><pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;img src=&quot;./images/image-9.png&quot; alt=&quot;操作系统概论原书第9版&quot; /&gt;&lt;/p&gt;
+</content:encoded></item><item><title>《操作系统概论》整理</title><link>https://qiqimora.cn/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E6%95%B4%E7%90%86/</link><guid isPermaLink="true">https://qiqimora.cn/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E6%95%B4%E7%90%86/</guid><description>计算机经典书籍，咱要努力啃掉，嗷呜！</description><pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;img src=&quot;./images/image-9.webp&quot; alt=&quot;操作系统概论原书第9版&quot; /&gt;&lt;/p&gt;
 &lt;h1&gt;概论&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;操作系统（&lt;strong&gt;Operating System，OS&lt;/strong&gt;）位于计算机用户与计算机&lt;strong&gt;硬件&lt;/strong&gt;之间。&lt;/li&gt;
@@ -4964,7 +6252,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;h2&gt;计算机系统的组成&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;如图：&lt;img src=&quot;./images/image-10.png&quot; alt=&quot;alt text&quot; /&gt;
+&lt;p&gt;如图：&lt;img src=&quot;./images/image-10.webp&quot; alt=&quot;alt text&quot; /&gt;
 &amp;lt;br&amp;gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -4978,7 +6266,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;一旦&lt;strong&gt;内核加载到内存并执行&lt;/strong&gt;，它就开始为系统与用户提供服务。除了内核外，系统程序也提供一些服务，它们在启动时加到内存而成为系统程序或系统后台程序。一旦这个阶段完成，系统就完全启动了，并且等待事件发生.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;事件发生&lt;/strong&gt;通常通过硬件或软件的&lt;strong&gt;中断&lt;/strong&gt;来通知。硬件可以通过系统总线发送信号到cpu，以触发中断。软件可通过执行特别操作即&lt;strong&gt;系统调用&lt;/strong&gt;，以&lt;strong&gt;触发中断&lt;/strong&gt;。&lt;/li&gt;
 &lt;li&gt;当&lt;strong&gt;cpu被中断时&lt;/strong&gt;，它&lt;strong&gt;停止正在做的事&lt;/strong&gt;，并立即转到固定位置再继续执行。该固定位置通常包含&lt;strong&gt;中断服务程序&lt;/strong&gt;的开始地址。中断服务程序开始执行，在执行完后，cpu重新执行中断的计算。这一运行的时间表如图：&lt;/li&gt;
-&lt;li&gt;&lt;img src=&quot;./images/image-11.png&quot; alt=&quot;单个进程执行输出的中断时间表&quot; /&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-11.webp&quot; alt=&quot;单个进程执行输出的中断时间表&quot; /&gt;
 &amp;lt;br&amp;gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -4992,7 +6280,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;内存特点：&lt;strong&gt;易失性&lt;/strong&gt;。掉电丢失数据。&lt;/li&gt;
 &lt;li&gt;外存：磁盘、硬盘、U盘、光碟、固态硬盘等。&lt;strong&gt;非易失性&lt;/strong&gt;，数据可&lt;strong&gt;持久化&lt;/strong&gt;。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;存储设备层次图&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;img src=&quot;./images/image-12.png&quot; alt=&quot;存储设备层次图&quot; /&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-12.webp&quot; alt=&quot;存储设备层次图&quot; /&gt;
 &amp;lt;br&amp;gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -5036,7 +6324,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;p&gt;按&lt;strong&gt;处理能力&lt;/strong&gt;分类&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;非对称处理器：每个处理器都有各自特定的任务。一个主处理器控制系统，其它处理器或向主处理器要任务或处理预先规定的任务。这种称为&lt;strong&gt;主从关系&lt;/strong&gt;。主处理器调度从处理器，并安排任务。&lt;/li&gt;
-&lt;li&gt;对称处理器：每个处理器都参与完成操作系统的所有任务，处理器之间没有主从关系。如图：&lt;img src=&quot;./images/image-14.png&quot; alt=&quot;对称多处理的体系结构&quot; /&gt;
+&lt;li&gt;对称处理器：每个处理器都参与完成操作系统的所有任务，处理器之间没有主从关系。如图：&lt;img src=&quot;./images/image-14.webp&quot; alt=&quot;对称多处理的体系结构&quot; /&gt;
 &amp;lt;br&amp;gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -5045,7 +6333,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;ul&gt;
 &lt;li&gt;集群系统是由多个&lt;strong&gt;独立的&lt;/strong&gt;计算机系统组成的系统，每个系统都有自己的&lt;strong&gt;本地内存&lt;/strong&gt;和&lt;strong&gt;本地磁盘&lt;/strong&gt;。&lt;/li&gt;
 &lt;li&gt;这种系统将多个cpu组合在一起。一般通过网络连接，提供高可用性的服务。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-15.png&quot; alt=&quot;集群系统&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-15.webp&quot; alt=&quot;集群系统&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -5055,7 +6343,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;单个用户通常具有多个运行程序。&lt;strong&gt;多道程序设计&lt;/strong&gt;通过安排&lt;strong&gt;作业&lt;/strong&gt;（job），使得cpu总有一个执行作业，从而&lt;strong&gt;提高cpu利用率&lt;/strong&gt;。&lt;/li&gt;
 &lt;li&gt;操作系统在内存中同时保存多个任务。由于内存太小不能容纳所有作业，因此这些作业首先保存在&lt;strong&gt;磁盘的作业池&lt;/strong&gt;（job pool）上。该作业池包括磁盘上的、等待分配内存的所有&lt;strong&gt;进程&lt;/strong&gt;。
 &lt;ul&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-16.png&quot; alt=&quot;多道程序系统的内存分布&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-16.webp&quot; alt=&quot;多道程序系统的内存分布&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;分时系统&lt;/strong&gt;是多道程序设计的自然延伸。对于分时系统，虽然cpu还是通过&lt;strong&gt;切换作业&lt;/strong&gt;来执行多个作业，但是由于切换频率很高，用户可以在程序运行时与其交互。&lt;/li&gt;
@@ -5077,7 +6365,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;用户模式（user mode）和内核模式（kernel mode）&lt;/li&gt;
 &lt;li&gt;计算机硬件可以通过&lt;strong&gt;模式位&lt;/strong&gt;（mode bit）来表示当前模式：内核模式（0）和用户模式（1）。&lt;/li&gt;
 &lt;li&gt;当计算机系统执行用户应用时，系统处于用户模式，当用户应用通过&lt;strong&gt;系统调用&lt;/strong&gt;，请求操作系统服务时，系统必须&lt;strong&gt;从用户模式切换到内核模式&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-17.png&quot; alt=&quot;用户模式到内核模式的转换&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-17.webp&quot; alt=&quot;用户模式到内核模式的转换&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;双重模式执行&lt;strong&gt;提供保护手段&lt;/strong&gt;，以便防止操作系统和用户程序受到错误用户程序的影响。&lt;/li&gt;
 &lt;li&gt;这种防护实现为：将可能引起损害的机器指令作为&lt;strong&gt;特权指令&lt;/strong&gt;，并且硬件只有&lt;strong&gt;在内核模式下&lt;/strong&gt;才允许执行特权指令。&lt;/li&gt;
 &lt;li&gt;如果在用户模式下试图执行特权指令，那么硬件并不执行该指令，而是认为该&lt;strong&gt;指令非法&lt;/strong&gt;，并将以陷阱形式通知操作系统。
@@ -5126,7 +6414,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;ul&gt;
 &lt;li&gt;操作系统提供信息存储的&lt;strong&gt;统一逻辑视图&lt;/strong&gt;。&lt;/li&gt;
 &lt;li&gt;操作系统对存储设备的物理属性进行了抽象，并定义了逻辑单元，即&lt;strong&gt;文件&lt;/strong&gt;（File）。操作系统映射文件到物理媒介，并通过存储设备来访问文件。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-18.png&quot; alt=&quot;各级别存储的性能&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-18.webp&quot; alt=&quot;各级别存储的性能&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;高速缓存（caching）一般集成在cpu中。
 &lt;ul&gt;
 &lt;li&gt;高速缓存的几个问题
@@ -5139,7 +6427,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-19.png&quot; alt=&quot;整数A从磁盘到寄存器的迁移&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-19.webp&quot; alt=&quot;整数A从磁盘到寄存器的迁移&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;I/O系统
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;IO子系统&lt;/strong&gt;为操作系统本身隐藏了IO设备的特性。&lt;/li&gt;
@@ -5179,13 +6467,13 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;/li&gt;
 &lt;li&gt;客户机-服务器计算
 &lt;ul&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-20.png&quot; alt=&quot;客户机-服务器的通用结构&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-20.webp&quot; alt=&quot;客户机-服务器的通用结构&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;对等计算（P2P）
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;对等系统&lt;/strong&gt;模型（Peer-to-Peer，P2P）这个模型&lt;strong&gt;不区分客户机和服务器&lt;/strong&gt;。所有系统节点都是对等的。每个节点都可以作为客户机或服务器，这取决于它是提供请求还是提供服务。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-21.png&quot; alt=&quot;无中央控制的对等系统&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-21.webp&quot; alt=&quot;无中央控制的对等系统&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;虚拟化
@@ -5193,7 +6481,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;通过虚拟化技术，操作系统可以在其他操作系统上运行应用程序。&lt;/li&gt;
 &lt;li&gt;虚拟化技术是一种软件技术，用于实现模拟。如电脑上玩安卓游戏，需要安装安卓模拟器！&lt;/li&gt;
 &lt;li&gt;如：VMware软件、JVM、阿里云服务器&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-22.png&quot; alt=&quot;VMware&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-22.webp&quot; alt=&quot;VMware&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;云计算
@@ -5209,7 +6497,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;基础设施及服务（Infrastructure as a Service，IaaS）&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-23.png&quot; alt=&quot;云计算&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-23.webp&quot; alt=&quot;云计算&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;实时嵌入式系统
@@ -5231,7 +6519,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;h2&gt;操作系统的服务&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;操作系统&lt;strong&gt;提供环境&lt;/strong&gt;以便执行程序。它为程序及程序用户提供某些服务。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-24.png&quot; alt=&quot;操作系统服务的视图&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-24.webp&quot; alt=&quot;操作系统服务的视图&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;具体服务：
 &lt;ul&gt;
 &lt;li&gt;用户界面：有多种形式，&lt;strong&gt;命令行界面&lt;/strong&gt;、批处理界面、&lt;strong&gt;图形用户界面&lt;/strong&gt;  （Graphical User Interface，&lt;strong&gt;GUI&lt;/strong&gt;）。&lt;/li&gt;
@@ -5253,7 +6541,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;命令解释程序&lt;/strong&gt;（command interperter）是一种用户界面，它允许用户通过输入命令来与操作系统交互。
 &lt;ul&gt;
-&lt;li&gt;如图，windows的dos命令行：&lt;img src=&quot;./images/image-25.png&quot; alt=&quot;alt text&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图，windows的dos命令行：&lt;img src=&quot;./images/image-25.webp&quot; alt=&quot;alt text&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;图形用户界面&lt;/strong&gt;（GUI）是一种用户界面，它允许用户通过点击图标、菜单或按钮等元素来与操作系统交互。
@@ -5272,7 +6560,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;p&gt;系统调用提供了用户程序与操作系统之间的接口，用户程序可以通过系调用请求操作系统执行某些特权操作，如文件操作、进程管理、内存管等。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;如图：&lt;img src=&quot;./images/image-26.png&quot; alt=&quot;如何使用系统调用的例子&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;如图：&lt;img src=&quot;./images/image-26.webp&quot; alt=&quot;如何使用系统调用的例子&quot; /&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;这些调用通常以c或c++编写，甚至是汇编语言编写。&lt;/p&gt;
@@ -5345,7 +6633,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;ul&gt;
 &lt;li&gt;执行程序能正常或异常停止执行。如果一个系统调用异常停止停止当前执行的程序，那么可能转存储内存到磁盘，并生成错误信息&lt;/li&gt;
 &lt;li&gt;通常，多个进程会&lt;strong&gt;共享数据&lt;/strong&gt;。为了确保共享数据的完整性，操作系统通常提供系统调用。以允许一个进程&lt;strong&gt;锁定&lt;/strong&gt;共享数据，防止其他进程同时访问或修改。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-27.png&quot; alt=&quot;进程控制&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-27.webp&quot; alt=&quot;进程控制&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -5429,7 +6717,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;&lt;strong&gt;执行状态&lt;/strong&gt;（running）：进程正在cpu上执行。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;等待状态&lt;/strong&gt;（waiting）：进程正在等待某个事件发生，如I/O操作完成，也称阻塞状态。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;终止状态&lt;/strong&gt;（terminated）：进程执行完毕，或者被操作系统强制终止。&lt;/li&gt;
-&lt;li&gt;&lt;img src=&quot;./images/image.png&quot; alt=&quot;进程状态转换图&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image.webp&quot; alt=&quot;进程状态转换图&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -5557,7 +6845,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;p&gt;协作进程需要一种&lt;strong&gt;进程间通信机制&lt;/strong&gt;，以允许进程互相&lt;strong&gt;交换数据与信息&lt;/strong&gt;。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;进程间通信有两种基本模型：&lt;strong&gt;内存共享&lt;/strong&gt;和&lt;strong&gt;消息传递&lt;/strong&gt;。如图：&lt;img src=&quot;./images/image-1.png&quot; alt=&quot;通信模型&quot; /&gt;
+&lt;p&gt;进程间通信有两种基本模型：&lt;strong&gt;内存共享&lt;/strong&gt;和&lt;strong&gt;消息传递&lt;/strong&gt;。如图：&lt;img src=&quot;./images/image-1.webp&quot; alt=&quot;通信模型&quot; /&gt;
 &amp;lt;br&amp;gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -5636,7 +6924,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 	printf(“hello world!”);
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&quot;./images/image-2.png&quot; alt=&quot;单线程进程和多线程进程&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;./images/image-2.webp&quot; alt=&quot;单线程进程和多线程进程&quot; /&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;问题：一个进程为什么要创建多个线程？
 &lt;ol&gt;
@@ -5658,7 +6946,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;ul&gt;
 &lt;li&gt;ps：早期计算机是单核 ---&amp;gt; 现代计算机是多核&lt;/li&gt;
 &lt;li&gt;多核编程提供机制，以便更有效的使用这些多个计算核和改进&lt;strong&gt;并发性&lt;/strong&gt;。如图：
-&lt;img src=&quot;./images/image-3.png&quot; alt=&quot;多核编程&quot; /&gt;&lt;/li&gt;
+&lt;img src=&quot;./images/image-3.webp&quot; alt=&quot;多核编程&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;&amp;lt;u&amp;gt;&lt;strong&gt;重点理解------&amp;lt;并行&amp;gt;与&amp;lt;并发&amp;gt;&lt;/strong&gt;&amp;lt;/u&amp;gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;并行&lt;/strong&gt;性：并行系统可以同时执行多个任务，指多核系统，多个进程同时执行的情况。&lt;/li&gt;
@@ -5686,7 +6974,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;如果一个线程执行阻塞系统调用，那么整个进程将会阻塞。&lt;/li&gt;
 &lt;li&gt;因为任一时间只有一个线程可以访问内核，所以多个线程不能并行运行在多处理核系统上。&lt;/li&gt;
 &lt;li&gt;现代操作系统基本&lt;strong&gt;不使用该模型&lt;/strong&gt;，因为它&lt;strong&gt;无法利用多个处理核&lt;/strong&gt;。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-4.png&quot; alt=&quot;多对一模型&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-4.webp&quot; alt=&quot;多对一模型&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;一对一模型
@@ -5695,16 +6983,16 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;该模型在一个线程执行阻塞系统调用时，能够允许另一个线程继续执行，所以它提供了比多对一模型更好的并发功能。&lt;/li&gt;
 &lt;li&gt;也允许多个线程并行运行在多处理器系统上。&lt;/li&gt;
 &lt;li&gt;该模型的唯一&lt;strong&gt;缺点&lt;/strong&gt;是：创建一个用户线程就要创建一个相应的内核线程，由于创建内核线程的开销会影响应用程序的性能。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-5.png&quot; alt=&quot;一对一模型&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-5.webp&quot; alt=&quot;一对一模型&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;多对多模型
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;多路复用&lt;/strong&gt;多个用户线程到同样数量或更少数量的的内核线程。&lt;/li&gt;
 &lt;li&gt;可以创建任意多的用户线程，并且相应内核线程在多处理器系统上并发执行，当一个线程执行阻塞系统调用时，内核可以调用另一个线程来执行。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-6.png&quot; alt=&quot;多对多模型&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-6.webp&quot; alt=&quot;多对多模型&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;双层模型&lt;/strong&gt;：是多对多模型的变种，任然多路复用多个用户线程到同样数量或更少数量的内核线程，但也允许绑定某个用户线程到一个内核线程。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-7.png&quot; alt=&quot;双层模型&quot; /&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-7.webp&quot; alt=&quot;双层模型&quot; /&gt;
 &amp;lt;br&amp;gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -5754,7 +7042,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;p&gt;进程执行包括周期进行&lt;strong&gt;cpu执行&lt;/strong&gt;和&lt;strong&gt;IO等待&lt;/strong&gt;。进程在这两个状态之不断交替。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;IO密集型进程 &amp;amp; cpu密集型进程&lt;/li&gt;
-&lt;li&gt;&lt;img src=&quot;./images/image-8.png&quot; alt=&quot;cpu执行和I/O执行执行的交替序列&quot; /&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-8.webp&quot; alt=&quot;cpu执行和I/O执行执行的交替序列&quot; /&gt;
 &amp;lt;br&amp;gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -5874,7 +7162,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;当一个进程进入就行队列时，它的PCB会被链接到队列尾部。当CPU空闲时，它会分配给位于队列头部的进程，并且这个运行进程从队列中移除。&lt;/li&gt;
 &lt;li&gt;优点：算法实现非常简单。&lt;/li&gt;
 &lt;li&gt;缺点：平均等待时间往往很长。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-28.png&quot; alt=&quot;先到先服务调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-28.webp&quot; alt=&quot;先到先服务调度&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;ps：FCFS调度算法是&lt;strong&gt;非抢占的&lt;/strong&gt;。一旦CPU分配给了一个进程，该进程就会一直使用CPU直到释放CPU。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -5882,7 +7170,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;最短作业优先&lt;/strong&gt;（Shortest-Job-First，&lt;strong&gt;SJF&lt;/strong&gt;）调度算法将每个进程与其下次CPU执行的长度关联起来。当CPU空闲时，它会被赋给具有最短CPU执行的进程。&lt;/li&gt;
 &lt;li&gt;SJF算法也叫也叫&lt;strong&gt;最短下次CPU执行算法&lt;/strong&gt;，因为调度取决于进程的下次CPU执行的长度，而不是其总的长度。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-29.png&quot; alt=&quot;最短作业优先调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-29.webp&quot; alt=&quot;最短作业优先调度&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;优点：SJF算法是&lt;strong&gt;最优的&lt;/strong&gt;，因为平均等待时间最小（即CPU更忙碌）。短进程等待时间减少，长进程等待时间增加，从而平均等待时间减少。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;问题：如何知道下次CPU执行的长度？&lt;/strong&gt;
 &lt;ul&gt;
@@ -5892,14 +7180,14 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;/li&gt;
 &lt;li&gt;SJF算法可以是&lt;strong&gt;抢占式或非抢占式&lt;/strong&gt;的。当一个新进程到达就绪队列而以前进程正在执行时，就需要选择了。新进程的下次CPU执行，与当前运行进程的尚未完成的CPU执行相比，可能还要小。&lt;/li&gt;
 &lt;li&gt;抢占SJF算法会抢占当前运行进程，而非抢占SJF算法会允许当前运行进程先完成CPU执行。抢占SJF调度有时称为&lt;strong&gt;最短剩余时间优先调度&lt;/strong&gt;。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-30.png&quot; alt=&quot;抢占式最短作业优先调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-30.webp&quot; alt=&quot;抢占式最短作业优先调度&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;优先级调度（PS）
 &lt;ul&gt;
 &lt;li&gt;每个进程都有一个&lt;strong&gt;优先级&lt;/strong&gt;与其关联，而具有最高优先级的进程会分配到CPU。具有相同优先级的进程按FCFS顺序调度。&lt;/li&gt;
 &lt;li&gt;SJF算法是优先级调度算法的一个特例。其优先级为下次CPU执行的倒数。CPU执行越长，则优先级越小。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-31.png&quot; alt=&quot;优先级调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-31.webp&quot; alt=&quot;优先级调度&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;优先级调度可以是&lt;strong&gt;抢占的或非抢占的&lt;/strong&gt;。&lt;/li&gt;
 &lt;li&gt;优先级调度算法的一个主要问题是&lt;strong&gt;无穷阻塞&lt;/strong&gt;或&lt;strong&gt;饥饿&lt;/strong&gt;问题。&lt;/li&gt;
 &lt;li&gt;低优先级进程的饥饿问题的解决方案之一是&lt;strong&gt;老化&lt;/strong&gt;。老化逐渐增加在系统中等待很长时间的进程的优先级。&lt;/li&gt;
@@ -5908,9 +7196,9 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;轮转调度（RR）
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;轮转调度&lt;/strong&gt;（Round Robin，&lt;strong&gt;RR&lt;/strong&gt;）调度算法为每个进程分配一个固定的时间片，称为&lt;strong&gt;时间片&lt;/strong&gt;。每个进程在时间片内执行，然后被抢占，将CPU分配给就绪队列中的下一个进程。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-32.png&quot; alt=&quot;轮转调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-32.webp&quot; alt=&quot;轮转调度&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;时间片的长度是一个重要的参数。RR算法的性能很大程度取决于时间片的大小。如果时间片很大，那么RR算法与FCFS算法一样，如果时间片很小，会导致频繁的上下文切换，从而增加了系统的开销。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-33.png&quot; alt=&quot;轮转调度时间片&quot; /&gt;!&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-33.webp&quot; alt=&quot;轮转调度时间片&quot; /&gt;!&lt;/li&gt;
 &lt;li&gt;优点：
 &lt;ul&gt;
 &lt;li&gt;简单实现。&lt;/li&gt;
@@ -5929,7 +7217,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;多级队列调度
 &lt;ul&gt;
 &lt;li&gt;多级队列调度算法将就绪队列&lt;strong&gt;分成多个单独队列&lt;/strong&gt;。每个队列有自己的优先级。&lt;/li&gt;
-&lt;li&gt;&lt;img src=&quot;./images/image-34.png&quot; alt=&quot;多级队列调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-34.webp&quot; alt=&quot;多级队列调度&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;根据进程属性，如内存大小，进程优先级、进程类型等，一个进程&lt;strong&gt;永久&lt;/strong&gt;分到一个队列。每个队列有自己的调度算法。&lt;/li&gt;
 &lt;li&gt;每个队列与更低层队列相比有绝对的优先。&lt;/li&gt;
 &lt;li&gt;优点：优先级高的进程优先执行&lt;/li&gt;
@@ -5941,7 +7229,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;使用多级队列算法时，进程进入系统时被&lt;strong&gt;永久分配&lt;/strong&gt;到某个队列。而多级反馈队列调度算法允许进程在队列之间&lt;strong&gt;迁移&lt;/strong&gt;。&lt;/li&gt;
 &lt;li&gt;这种算法根据不同的CPU执行的特点来区分进程。如果进程使用过多的CPU时间，那么它会被移到更低的优先级队列。&lt;/li&gt;
 &lt;li&gt;这种方案将IO密集型和交互进程放在更高优先级队列上。在较低优先级队列中等待过长的进程会被移到更高优先级队列，以&lt;strong&gt;阻止饥饿的发生&lt;/strong&gt;。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-35.png&quot; alt=&quot;多级反馈调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-35.webp&quot; alt=&quot;多级反馈调度&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -6016,7 +7304,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;
 &lt;p&gt;事件延迟概念：从事件发生到事件得到服务的这段时间称为&lt;strong&gt;事件延迟&lt;/strong&gt;。&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-36.png&quot; alt=&quot;事件延迟&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-36.webp&quot; alt=&quot;事件延迟&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;实时系统对「事件延迟」很敏感，因为如汽车刹车、工业控制、航天发动机控制，事件延迟一旦超过允许上限，导致错过 deadline，可能直接导致事故。而普通pc只是会略有延迟和卡顿。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -6027,7 +7315,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;ul&gt;
 &lt;li&gt;中断触发 ---&amp;gt; 到中断服务例程（ISR）开始执行的时间。&lt;/li&gt;
 &lt;li&gt;当一个中断发生时，操作系统应先完成正在执行的指令，再确定发生中断的类型。然后，应保存当前进程的状态，再采用特定的中断服务程序（Interrupt Service Routine ，ISR）来处理中断。执行这些任务需要的总时间称为&lt;strong&gt;中断延迟&lt;/strong&gt;。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-37.png&quot; alt=&quot;中断延迟&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-37.webp&quot; alt=&quot;中断延迟&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;中断延迟的产生往往来自&lt;strong&gt;硬件&lt;/strong&gt;。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -6036,7 +7324,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;调度程序决定切换进程 / 线程 ---&amp;gt; 到新进程真正开始运行的时间。&lt;/li&gt;
 &lt;li&gt;调度程序从停止一个进程到启动另一个进程所需的时间量称为&lt;strong&gt;调度延迟&lt;/strong&gt;。实时操作系统应&lt;strong&gt;最大限度的减少这种延迟&lt;/strong&gt;。保持调度延迟尽可能低的最有效技术是：提供&lt;strong&gt;抢占式内核&lt;/strong&gt;。&lt;/li&gt;
 &lt;li&gt;下图说明了调度延迟的组成部分。调度延迟的&lt;strong&gt;冲突部分&lt;/strong&gt;有两部分：1.抢占在内核中运行的任何进程；2.释放高优先级进程所需的、低优先级进程占有的资源。&lt;/li&gt;
-&lt;li&gt;如图：&lt;img src=&quot;./images/image-38.png&quot; alt=&quot;调度延迟&quot; /&gt;!&lt;/li&gt;
+&lt;li&gt;如图：&lt;img src=&quot;./images/image-38.webp&quot; alt=&quot;调度延迟&quot; /&gt;!&lt;/li&gt;
 &lt;li&gt;为什么会有调度延迟？
 &lt;ul&gt;
 &lt;li&gt;中断只是 “通知系统该切换了”，但系统要完成：保存旧进程 ---&amp;gt; 调度选择 ---&amp;gt; 加载新进程，这一整套操作花的时间，就是调度延迟。所以不可能 “中断一完立刻执行”。&lt;/li&gt;
@@ -6062,7 +7350,7 @@ git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描�
 &lt;li&gt;周期任务的速率为1/p。&lt;/li&gt;
 &lt;li&gt;处理时间t、截止期限d和周期p之间的关系为：0 ≤ t ≤ d ≤ p&lt;/li&gt;
 &lt;li&gt;下图描述了一个周期性进程随时间的执行情况，调度程序可以利用这些特性，根据进程的&lt;strong&gt;截止期限&lt;/strong&gt;或&lt;strong&gt;速率&lt;/strong&gt;要求来分配优先级。&lt;/li&gt;
-&lt;li&gt;&lt;img src=&quot;./images/image-39.png&quot; alt=&quot;周期任务&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-39.webp&quot; alt=&quot;周期任务&quot; /&gt;&lt;/li&gt;
 &lt;li&gt;调度程序只会做2件事：承认进程，&lt;strong&gt;保证进程完成&lt;/strong&gt;；如果它不能保证任务能在截止期限之前得到服务，&lt;strong&gt;拒绝请求&lt;/strong&gt;。
 &amp;lt;br&amp;gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -6191,8 +7479,8 @@ A 明显更频繁。&lt;/li&gt;
 &lt;/li&gt;
 &lt;li&gt;2个例图
 &lt;ul&gt;
-&lt;li&gt;&lt;img src=&quot;./images/image-40.png&quot; alt=&quot;单调速率调度&quot; /&gt;&lt;/li&gt;
-&lt;li&gt;&lt;img src=&quot;./images/image-41.png&quot; alt=&quot;错过截止期限的单调速率调度&quot; /&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-40.webp&quot; alt=&quot;单调速率调度&quot; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-41.webp&quot; alt=&quot;错过截止期限的单调速率调度&quot; /&gt;
 &amp;lt;br&amp;gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -6323,7 +7611,7 @@ A 明显更频繁。&lt;/li&gt;
 &lt;/li&gt;
 &lt;li&gt;例图
 &lt;ul&gt;
-&lt;li&gt;&lt;img src=&quot;./images/image-42.png&quot; alt=&quot;最早截止期限优先调度&quot; /&gt;
+&lt;li&gt;&lt;img src=&quot;./images/image-42.webp&quot; alt=&quot;最早截止期限优先调度&quot; /&gt;
 &amp;lt;br&amp;gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;

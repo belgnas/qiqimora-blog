@@ -1,7 +1,6 @@
----
+﻿---
 # 文章标题（必需）
 title: 文档编写规范
-# 文章发布日期，格式为YYYY-MM-DD （个人发布时间）（实际使用中与pubDate的值通常保持一致，避免框架解析异常，是最稳妥的写法）
 published: 2026-03-15
 # 是否置顶文章，true表示置顶
 pinned: false
@@ -19,14 +18,7 @@ author: qiqimora
 sourceLink: "https://github.com/mzlogin/chinese-copywriting-guidelines"
 # 是否为草稿，true表示草稿，false表示正式发布
 draft: false
-# 文章创建日期，格式为YYYY-MM-DD （初稿日期）
-date: 2026-03-15
-# 文章封面图片（放在文章顶部，推荐使用相对路径）
-# image: "./cover.png"
-# 文章发布日期（与published类似）（适用于机器通用标准（如RSS 订阅、爬虫识别、底层时间排序）的发布时间）
-pubDate: 2026-03-15
 # 设置文章固定链接
-# permalink: "encrypted-example"
 ---
 
 <!-- 小贴士：图片优化建议

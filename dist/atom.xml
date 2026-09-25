@@ -5,7 +5,7 @@
   <link href="https://qiqimora.cn/" rel="alternate" type="text/html"/>
   <link href="https://qiqimora.cn/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://qiqimora.cn/</id>
-  <updated>2026-09-25T12:40:14.646Z</updated>
+  <updated>2026-09-25T12:54:33.088Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>博客整改清单：一次全站自查的 19 个待修点</title>
@@ -6289,19 +6289,200 @@ git diff main | claude -p "审查安全问题"
     <link href="https://qiqimora.cn/posts/blog%E6%97%A5%E5%B8%B8%E6%8E%A8%E9%80%81%E6%93%8D%E4%BD%9C/" rel="alternate" type="text/html"/>
     <id>https://qiqimora.cn/posts/blog%E6%97%A5%E5%B8%B8%E6%8E%A8%E9%80%81%E6%93%8D%E4%BD%9C/</id>
     <published>2026-03-15T00:00:00.000Z</published>
-    <updated>2026-03-15T00:00:00.000Z</updated>
-    <summary>记录一下blog日常推送操作</summary>
+    <updated>2026-09-25T00:00:00.000Z</updated>
+    <summary>从本地写完文章到线上生效的完整流程。核心是「服务器不构建」，所以本地必须 pnpm build 并把 dist/ 一起提交，否则文章永远上不了线。</summary>
     <content type="html"><![CDATA[<h1>博客日常推送操作</h1>
-<h2>步骤1：拉取远程最新（避免冲突）</h2>
-<pre><code>git pull origin main
+<blockquote>
+<p>[!IMPORTANT]
+<strong>和普通 Astro 博客最大的区别：服务器不构建。</strong></p>
+<p>服务器只有 2 核 2G，跑不动 <code>astro build</code>。所以必须<strong>在本地构建好，并把生成的 <code>dist/</code> 一起提交</strong>——服务器只负责 <code>git pull</code> 下来直接用。</p>
+<p>漏掉 <code>pnpm build</code> 的后果：文章进了仓库，但网站上<strong>看不到</strong>，而且<strong>不会有任何报错</strong>。</p>
+</blockquote>
+<h2>完整流程</h2>
+<pre><code>① 写文章 → ② pnpm build → ③ commit（含 dist/）→ ④ push
+                                                    ↓
+                    ┌───────────────────────────────┴──────────────┐
+                    │                                              │
+          ⑤ 等凌晨 4:00 自动部署                    手动跑 deploy.sh（立刻生效）
+                    └───────────────────┬──────────────────────────┘
+                                        ↓
+                        ⑥ 服务器 git reset --hard origin/main
+                                        ↓
+                          ⑦ chown + chmod + nginx reload → 上线
 </code></pre>
-<h2>步骤2：暂存所有修改 + 提交（学了什么 + 做了什么 + 写了什么）</h2>
-<pre><code>git add .
-git commit -m "2026-03-07 第一件事简短描述 + 第二件事简短描述 + 第三件事简短描述"
+<h2>直接复制的版本</h2>
+<pre><code># 1. 施工前先同步，避免冲突
+git pull origin main
+
+# 2. 写文章（二选一）
+pnpm new-post 我的新文章        # 生成 src/content/posts/我的新文章.md
+#   要配图就手动建目录：src/content/posts/我的新文章/index.md + images/
+
+# 3. 本地预览
+pnpm dev                        # http://localhost:4321
+
+# 4. 构建 ← 这一步千万不能忘
+pnpm build
+
+# 5. 提交（必须包含 dist/）
+git add -A
+git commit -m "2026-09-25 写了《XXX》+ 更新了YYY"
+
+# 6. 推送
+git push origin main
+
+# 7. 想立刻生效（不等凌晨 4 点）
+ssh root@8.135.52.120 '/var/www/deploy.sh'
+
+# 8.（可选）把新页面提交给搜索引擎
+pnpm submit
 </code></pre>
-<h2>步骤3：推送到 GitHub（完成同步）</h2>
-<pre><code>git push origin main
+<h2>各步骤在做什么</h2>
+<h3><code>pnpm build</code> 实际执行 4 件事</h3>
+<table>
+<thead>
+<tr>
+<th>顺序</th>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>node scripts/update-anime.mjs</code></td>
+<td>更新番剧数据</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>astro build</code></td>
+<td>生成 <code>dist/</code>（当前 26 页）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>pagefind --site dist</code></td>
+<td>生成站内搜索索引</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>node scripts/compress-fonts.js</code></td>
+<td>中文字体子集压缩（省约 98%）</td>
+</tr>
+</tbody>
+</table>
+<h3>服务器自动部署（<code>/var/www/deploy.sh</code>）</h3>
+<p>由 cron 每天<strong>凌晨 4:00</strong> 触发：</p>
+<pre><code>git fetch origin main &amp;&amp; git reset --hard origin/main &amp;&amp; git clean -fd   # 最多重试 3 次
+[ -f dist/index.html ] || 报错退出                                        # 校验产物存在
+chown -R www-data:www-data dist &amp;&amp; chmod -R 755 dist                     # 修权限
+systemctl reload nginx                                                    # 生效
 </code></pre>
+<p>想看部署日志：<code>tail -f /var/log/deploy.log</code></p>
+<h2>必须知道的 5 个坑</h2>
+<h3>1. 忘了 <code>pnpm build</code> → 线上静默不变</h3>
+<p><strong>最容易踩的一个。</strong> 部署脚本只检查 <code>dist/index.html</code> <strong>是否存在</strong>——它在，所以不报警；但如果 <code>dist/</code> 是旧的，服务器照样发布旧页面，<strong>没有任何提示</strong>。</p>
+<p><strong>自查方法</strong>：<code>git status</code> 时，如果你刚写完文章却只有 <code>src/</code> 有变化、<code>dist/</code> 没动静 → 说明忘了构建。</p>
+<h3>2. 不要在服务器上构建</h3>
+<p><code>astro build</code> 在这台 2G 机器上会吃掉大量内存，可能触发 OOM，把其他服务（比如 next-server）一起杀掉。</p>
+<p>所以 <code>dist/</code> 进版本库是<strong>有意设计</strong>，不是失误，别去「优化」掉它。</p>
+<h3>3. 服务器上的仓库目录是只读镜像</h3>
+<p>部署脚本的 <code>git reset --hard</code> + <code>git clean -fd</code> 会抹掉任何手动改动：</p>
+<ul>
+<li>✅ 可以改：<code>/etc/nginx/</code>、<code>/root/.acme.sh/</code>（这些在仓库之外）</li>
+<li>❌ 不要改：<code>/var/www/mizuki/qiqimora-blog/</code> 里的文件（下次部署就没了）</li>
+</ul>
+<h3>4. frontmatter 只认 <code>published</code></h3>
+<p>文章 schema 里日期的唯一有效字段是 <code>published</code>。写 <code>date</code> 或 <code>pubDate</code> 会被<strong>静默丢弃</strong>——不报错，但也永远不生效。</p>
+<pre><code>---
+title: 文章标题
+published: 2026-09-25      # 发布/创建日期（唯一有效的日期字段）
+updated: 2026-09-25        # 可选，改过文章才写，会显示在「上次编辑」卡片
+description: 一句话摘要
+tags: [标签1, 标签2]
+category: 分类
+---
+
+# 其他可选字段：
+# pinned: true            置顶
+# draft: true             草稿（true 不发布）
+# image: /path/to/img     封面图
+# lang: zh_CN             语言
+# encrypted: true         加密文章
+# password: "xxx"         加密密码
+# alias: 别名
+# permalink: 自定义链接
+</code></pre>
+<h3>5. 路径规范</h3>
+<table>
+<thead>
+<tr>
+<th>事项</th>
+<th>规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文章目录名</td>
+<td>大小写要稳定。曾出现 <code>常见STL</code> 与 <code>常见stl</code> 不一致——Windows 无感，但 Linux 服务器会出错，已统一为小写</td>
+</tr>
+<tr>
+<td>文章配图</td>
+<td>放在文章目录下的 <code>images/</code>，正文用 <code>./images/图片名</code> 引用</td>
+</tr>
+<tr>
+<td>需要长期稳定的资源</td>
+<td>放 <code>public/</code>（如友链头像）。<code>src/assets/</code> 下的图片会被 Astro 打上哈希（<code>/_astro/xxx.HASH.webp</code>），硬编码进数据文件后，重新构建就会失效</td>
+</tr>
+</tbody>
+</table>
+<h2>出问题了怎么查</h2>
+<table>
+<thead>
+<tr>
+<th>现象</th>
+<th>大概率原因</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文章在仓库里但网站上没有</td>
+<td>忘了 <code>pnpm build</code>，或忘了提交 <code>dist/</code></td>
+<td>补跑 <code>pnpm build</code>，重新提交推送</td>
+</tr>
+<tr>
+<td>推了但要等到明天才变</td>
+<td>自动部署是凌晨 4:00</td>
+<td>手动跑 <code>ssh root@8.135.52.120 '/var/www/deploy.sh'</code></td>
+</tr>
+<tr>
+<td><code>git push</code> 报 TLS 或认证错误</td>
+<td>本机 schannel 或凭据问题</td>
+<td>换 OpenSSL 后端试：<code>git -c http.sslBackend=openssl push origin main</code></td>
+</tr>
+<tr>
+<td>部署日志显示 dist/index.html 未找到</td>
+<td>真的没构建</td>
+<td>本地 <code>pnpm build</code> 后重新提交推送</td>
+</tr>
+<tr>
+<td>浏览器提示「不安全」</td>
+<td>证书问题</td>
+<td>证书由 acme.sh 自动续期（下次 2026-11-23）。排查思路见《博客整改清单》里的 HTTPS 复盘</td>
+</tr>
+</tbody>
+</table>
+<h2>一页速查</h2>
+<pre><code>git pull origin main                          # 同步
+pnpm new-post 文章名                           # 建文章
+pnpm dev                                      # 预览
+pnpm build                                    # ★ 构建（产出 dist/）
+git add -A &amp;&amp; git commit -m "2026-09-25 描述"  # 提交（含 dist）
+git push origin main                          # 推送
+ssh root@8.135.52.120 '/var/www/deploy.sh'    # 立刻部署（可选）
+pnpm submit                                   # 通知搜索引擎（可选）
+</code></pre>
+<p><strong>服务器信息</strong>：<code>8.135.52.120</code>（Ubuntu 22.04，仅密钥登录）· 网站根目录 <code>/var/www/mizuki/qiqimora-blog/dist</code> · 自动部署：每天 04:00</p>
 ]]></content>
     <author>
       <name>キキモラ-奇奇莫拉</name>

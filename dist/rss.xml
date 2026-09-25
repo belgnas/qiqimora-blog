@@ -6210,17 +6210,198 @@ git diff main | claude -p &quot;审查安全问题&quot;
 &lt;li&gt;&lt;a href=&quot;http://zh.wikipedia.org/wiki/%E5%BC%95%E8%99%9F&quot;&gt;引号 - 维基百科&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://zh.wikipedia.org/wiki/%E7%96%91%E5%95%8F%E9%A9%9A%E5%98%86%E8%99%9F&quot;&gt;疑问惊叹号 - 维基百科&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content:encoded></item><item><title>blog日常推送操作</title><link>https://qiqimora.cn/posts/blog%E6%97%A5%E5%B8%B8%E6%8E%A8%E9%80%81%E6%93%8D%E4%BD%9C/</link><guid isPermaLink="true">https://qiqimora.cn/posts/blog%E6%97%A5%E5%B8%B8%E6%8E%A8%E9%80%81%E6%93%8D%E4%BD%9C/</guid><description>记录一下blog日常推送操作</description><pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;博客日常推送操作&lt;/h1&gt;
-&lt;h2&gt;步骤1：拉取远程最新（避免冲突）&lt;/h2&gt;
-&lt;pre&gt;&lt;code&gt;git pull origin main
+</content:encoded></item><item><title>blog日常推送操作</title><link>https://qiqimora.cn/posts/blog%E6%97%A5%E5%B8%B8%E6%8E%A8%E9%80%81%E6%93%8D%E4%BD%9C/</link><guid isPermaLink="true">https://qiqimora.cn/posts/blog%E6%97%A5%E5%B8%B8%E6%8E%A8%E9%80%81%E6%93%8D%E4%BD%9C/</guid><description>从本地写完文章到线上生效的完整流程。核心是「服务器不构建」，所以本地必须 pnpm build 并把 dist/ 一起提交，否则文章永远上不了线。</description><pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;博客日常推送操作&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!IMPORTANT]
+&lt;strong&gt;和普通 Astro 博客最大的区别：服务器不构建。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;服务器只有 2 核 2G，跑不动 &lt;code&gt;astro build&lt;/code&gt;。所以必须&lt;strong&gt;在本地构建好，并把生成的 &lt;code&gt;dist/&lt;/code&gt; 一起提交&lt;/strong&gt;——服务器只负责 &lt;code&gt;git pull&lt;/code&gt; 下来直接用。&lt;/p&gt;
+&lt;p&gt;漏掉 &lt;code&gt;pnpm build&lt;/code&gt; 的后果：文章进了仓库，但网站上&lt;strong&gt;看不到&lt;/strong&gt;，而且&lt;strong&gt;不会有任何报错&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;完整流程&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;① 写文章 → ② pnpm build → ③ commit（含 dist/）→ ④ push
+                                                    ↓
+                    ┌───────────────────────────────┴──────────────┐
+                    │                                              │
+          ⑤ 等凌晨 4:00 自动部署                    手动跑 deploy.sh（立刻生效）
+                    └───────────────────┬──────────────────────────┘
+                                        ↓
+                        ⑥ 服务器 git reset --hard origin/main
+                                        ↓
+                          ⑦ chown + chmod + nginx reload → 上线
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;步骤2：暂存所有修改 + 提交（学了什么 + 做了什么 + 写了什么）&lt;/h2&gt;
-&lt;pre&gt;&lt;code&gt;git add .
-git commit -m &quot;2026-03-07 第一件事简短描述 + 第二件事简短描述 + 第三件事简短描述&quot;
+&lt;h2&gt;直接复制的版本&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;# 1. 施工前先同步，避免冲突
+git pull origin main
+
+# 2. 写文章（二选一）
+pnpm new-post 我的新文章        # 生成 src/content/posts/我的新文章.md
+#   要配图就手动建目录：src/content/posts/我的新文章/index.md + images/
+
+# 3. 本地预览
+pnpm dev                        # http://localhost:4321
+
+# 4. 构建 ← 这一步千万不能忘
+pnpm build
+
+# 5. 提交（必须包含 dist/）
+git add -A
+git commit -m &quot;2026-09-25 写了《XXX》+ 更新了YYY&quot;
+
+# 6. 推送
+git push origin main
+
+# 7. 想立刻生效（不等凌晨 4 点）
+ssh root@8.135.52.120 &apos;/var/www/deploy.sh&apos;
+
+# 8.（可选）把新页面提交给搜索引擎
+pnpm submit
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;步骤3：推送到 GitHub（完成同步）&lt;/h2&gt;
-&lt;pre&gt;&lt;code&gt;git push origin main
+&lt;h2&gt;各步骤在做什么&lt;/h2&gt;
+&lt;h3&gt;&lt;code&gt;pnpm build&lt;/code&gt; 实际执行 4 件事&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;顺序&lt;/th&gt;
+&lt;th&gt;命令&lt;/th&gt;
+&lt;th&gt;作用&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;node scripts/update-anime.mjs&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;更新番剧数据&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;astro build&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;生成 &lt;code&gt;dist/&lt;/code&gt;（当前 26 页）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;pagefind --site dist&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;生成站内搜索索引&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;node scripts/compress-fonts.js&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;中文字体子集压缩（省约 98%）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;服务器自动部署（&lt;code&gt;/var/www/deploy.sh&lt;/code&gt;）&lt;/h3&gt;
+&lt;p&gt;由 cron 每天&lt;strong&gt;凌晨 4:00&lt;/strong&gt; 触发：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git fetch origin main &amp;amp;&amp;amp; git reset --hard origin/main &amp;amp;&amp;amp; git clean -fd   # 最多重试 3 次
+[ -f dist/index.html ] || 报错退出                                        # 校验产物存在
+chown -R www-data:www-data dist &amp;amp;&amp;amp; chmod -R 755 dist                     # 修权限
+systemctl reload nginx                                                    # 生效
 &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;想看部署日志：&lt;code&gt;tail -f /var/log/deploy.log&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;必须知道的 5 个坑&lt;/h2&gt;
+&lt;h3&gt;1. 忘了 &lt;code&gt;pnpm build&lt;/code&gt; → 线上静默不变&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;最容易踩的一个。&lt;/strong&gt; 部署脚本只检查 &lt;code&gt;dist/index.html&lt;/code&gt; &lt;strong&gt;是否存在&lt;/strong&gt;——它在，所以不报警；但如果 &lt;code&gt;dist/&lt;/code&gt; 是旧的，服务器照样发布旧页面，&lt;strong&gt;没有任何提示&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;自查方法&lt;/strong&gt;：&lt;code&gt;git status&lt;/code&gt; 时，如果你刚写完文章却只有 &lt;code&gt;src/&lt;/code&gt; 有变化、&lt;code&gt;dist/&lt;/code&gt; 没动静 → 说明忘了构建。&lt;/p&gt;
+&lt;h3&gt;2. 不要在服务器上构建&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;astro build&lt;/code&gt; 在这台 2G 机器上会吃掉大量内存，可能触发 OOM，把其他服务（比如 next-server）一起杀掉。&lt;/p&gt;
+&lt;p&gt;所以 &lt;code&gt;dist/&lt;/code&gt; 进版本库是&lt;strong&gt;有意设计&lt;/strong&gt;，不是失误，别去「优化」掉它。&lt;/p&gt;
+&lt;h3&gt;3. 服务器上的仓库目录是只读镜像&lt;/h3&gt;
+&lt;p&gt;部署脚本的 &lt;code&gt;git reset --hard&lt;/code&gt; + &lt;code&gt;git clean -fd&lt;/code&gt; 会抹掉任何手动改动：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ 可以改：&lt;code&gt;/etc/nginx/&lt;/code&gt;、&lt;code&gt;/root/.acme.sh/&lt;/code&gt;（这些在仓库之外）&lt;/li&gt;
+&lt;li&gt;❌ 不要改：&lt;code&gt;/var/www/mizuki/qiqimora-blog/&lt;/code&gt; 里的文件（下次部署就没了）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;4. frontmatter 只认 &lt;code&gt;published&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;文章 schema 里日期的唯一有效字段是 &lt;code&gt;published&lt;/code&gt;。写 &lt;code&gt;date&lt;/code&gt; 或 &lt;code&gt;pubDate&lt;/code&gt; 会被&lt;strong&gt;静默丢弃&lt;/strong&gt;——不报错，但也永远不生效。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---
+title: 文章标题
+published: 2026-09-25      # 发布/创建日期（唯一有效的日期字段）
+updated: 2026-09-25        # 可选，改过文章才写，会显示在「上次编辑」卡片
+description: 一句话摘要
+tags: [标签1, 标签2]
+category: 分类
+---
+
+# 其他可选字段：
+# pinned: true            置顶
+# draft: true             草稿（true 不发布）
+# image: /path/to/img     封面图
+# lang: zh_CN             语言
+# encrypted: true         加密文章
+# password: &quot;xxx&quot;         加密密码
+# alias: 别名
+# permalink: 自定义链接
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;5. 路径规范&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;事项&lt;/th&gt;
+&lt;th&gt;规则&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;文章目录名&lt;/td&gt;
+&lt;td&gt;大小写要稳定。曾出现 &lt;code&gt;常见STL&lt;/code&gt; 与 &lt;code&gt;常见stl&lt;/code&gt; 不一致——Windows 无感，但 Linux 服务器会出错，已统一为小写&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;文章配图&lt;/td&gt;
+&lt;td&gt;放在文章目录下的 &lt;code&gt;images/&lt;/code&gt;，正文用 &lt;code&gt;./images/图片名&lt;/code&gt; 引用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;需要长期稳定的资源&lt;/td&gt;
+&lt;td&gt;放 &lt;code&gt;public/&lt;/code&gt;（如友链头像）。&lt;code&gt;src/assets/&lt;/code&gt; 下的图片会被 Astro 打上哈希（&lt;code&gt;/_astro/xxx.HASH.webp&lt;/code&gt;），硬编码进数据文件后，重新构建就会失效&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;出问题了怎么查&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;现象&lt;/th&gt;
+&lt;th&gt;大概率原因&lt;/th&gt;
+&lt;th&gt;处理&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;文章在仓库里但网站上没有&lt;/td&gt;
+&lt;td&gt;忘了 &lt;code&gt;pnpm build&lt;/code&gt;，或忘了提交 &lt;code&gt;dist/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;补跑 &lt;code&gt;pnpm build&lt;/code&gt;，重新提交推送&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;推了但要等到明天才变&lt;/td&gt;
+&lt;td&gt;自动部署是凌晨 4:00&lt;/td&gt;
+&lt;td&gt;手动跑 &lt;code&gt;ssh root@8.135.52.120 &apos;/var/www/deploy.sh&apos;&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;git push&lt;/code&gt; 报 TLS 或认证错误&lt;/td&gt;
+&lt;td&gt;本机 schannel 或凭据问题&lt;/td&gt;
+&lt;td&gt;换 OpenSSL 后端试：&lt;code&gt;git -c http.sslBackend=openssl push origin main&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;部署日志显示 dist/index.html 未找到&lt;/td&gt;
+&lt;td&gt;真的没构建&lt;/td&gt;
+&lt;td&gt;本地 &lt;code&gt;pnpm build&lt;/code&gt; 后重新提交推送&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;浏览器提示「不安全」&lt;/td&gt;
+&lt;td&gt;证书问题&lt;/td&gt;
+&lt;td&gt;证书由 acme.sh 自动续期（下次 2026-11-23）。排查思路见《博客整改清单》里的 HTTPS 复盘&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;一页速查&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;git pull origin main                          # 同步
+pnpm new-post 文章名                           # 建文章
+pnpm dev                                      # 预览
+pnpm build                                    # ★ 构建（产出 dist/）
+git add -A &amp;amp;&amp;amp; git commit -m &quot;2026-09-25 描述&quot;  # 提交（含 dist）
+git push origin main                          # 推送
+ssh root@8.135.52.120 &apos;/var/www/deploy.sh&apos;    # 立刻部署（可选）
+pnpm submit                                   # 通知搜索引擎（可选）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;服务器信息&lt;/strong&gt;：&lt;code&gt;8.135.52.120&lt;/code&gt;（Ubuntu 22.04，仅密钥登录）· 网站根目录 &lt;code&gt;/var/www/mizuki/qiqimora-blog/dist&lt;/code&gt; · 自动部署：每天 04:00&lt;/p&gt;
 </content:encoded></item><item><title>《操作系统概论》整理</title><link>https://qiqimora.cn/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E6%95%B4%E7%90%86/</link><guid isPermaLink="true">https://qiqimora.cn/posts/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E6%95%B4%E7%90%86/</guid><description>计算机经典书籍，咱要努力啃掉，嗷呜！</description><pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;img src=&quot;./images/image-9.webp&quot; alt=&quot;操作系统概论原书第9版&quot; /&gt;&lt;/p&gt;
 &lt;h1&gt;概论&lt;/h1&gt;
 &lt;ul&gt;

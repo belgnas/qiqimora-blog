@@ -969,7 +969,7 @@ dist 总体积: 90.1 MB
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;SSH&lt;/td&gt;
-&lt;td&gt;端口 22 开放，允许 &lt;code&gt;publickey,password&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;端口 22，&lt;strong&gt;仅密钥认证&lt;/strong&gt;（密码登录已于 2026-09-25 关闭）&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;系统&lt;/td&gt;
@@ -977,7 +977,7 @@ dist 总体积: 90.1 MB
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;80 端口&lt;/td&gt;
-&lt;td&gt;返回 403，&lt;code&gt;Server: Beaver&lt;/code&gt;（没有 HTTP→HTTPS 跳转）&lt;/td&gt;
+&lt;td&gt;返回 403，&lt;code&gt;Server: Beaver&lt;/code&gt;（阿里云备案拦截页）&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1005,7 +1005,7 @@ dist 总体积: 90.1 MB
 &lt;h2&gt;认证卡点与解法&lt;/h2&gt;
 &lt;p&gt;首次连接报 &lt;code&gt;All configured authentication methods failed&lt;/code&gt;。排查过程：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;服务器返回 &lt;code&gt;Permission denied (publickey,password)&lt;/code&gt; → 两种认证都开着&lt;/li&gt;
+&lt;li&gt;服务器返回 &lt;code&gt;Permission denied (publickey,password)&lt;/code&gt; → 两种认证都开着（&lt;strong&gt;注：排查完成后已关闭密码认证，见《服务器加固记录》&lt;/strong&gt;）&lt;/li&gt;
 &lt;li&gt;用 &lt;code&gt;IdentitiesOnly=yes&lt;/code&gt; 明确指定 &lt;code&gt;id_rsa&lt;/code&gt; 单独测试 → 仍然被拒&lt;/li&gt;
 &lt;li&gt;读密钥头部，&lt;code&gt;b3BlbnNzaC1rZXktdjEAAAAABG5vbmU&lt;/code&gt; 解出来是 &lt;code&gt;openssh-key-v1&lt;/code&gt; + &lt;strong&gt;cipher=none&lt;/strong&gt;，即密钥&lt;strong&gt;未加密&lt;/strong&gt;，排除 passphrase 问题&lt;/li&gt;
 &lt;/ol&gt;
@@ -1272,12 +1272,44 @@ sysctl -w vm.swappiness=10
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;&lt;code&gt;core20&lt;/code&gt; / &lt;code&gt;core22&lt;/code&gt; 是系统 seed 需要的基础 snap，&lt;strong&gt;不要删&lt;/strong&gt;；&lt;code&gt;cache&lt;/code&gt; 目录只是下载缓存，清空后 snapd 需要时会自己重新下载。&lt;/p&gt;
+&lt;h2&gt;SSH 加固：关闭密码登录&lt;/h2&gt;
+&lt;p&gt;排查过程中发现服务器是 &lt;code&gt;permitrootlogin yes&lt;/code&gt; + &lt;code&gt;passwordauthentication yes&lt;/code&gt;——&lt;strong&gt;root 可以直接用密码登录&lt;/strong&gt;，且 IP 公开可扫，这是个明显的攻击面。&lt;/p&gt;
+&lt;p&gt;公钥此时已验证可用（本机 &lt;code&gt;id_rsa&lt;/code&gt; 授权后免密登录成功），密码通道已经没有存在必要，于是关掉：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cat &amp;gt; /etc/ssh/sshd_config.d/99-hardening.conf &amp;lt;&amp;lt;&apos;EOF&apos;
+PasswordAuthentication no
+PermitRootLogin prohibit-password
+KbdInteractiveAuthentication no
+PubkeyAuthentication yes
+EOF
+
+sshd -t                    # 先校验语法，错了立即回滚
+sshd -T | grep -iE &apos;^(passwordauthentication|permitrootlogin)&apos;
+systemctl reload ssh       # reload 而非 restart，现有连接不受影响
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;一个容易踩的坑&lt;/strong&gt;：OpenSSH 对多数选项采用「&lt;strong&gt;首次出现者生效&lt;/strong&gt;」规则。Ubuntu 云镜像常在 &lt;code&gt;/etc/ssh/sshd_config.d/&lt;/code&gt; 里放 &lt;code&gt;50-cloud-init.conf&lt;/code&gt; 设置 &lt;code&gt;PasswordAuthentication yes&lt;/code&gt;，如果把加固文件命名为 &lt;code&gt;99-xxx.conf&lt;/code&gt;，&lt;strong&gt;它会排在 cloud-init 之后被读取，从而失效&lt;/strong&gt;。本例中该目录恰好是空的，且主文件第 12 行的 &lt;code&gt;Include&lt;/code&gt; 位于第 125-126 行之前，所以 &lt;code&gt;99-&lt;/code&gt; 前缀是安全的；但如果目录里有更早的编号文件，就必须用 &lt;code&gt;00-&lt;/code&gt; 前缀。&lt;/p&gt;
+&lt;p&gt;改动前后都用 &lt;code&gt;sshd -T&lt;/code&gt;（打印&lt;strong&gt;最终生效值&lt;/strong&gt;，而非文件内容）确认：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;permitrootlogin without-password
+pubkeyauthentication yes
+passwordauthentication no
+kbdinteractiveauthentication no
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;验证方式：&lt;code&gt;ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no root@127.0.0.1&lt;/code&gt;
+→ 返回 &lt;code&gt;Permission denied (publickey)&lt;/code&gt;，括号里&lt;strong&gt;只剩 publickey&lt;/strong&gt;，说明密码通道确实关闭。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;加了个安全措施：改配置时挂了一个&lt;strong&gt;5 分钟自动回滚保险&lt;/strong&gt;——若超时未被确认，自动删除加固文件并 reload。这是防「改错配置把自己锁在门外」的标准做法，确认新连接可用后立即解除。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;fail2ban 封禁扫描&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;fail2ban: enabled + active，sshd jail 监控 /var/log/auth.log
+内存占用: 22 MB
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;密码认证关掉后暴力破解已不可能成功，fail2ban 的作用是&lt;strong&gt;减少扫描带来的日志与 CPU 噪声&lt;/strong&gt;——对 2 核机器这点也有意义。&lt;/p&gt;
 &lt;h2&gt;加固后的状态&lt;/h2&gt;
-&lt;pre&gt;&lt;code&gt;Mem:  1.6Gi total, 537Mi used, 894Mi available
+&lt;pre&gt;&lt;code&gt;Mem:  1.6Gi total, 552Mi used, 878Mi available
 Swap: 4.0Gi total, 0B used
 Disk: 15G / 40G (40%)
-Load: 0.04, 0.04, 0.00
-nginx / cron / snapd: 全部 active
+Load: 0.22, 0.06, 0.02
+nginx / cron / snapd / fail2ban: 全部 active
+SSH:  仅密钥认证（密码登录已关闭）
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;一条给未来的纪律&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;永远不要在这台服务器上跑 &lt;code&gt;pnpm build&lt;/code&gt; / &lt;code&gt;npm install&lt;/code&gt; / &lt;code&gt;apt upgrade&lt;/code&gt;。&lt;/strong&gt;&lt;/p&gt;

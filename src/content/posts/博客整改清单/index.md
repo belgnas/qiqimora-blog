@@ -967,9 +967,9 @@ robots.txt、页脚备案链接、favicon 三件套、/devices/ 绝对路径、�
 | 项 | 值 |
 | --- | --- |
 | 域名解析 | qiqimora.cn / www / .com → **8.135.52.120** |
-| SSH | 端口 22 开放，允许 `publickey,password` |
+| SSH | 端口 22，**仅密钥认证**（密码登录已于 2026-09-25 关闭） |
 | 系统 | Ubuntu 22.04（OpenSSH 8.9p1 Ubuntu-3ubuntu0.17） |
-| 80 端口 | 返回 403，`Server: Beaver`（没有 HTTP→HTTPS 跳转） |
+| 80 端口 | 返回 403，`Server: Beaver`（阿里云备案拦截页） |
 
 ## SSH 配置走过的弯路
 
@@ -1001,7 +1001,7 @@ DSH 的 SSH 插件（`@linxin666/dsh-ssh`）有**两个**叫 SSH 的入口，容
 
 首次连接报 `All configured authentication methods failed`。排查过程：
 
-1. 服务器返回 `Permission denied (publickey,password)` → 两种认证都开着
+1. 服务器返回 `Permission denied (publickey,password)` → 两种认证都开着（**注：排查完成后已关闭密码认证，见《服务器加固记录》**）
 2. 用 `IdentitiesOnly=yes` 明确指定 `id_rsa` 单独测试 → 仍然被拒
 3. 读密钥头部，`b3BlbnNzaC1rZXktdjEAAAAABG5vbmU` 解出来是 `openssh-key-v1` + **cipher=none**，即密钥**未加密**，排除 passphrase 问题
 
@@ -1258,14 +1258,59 @@ sysctl -w vm.swappiness=10
 
 `core20` / `core22` 是系统 seed 需要的基础 snap，**不要删**；`cache` 目录只是下载缓存，清空后 snapd 需要时会自己重新下载。
 
+## SSH 加固：关闭密码登录
+
+排查过程中发现服务器是 `permitrootlogin yes` + `passwordauthentication yes`——**root 可以直接用密码登录**，且 IP 公开可扫，这是个明显的攻击面。
+
+公钥此时已验证可用（本机 `id_rsa` 授权后免密登录成功），密码通道已经没有存在必要，于是关掉：
+
+```bash
+cat > /etc/ssh/sshd_config.d/99-hardening.conf <<'EOF'
+PasswordAuthentication no
+PermitRootLogin prohibit-password
+KbdInteractiveAuthentication no
+PubkeyAuthentication yes
+EOF
+
+sshd -t                    # 先校验语法，错了立即回滚
+sshd -T | grep -iE '^(passwordauthentication|permitrootlogin)'
+systemctl reload ssh       # reload 而非 restart，现有连接不受影响
+```
+
+**一个容易踩的坑**：OpenSSH 对多数选项采用「**首次出现者生效**」规则。Ubuntu 云镜像常在 `/etc/ssh/sshd_config.d/` 里放 `50-cloud-init.conf` 设置 `PasswordAuthentication yes`，如果把加固文件命名为 `99-xxx.conf`，**它会排在 cloud-init 之后被读取，从而失效**。本例中该目录恰好是空的，且主文件第 12 行的 `Include` 位于第 125-126 行之前，所以 `99-` 前缀是安全的；但如果目录里有更早的编号文件，就必须用 `00-` 前缀。
+
+改动前后都用 `sshd -T`（打印**最终生效值**，而非文件内容）确认：
+
+```
+permitrootlogin without-password
+pubkeyauthentication yes
+passwordauthentication no
+kbdinteractiveauthentication no
+```
+
+验证方式：`ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no root@127.0.0.1`
+→ 返回 `Permission denied (publickey)`，括号里**只剩 publickey**，说明密码通道确实关闭。
+
+> 加了个安全措施：改配置时挂了一个**5 分钟自动回滚保险**——若超时未被确认，自动删除加固文件并 reload。这是防「改错配置把自己锁在门外」的标准做法，确认新连接可用后立即解除。
+
+## fail2ban 封禁扫描
+
+```
+fail2ban: enabled + active，sshd jail 监控 /var/log/auth.log
+内存占用: 22 MB
+```
+
+密码认证关掉后暴力破解已不可能成功，fail2ban 的作用是**减少扫描带来的日志与 CPU 噪声**——对 2 核机器这点也有意义。
+
 ## 加固后的状态
 
 ```
-Mem:  1.6Gi total, 537Mi used, 894Mi available
+Mem:  1.6Gi total, 552Mi used, 878Mi available
 Swap: 4.0Gi total, 0B used
 Disk: 15G / 40G (40%)
-Load: 0.04, 0.04, 0.00
-nginx / cron / snapd: 全部 active
+Load: 0.22, 0.06, 0.02
+nginx / cron / snapd / fail2ban: 全部 active
+SSH:  仅密钥认证（密码登录已关闭）
 ```
 
 ## 一条给未来的纪律

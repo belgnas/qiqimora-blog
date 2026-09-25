@@ -5,7 +5,7 @@
   <link href="https://qiqimora.cn/" rel="alternate" type="text/html"/>
   <link href="https://qiqimora.cn/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://qiqimora.cn/</id>
-  <updated>2026-09-25T12:19:29.878Z</updated>
+  <updated>2026-09-25T12:40:14.646Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>博客整改清单：一次全站自查的 19 个待修点</title>
@@ -985,7 +985,7 @@ dist 总体积: 90.1 MB
 </tr>
 <tr>
 <td>SSH</td>
-<td>端口 22 开放，允许 <code>publickey,password</code></td>
+<td>端口 22，<strong>仅密钥认证</strong>（密码登录已于 2026-09-25 关闭）</td>
 </tr>
 <tr>
 <td>系统</td>
@@ -993,7 +993,7 @@ dist 总体积: 90.1 MB
 </tr>
 <tr>
 <td>80 端口</td>
-<td>返回 403，<code>Server: Beaver</code>（没有 HTTP→HTTPS 跳转）</td>
+<td>返回 403，<code>Server: Beaver</code>（阿里云备案拦截页）</td>
 </tr>
 </tbody>
 </table>
@@ -1021,7 +1021,7 @@ dist 总体积: 90.1 MB
 <h2>认证卡点与解法</h2>
 <p>首次连接报 <code>All configured authentication methods failed</code>。排查过程：</p>
 <ol>
-<li>服务器返回 <code>Permission denied (publickey,password)</code> → 两种认证都开着</li>
+<li>服务器返回 <code>Permission denied (publickey,password)</code> → 两种认证都开着（<strong>注：排查完成后已关闭密码认证，见《服务器加固记录》</strong>）</li>
 <li>用 <code>IdentitiesOnly=yes</code> 明确指定 <code>id_rsa</code> 单独测试 → 仍然被拒</li>
 <li>读密钥头部，<code>b3BlbnNzaC1rZXktdjEAAAAABG5vbmU</code> 解出来是 <code>openssh-key-v1</code> + <strong>cipher=none</strong>，即密钥<strong>未加密</strong>，排除 passphrase 问题</li>
 </ol>
@@ -1288,12 +1288,44 @@ sysctl -w vm.swappiness=10
 </tbody>
 </table>
 <p><code>core20</code> / <code>core22</code> 是系统 seed 需要的基础 snap，<strong>不要删</strong>；<code>cache</code> 目录只是下载缓存，清空后 snapd 需要时会自己重新下载。</p>
+<h2>SSH 加固：关闭密码登录</h2>
+<p>排查过程中发现服务器是 <code>permitrootlogin yes</code> + <code>passwordauthentication yes</code>——<strong>root 可以直接用密码登录</strong>，且 IP 公开可扫，这是个明显的攻击面。</p>
+<p>公钥此时已验证可用（本机 <code>id_rsa</code> 授权后免密登录成功），密码通道已经没有存在必要，于是关掉：</p>
+<pre><code>cat &gt; /etc/ssh/sshd_config.d/99-hardening.conf &lt;&lt;'EOF'
+PasswordAuthentication no
+PermitRootLogin prohibit-password
+KbdInteractiveAuthentication no
+PubkeyAuthentication yes
+EOF
+
+sshd -t                    # 先校验语法，错了立即回滚
+sshd -T | grep -iE '^(passwordauthentication|permitrootlogin)'
+systemctl reload ssh       # reload 而非 restart，现有连接不受影响
+</code></pre>
+<p><strong>一个容易踩的坑</strong>：OpenSSH 对多数选项采用「<strong>首次出现者生效</strong>」规则。Ubuntu 云镜像常在 <code>/etc/ssh/sshd_config.d/</code> 里放 <code>50-cloud-init.conf</code> 设置 <code>PasswordAuthentication yes</code>，如果把加固文件命名为 <code>99-xxx.conf</code>，<strong>它会排在 cloud-init 之后被读取，从而失效</strong>。本例中该目录恰好是空的，且主文件第 12 行的 <code>Include</code> 位于第 125-126 行之前，所以 <code>99-</code> 前缀是安全的；但如果目录里有更早的编号文件，就必须用 <code>00-</code> 前缀。</p>
+<p>改动前后都用 <code>sshd -T</code>（打印<strong>最终生效值</strong>，而非文件内容）确认：</p>
+<pre><code>permitrootlogin without-password
+pubkeyauthentication yes
+passwordauthentication no
+kbdinteractiveauthentication no
+</code></pre>
+<p>验证方式：<code>ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no root@127.0.0.1</code>
+→ 返回 <code>Permission denied (publickey)</code>，括号里<strong>只剩 publickey</strong>，说明密码通道确实关闭。</p>
+<blockquote>
+<p>加了个安全措施：改配置时挂了一个<strong>5 分钟自动回滚保险</strong>——若超时未被确认，自动删除加固文件并 reload。这是防「改错配置把自己锁在门外」的标准做法，确认新连接可用后立即解除。</p>
+</blockquote>
+<h2>fail2ban 封禁扫描</h2>
+<pre><code>fail2ban: enabled + active，sshd jail 监控 /var/log/auth.log
+内存占用: 22 MB
+</code></pre>
+<p>密码认证关掉后暴力破解已不可能成功，fail2ban 的作用是<strong>减少扫描带来的日志与 CPU 噪声</strong>——对 2 核机器这点也有意义。</p>
 <h2>加固后的状态</h2>
-<pre><code>Mem:  1.6Gi total, 537Mi used, 894Mi available
+<pre><code>Mem:  1.6Gi total, 552Mi used, 878Mi available
 Swap: 4.0Gi total, 0B used
 Disk: 15G / 40G (40%)
-Load: 0.04, 0.04, 0.00
-nginx / cron / snapd: 全部 active
+Load: 0.22, 0.06, 0.02
+nginx / cron / snapd / fail2ban: 全部 active
+SSH:  仅密钥认证（密码登录已关闭）
 </code></pre>
 <h2>一条给未来的纪律</h2>
 <p><strong>永远不要在这台服务器上跑 <code>pnpm build</code> / <code>npm install</code> / <code>apt upgrade</code>。</strong></p>

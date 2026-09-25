@@ -1,7 +1,7 @@
 ---
 title: blog日常推送操作
 published: 2026-03-15
-updated: 2026-09-25
+updated: 2026-09-26
 pinned: false
 description: 从本地写完文章到线上生效的完整流程。核心是「服务器不构建」，所以本地必须 pnpm build 并把 dist/ 一起提交，否则文章永远上不了线。
 tags: [指令, 维护]
@@ -149,9 +149,58 @@ category: 分类
 | --- | --- | --- |
 | 文章在仓库里但网站上没有 | 忘了 `pnpm build`，或忘了提交 `dist/` | 补跑 `pnpm build`，重新提交推送 |
 | 推了但要等到明天才变 | 自动部署是凌晨 4:00 | 手动跑 `ssh root@8.135.52.120 '/var/www/deploy.sh'` |
-| `git push` 报 TLS 或认证错误 | 本机 schannel 或凭据问题 | 换 OpenSSL 后端试：`git -c http.sslBackend=openssl push origin main` |
+| `git push` 报 `TLS connect error` 或反复失败 | **本机代理（Clash）打断 TLS 连接** | 先清空代理环境变量再推，见下方《推送失败：先用这招》 |
 | 部署日志显示 dist/index.html 未找到 | 真的没构建 | 本地 `pnpm build` 后重新提交推送 |
 | 浏览器提示「不安全」 | 证书问题 | 证书由 acme.sh 自动续期（下次 2026-11-23）。排查思路见《博客整改清单》里的 HTTPS 复盘 |
+
+## 推送失败：先用这招
+
+`git push` 失败，最常见的原因**不是 GitHub，而是本机的代理**。
+
+### 现象
+
+```
+fatal: unable to access 'https://github.com/belgnas/qiqimora-blog.git/':
+  TLS connect error: error:00000000:lib(0)::reason(0)
+```
+
+### 处理（成功率最高的一招）
+
+在推送前**清空代理环境变量**：
+
+```powershell
+$env:http_proxy=''; $env:https_proxy=''; $env:HTTP_PROXY=''; $env:HTTPS_PROXY=''
+git push origin main
+```
+
+### 为什么是代理
+
+本机装了全局代理（Clash，监听 `127.0.0.1:7897`），**系统代理和环境变量都指向它**。实测发现它会打断某些 TLS 连接：
+
+| 测试 | 走代理 | 不走代理 |
+| --- | --- | --- |
+| `git push` 到 GitHub | ❌ TLS 失败 | ✅ 成功 |
+| TLS 1.2 连本博客服务器 | ❌ 连接被重置 | ✅ 正常 |
+| TLS 1.2 连 github.com | ✅ 正常 | ✅ 正常 |
+
+同一时间在服务器侧验证：nginx 在**公网 IP** 上接受 TLS 1.2 完全正常（`Protocol: TLSv1.2, Cipher: ECDHE-RSA-AES256-GCM-SHA384`），访问日志里也有成功请求。
+
+**所以问题在本地网络路径，不在服务器。** 换设备、换网络通常就好了。
+
+### 如果还不行
+
+再叠加 OpenSSL 后端（绕开 Windows schannel）：
+
+```powershell
+$env:http_proxy=''; $env:https_proxy=''
+git -c http.sslBackend=openssl push origin main
+```
+
+### 长期建议
+
+把 `qiqimora.com` 和 `github.com` 加进 Clash 的 **DIRECT 规则**（不走代理）。
+
+理由：博客在国内服务器上，走海外代理绕一圈**既慢又容易触发这类 TLS 问题**。让它们直连，速度和稳定性都会好很多。
 
 ## 一页速查
 

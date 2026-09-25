@@ -6759,9 +6759,9 @@ category: 分类
 &lt;td&gt;手动跑 &lt;code&gt;ssh root@8.135.52.120 &apos;/var/www/deploy.sh&apos;&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;code&gt;git push&lt;/code&gt; 报 TLS 或认证错误&lt;/td&gt;
-&lt;td&gt;本机 schannel 或凭据问题&lt;/td&gt;
-&lt;td&gt;换 OpenSSL 后端试：&lt;code&gt;git -c http.sslBackend=openssl push origin main&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;git push&lt;/code&gt; 报 &lt;code&gt;TLS connect error&lt;/code&gt; 或反复失败&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;本机代理（Clash）打断 TLS 连接&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;先清空代理环境变量再推，见下方《推送失败：先用这招》&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;部署日志显示 dist/index.html 未找到&lt;/td&gt;
@@ -6775,6 +6775,55 @@ category: 分类
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h2&gt;推送失败：先用这招&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git push&lt;/code&gt; 失败，最常见的原因&lt;strong&gt;不是 GitHub，而是本机的代理&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3&gt;现象&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;fatal: unable to access &apos;https://github.com/belgnas/qiqimora-blog.git/&apos;:
+  TLS connect error: error:00000000:lib(0)::reason(0)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;处理（成功率最高的一招）&lt;/h3&gt;
+&lt;p&gt;在推送前&lt;strong&gt;清空代理环境变量&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$env:http_proxy=&apos;&apos;; $env:https_proxy=&apos;&apos;; $env:HTTP_PROXY=&apos;&apos;; $env:HTTPS_PROXY=&apos;&apos;
+git push origin main
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;为什么是代理&lt;/h3&gt;
+&lt;p&gt;本机装了全局代理（Clash，监听 &lt;code&gt;127.0.0.1:7897&lt;/code&gt;），&lt;strong&gt;系统代理和环境变量都指向它&lt;/strong&gt;。实测发现它会打断某些 TLS 连接：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;测试&lt;/th&gt;
+&lt;th&gt;走代理&lt;/th&gt;
+&lt;th&gt;不走代理&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;git push&lt;/code&gt; 到 GitHub&lt;/td&gt;
+&lt;td&gt;❌ TLS 失败&lt;/td&gt;
+&lt;td&gt;✅ 成功&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TLS 1.2 连本博客服务器&lt;/td&gt;
+&lt;td&gt;❌ 连接被重置&lt;/td&gt;
+&lt;td&gt;✅ 正常&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TLS 1.2 连 github.com&lt;/td&gt;
+&lt;td&gt;✅ 正常&lt;/td&gt;
+&lt;td&gt;✅ 正常&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;同一时间在服务器侧验证：nginx 在&lt;strong&gt;公网 IP&lt;/strong&gt; 上接受 TLS 1.2 完全正常（&lt;code&gt;Protocol: TLSv1.2, Cipher: ECDHE-RSA-AES256-GCM-SHA384&lt;/code&gt;），访问日志里也有成功请求。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;所以问题在本地网络路径，不在服务器。&lt;/strong&gt; 换设备、换网络通常就好了。&lt;/p&gt;
+&lt;h3&gt;如果还不行&lt;/h3&gt;
+&lt;p&gt;再叠加 OpenSSL 后端（绕开 Windows schannel）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$env:http_proxy=&apos;&apos;; $env:https_proxy=&apos;&apos;
+git -c http.sslBackend=openssl push origin main
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;长期建议&lt;/h3&gt;
+&lt;p&gt;把 &lt;code&gt;qiqimora.com&lt;/code&gt; 和 &lt;code&gt;github.com&lt;/code&gt; 加进 Clash 的 &lt;strong&gt;DIRECT 规则&lt;/strong&gt;（不走代理）。&lt;/p&gt;
+&lt;p&gt;理由：博客在国内服务器上，走海外代理绕一圈&lt;strong&gt;既慢又容易触发这类 TLS 问题&lt;/strong&gt;。让它们直连，速度和稳定性都会好很多。&lt;/p&gt;
 &lt;h2&gt;一页速查&lt;/h2&gt;
 &lt;pre&gt;&lt;code&gt;git pull origin main                          # 同步
 pnpm new-post 文章名                           # 建文章

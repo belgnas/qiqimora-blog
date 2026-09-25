@@ -5,7 +5,7 @@
   <link href="https://qiqimora.cn/" rel="alternate" type="text/html"/>
   <link href="https://qiqimora.cn/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://qiqimora.cn/</id>
-  <updated>2026-09-25T17:30:29.207Z</updated>
+  <updated>2026-09-25T19:03:03.227Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>博客整改清单：一次全站自查的 19 个待修点</title>
@@ -6686,7 +6686,7 @@ git diff main | claude -p "审查安全问题"
     <link href="https://qiqimora.cn/posts/blog%E6%97%A5%E5%B8%B8%E6%8E%A8%E9%80%81%E6%93%8D%E4%BD%9C/" rel="alternate" type="text/html"/>
     <id>https://qiqimora.cn/posts/blog%E6%97%A5%E5%B8%B8%E6%8E%A8%E9%80%81%E6%93%8D%E4%BD%9C/</id>
     <published>2026-03-15T00:00:00.000Z</published>
-    <updated>2026-09-25T00:00:00.000Z</updated>
+    <updated>2026-09-26T00:00:00.000Z</updated>
     <summary>从本地写完文章到线上生效的完整流程。核心是「服务器不构建」，所以本地必须 pnpm build 并把 dist/ 一起提交，否则文章永远上不了线。</summary>
     <content type="html"><![CDATA[<h1>博客日常推送操作</h1>
 <blockquote>
@@ -6853,9 +6853,9 @@ category: 分类
 <td>手动跑 <code>ssh root@8.135.52.120 '/var/www/deploy.sh'</code></td>
 </tr>
 <tr>
-<td><code>git push</code> 报 TLS 或认证错误</td>
-<td>本机 schannel 或凭据问题</td>
-<td>换 OpenSSL 后端试：<code>git -c http.sslBackend=openssl push origin main</code></td>
+<td><code>git push</code> 报 <code>TLS connect error</code> 或反复失败</td>
+<td><strong>本机代理（Clash）打断 TLS 连接</strong></td>
+<td>先清空代理环境变量再推，见下方《推送失败：先用这招》</td>
 </tr>
 <tr>
 <td>部署日志显示 dist/index.html 未找到</td>
@@ -6869,6 +6869,55 @@ category: 分类
 </tr>
 </tbody>
 </table>
+<h2>推送失败：先用这招</h2>
+<p><code>git push</code> 失败，最常见的原因<strong>不是 GitHub，而是本机的代理</strong>。</p>
+<h3>现象</h3>
+<pre><code>fatal: unable to access 'https://github.com/belgnas/qiqimora-blog.git/':
+  TLS connect error: error:00000000:lib(0)::reason(0)
+</code></pre>
+<h3>处理（成功率最高的一招）</h3>
+<p>在推送前<strong>清空代理环境变量</strong>：</p>
+<pre><code>$env:http_proxy=''; $env:https_proxy=''; $env:HTTP_PROXY=''; $env:HTTPS_PROXY=''
+git push origin main
+</code></pre>
+<h3>为什么是代理</h3>
+<p>本机装了全局代理（Clash，监听 <code>127.0.0.1:7897</code>），<strong>系统代理和环境变量都指向它</strong>。实测发现它会打断某些 TLS 连接：</p>
+<table>
+<thead>
+<tr>
+<th>测试</th>
+<th>走代理</th>
+<th>不走代理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git push</code> 到 GitHub</td>
+<td>❌ TLS 失败</td>
+<td>✅ 成功</td>
+</tr>
+<tr>
+<td>TLS 1.2 连本博客服务器</td>
+<td>❌ 连接被重置</td>
+<td>✅ 正常</td>
+</tr>
+<tr>
+<td>TLS 1.2 连 github.com</td>
+<td>✅ 正常</td>
+<td>✅ 正常</td>
+</tr>
+</tbody>
+</table>
+<p>同一时间在服务器侧验证：nginx 在<strong>公网 IP</strong> 上接受 TLS 1.2 完全正常（<code>Protocol: TLSv1.2, Cipher: ECDHE-RSA-AES256-GCM-SHA384</code>），访问日志里也有成功请求。</p>
+<p><strong>所以问题在本地网络路径，不在服务器。</strong> 换设备、换网络通常就好了。</p>
+<h3>如果还不行</h3>
+<p>再叠加 OpenSSL 后端（绕开 Windows schannel）：</p>
+<pre><code>$env:http_proxy=''; $env:https_proxy=''
+git -c http.sslBackend=openssl push origin main
+</code></pre>
+<h3>长期建议</h3>
+<p>把 <code>qiqimora.com</code> 和 <code>github.com</code> 加进 Clash 的 <strong>DIRECT 规则</strong>（不走代理）。</p>
+<p>理由：博客在国内服务器上，走海外代理绕一圈<strong>既慢又容易触发这类 TLS 问题</strong>。让它们直连，速度和稳定性都会好很多。</p>
 <h2>一页速查</h2>
 <pre><code>git pull origin main                          # 同步
 pnpm new-post 文章名                           # 建文章

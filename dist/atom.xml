@@ -5,7 +5,7 @@
   <link href="https://qiqimora.cn/" rel="alternate" type="text/html"/>
   <link href="https://qiqimora.cn/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://qiqimora.cn/</id>
-  <updated>2026-09-25T12:54:33.088Z</updated>
+  <updated>2026-09-25T17:30:29.207Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>博客整改清单：一次全站自查的 19 个待修点</title>
@@ -1359,6 +1359,403 @@ SSH:  仅密钥认证（密码登录已关闭）
 <ol>
 <li>整理markdown文档编写规范</li>
 </ol>
+]]></content>
+    <author>
+      <name>キキモラ-奇奇莫拉</name>
+    </author>
+    <category term="其他"></category>
+  </entry>
+  <entry>
+    <title>服务器架构说明（端口、子域名与三个应用）</title>
+    <link href="https://qiqimora.cn/posts/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E8%AF%B4%E6%98%8E/" rel="alternate" type="text/html"/>
+    <id>https://qiqimora.cn/posts/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9E%B6%E6%9E%84%E8%AF%B4%E6%98%8E/</id>
+    <published>2026-09-26T00:00:00.000Z</published>
+    <updated>2026-09-26T00:00:00.000Z</updated>
+    <summary>把这台阿里云 ECS 上跑的三个应用、端口分配、nginx 分发逻辑、以及「安全组 vs 回环」这个容易搞混的概念整理清楚，方便日后排查。</summary>
+    <content type="html"><![CDATA[<h1>服务器架构说明</h1>
+<blockquote>
+<p>[!NOTE]
+本文是给自己回看的运维笔记。记录这台阿里云 ECS 上到底跑着什么、请求是怎么流转的、以及哪些操作必须在阿里云控制台做。</p>
+</blockquote>
+<h2>一句话概括</h2>
+<p><strong>所有服务都收在 <code>443</code> 后面，按子域名分发。nginx 是唯一的对外入口。</strong></p>
+<pre><code>https://qiqimora.com        → 博客
+https://plan.qiqimora.com   → plan 应用（计划表）
+</code></pre>
+<hr />
+<h2>服务器上跑着什么</h2>
+<p><strong>阿里云 ECS · Ubuntu 22.04.5 · 2 核 2G · 40G 磁盘</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>应用</th>
+<th>类型</th>
+<th>有没有常驻进程</th>
+<th>监听端口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>博客</strong></td>
+<td>Astro 静态站</td>
+<td>❌ <strong>没有</strong></td>
+<td>无（借用 nginx 的 80/443）</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>plan 应用</strong></td>
+<td>Next.js 16 standalone</td>
+<td>✅ Node（PM2 守护）</td>
+<td>3000</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Syncthing</strong></td>
+<td>Docker 容器</td>
+<td>✅ 容器进程</td>
+<td>8384 / 22000 / 21027</td>
+</tr>
+</tbody>
+</table>
+<h3>关键区别：静态 vs 动态</h3>
+<p>这是最容易搞混的一点：</p>
+<ul>
+<li><strong>博客是「静态文件」，没有进程。</strong> 它就是 <code>/var/www/mizuki/qiqimora-blog/dist/</code> 下的一堆 HTML/CSS/JS/图片。nginx 收到请求，<strong>直接从磁盘读文件返回</strong>。你在 <code>ps</code> 里搜不到任何「博客进程」。</li>
+<li><strong>plan 应用是「动态程序」，必须有进程。</strong> 它是个 Node 服务，得一直跑着才能响应请求。由 PM2 守护（进程名 <code>app-plan-next16-live</code>）。</li>
+<li><strong>Syncthing 也是动态程序</strong>，跑在 Docker 容器里。</li>
+</ul>
+<p>所以：<strong>博客不需要端口，plan 和 Syncthing 需要。</strong></p>
+<hr />
+<h2>端口 = 服务器上的「房门号」</h2>
+<p>服务器对外只有这几个门：</p>
+<table>
+<thead>
+<tr>
+<th>端口</th>
+<th>谁在守</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>443</strong></td>
+<td>nginx</td>
+<td>HTTPS 标准入口（<strong>主入口</strong>）</td>
+</tr>
+<tr>
+<td><strong>80</strong></td>
+<td>nginx</td>
+<td>HTTP 标准入口（<strong>被阿里云备案拦截</strong>）</td>
+</tr>
+<tr>
+<td><strong>22</strong></td>
+<td>sshd</td>
+<td>SSH 登录（仅密钥）</td>
+</tr>
+<tr>
+<td><strong>3000</strong></td>
+<td>next-server</td>
+<td>plan 应用直连（绕过 nginx）</td>
+</tr>
+<tr>
+<td><strong>8384</strong></td>
+<td>docker-proxy</td>
+<td>Syncthing Web UI（绕过 nginx）</td>
+</tr>
+<tr>
+<td><strong>22000</strong></td>
+<td>docker-proxy</td>
+<td>Syncthing 同步协议</td>
+</tr>
+<tr>
+<td>53</td>
+<td>systemd-resolve</td>
+<td>本机 DNS（只监听 127.0.0.1）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>完整结构图</h2>
+<pre><code>                    互联网 / 各种设备
+                            │
+      ┌──────────┬──────────┼──────────┬───────────┐
+      │          │          │          │           │
+   :443       :80        :3000      :8384       :22
+  (HTTPS)    (HTTP)    (自定义)   (自定义)     (SSH)
+      │          │          │          │           │
+      └────┬─────┘          │          │           ↓
+           ↓                │          │        SSH 登录
+    ┌─────────────┐         │          │
+    │   nginx     │         │          │
+    │ （统一入口） │         │          │
+    └──────┬──────┘         │          │
+           │                │          │
+   按域名分发 │              │          │   ← 侧门：绕过 nginx
+     ┌─────┴─────┐          │          │
+     ↓           ↓          ↓          ↓
+qiqimora.com  plan.qiqimora.com      plan 应用   Syncthing
+     │           │        （同一个）    （Docker）
+     ↓           ↓
+ 读 dist/     转发到 :3000
+ （博客）      （plan 应用）
+</code></pre>
+<hr />
+<h2>四个访问场景的实际链路</h2>
+<table>
+<thead>
+<tr>
+<th>浏览器输入</th>
+<th>实际链路</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>https://qiqimora.com/posts/xxx</code></td>
+<td>连 443 → nginx 识别域名 → <strong>自己读磁盘</strong> <code>dist/posts/xxx</code> → 返回文件</td>
+</tr>
+<tr>
+<td><code>https://plan.qiqimora.com/xxx</code></td>
+<td>连 443 → nginx 识别域名 → <strong>转发给 <code>127.0.0.1:3000</code></strong> → Node 处理</td>
+</tr>
+<tr>
+<td><code>http://8.135.52.120:3000/xxx</code></td>
+<td><strong>直连 3000</strong> → Node 处理（nginx 完全不知情）</td>
+</tr>
+<tr>
+<td><code>http://8.135.52.120:8384/xxx</code></td>
+<td><strong>直连 8384</strong> → Syncthing 处理（nginx 完全不知情）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>重要概念：安全组 vs 回环</h2>
+<p>这两个概念混起来会造成严重误判，单独讲。</p>
+<h3>阿里云安全组是什么</h3>
+<p><strong>安全组是位于服务器之外的网络层过滤器，只管「从互联网进来」的流量。</strong></p>
+<h3>回环（127.0.0.1）是什么</h3>
+<p><strong>回环是服务器内部进程之间的通信，数据包根本不出网卡，所以不经过安全组。</strong></p>
+<h3>类比</h3>
+<pre><code>阿里云安全组  =  大楼门口的保安（只管外来人员）
+nginx        =  443 房间的前台
+plan 应用     =  3000 房间的人
+</code></pre>
+<p>前台要去 3000 房间找人，走的是<strong>楼内走廊</strong>——保安管不着。</p>
+<h3>所以：关闭 3000 的外部访问，<strong>不会</strong>影响 nginx 转发</h3>
+<p>nginx 配置里写的是：</p>
+<pre><code>proxy_pass http://127.0.0.1:3000;   # 走回环，不出网卡
+</code></pre>
+<p><strong>三种「关 3000」的区别：</strong></p>
+<table>
+<thead>
+<tr>
+<th>做法</th>
+<th>nginx 还能转发吗</th>
+<th>外部设备</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>关闭安全组的 3000 规则</td>
+<td>✅ <strong>能</strong>（走回环）</td>
+<td>❌ 连不上，需改用域名</td>
+</tr>
+<tr>
+<td>让应用改监听 <code>127.0.0.1:3000</code></td>
+<td>✅ <strong>能</strong>（走回环）</td>
+<td>❌ 连不上（更强）</td>
+</tr>
+<tr>
+<td>让应用停止监听 3000</td>
+<td>❌ <strong>不能</strong>，网站直接挂</td>
+<td>❌ 连不上</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>当前状态 vs 理想状态</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>当前</th>
+<th>理想</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>博客走 443</td>
+<td>✅ 已完成</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>plan 走 443 子域名</td>
+<td>✅ 已完成</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>plan 的侧门 3000</td>
+<td>⚠️ 仍对外开放</td>
+<td>关掉（迁完设备后）</td>
+</tr>
+<tr>
+<td>Syncthing 走 443</td>
+<td>❌ 缺 DNS 记录</td>
+<td>加 <code>sync</code> 子域名</td>
+</tr>
+<tr>
+<td>Syncthing 的侧门 8384</td>
+<td>⚠️ 仍对外开放</td>
+<td>关掉</td>
+</tr>
+</tbody>
+</table>
+<p><strong>现在是「半整理」状态</strong>：正门建好了，侧门还开着。这是有意保留的——为了保证现有设备不中断。</p>
+<h3>逐步收口的顺序</h3>
+<pre><code>① 现在：什么都不动
+        ↓
+② 各设备书签改成 https://plan.qiqimora.com，观察几天
+        ↓
+③ 确认没有设备还在用 IP:3000
+        ↓
+④ 阿里云控制台 → 安全组 → 删掉 3000 入方向规则
+        ↓
+⑤ 验证：127.0.0.1:3000 仍 200（nginx 正常），外网 IP:3000 超时（侧门已封）
+</code></pre>
+<p><strong>顺序不能颠倒</strong>——先改书签再关端口。</p>
+<hr />
+<h2>⚠️ 需要在阿里云控制台操作的事项</h2>
+<h3>目前<strong>没有</strong>「必须立刻去做」的事</h3>
+<p>所有服务都正常工作。以下 4 项都是可选或正在进行中的：</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>事项</th>
+<th>控制台位置</th>
+<th>是否必须</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>ICP 备案</strong></td>
+<td>备案控制台</td>
+<td>✅ <strong>法律要求必须做</strong></td>
+<td>进行中</td>
+</tr>
+<tr>
+<td>2</td>
+<td>加 <code>sync</code> A 记录 → <code>8.135.52.120</code></td>
+<td>云解析 DNS</td>
+<td>可选（想给 Syncthing 配 HTTPS 才需要）</td>
+<td>未做</td>
+</tr>
+<tr>
+<td>3</td>
+<td>删安全组的 <code>3000</code> 入方向规则</td>
+<td>ECS → 安全组</td>
+<td>可选（设备迁完后才做）</td>
+<td>未做</td>
+</tr>
+<tr>
+<td>4</td>
+<td>删安全组的 <code>8384</code> 入方向规则</td>
+<td>ECS → 安全组</td>
+<td>可选（Syncthing 迁完后才做）</td>
+<td>未做</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!IMPORTANT]
+<strong>第 3、4 项千万不要提前做</strong>——做了之后，还在用 <code>IP:3000</code> / <code>IP:8384</code> 的设备会立刻连不上。必须先把所有设备书签改完再动。</p>
+</blockquote>
+<hr />
+<h2>常用排查命令</h2>
+<h3>在服务器上（SSH 进去后）</h3>
+<pre><code># 看谁在监听哪些端口
+ss -tlnp
+
+# 博客（走内部，模拟 nginx 路径）
+curl -I http://127.0.0.1/ -H 'Host: qiqimora.com'
+
+# plan 应用（走内部回环）
+curl -I http://127.0.0.1:3000/
+curl -I https://127.0.0.1/ -H 'Host: plan.qiqimora.com' -k
+
+# nginx 配置检查 + 重载
+nginx -t &amp;&amp; systemctl reload nginx
+
+# plan 应用状态
+pm2 list
+pm2 logs app-plan-next16-live --lines 50
+
+# 证书
+openssl x509 -in /etc/ssl/qiqimora/fullchain.pem -noout -dates -ext subjectAltName
+
+# 部署日志
+tail -f /var/log/deploy.log
+</code></pre>
+<h3>从自己的电脑</h3>
+<pre><code>curl -I https://qiqimora.com/             # 博客
+curl -I https://plan.qiqimora.com/        # plan 应用
+curl -I http://8.135.52.120:3000/         # 直连（若已封侧门则应超时）
+</code></pre>
+<hr />
+<h2>关键文件位置速查</h2>
+<table>
+<thead>
+<tr>
+<th>内容</th>
+<th>路径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>博客源码 + 构建产物</td>
+<td><code>/var/www/mizuki/qiqimora-blog/</code>（<code>dist/</code> 是 nginx 的根目录）</td>
+</tr>
+<tr>
+<td>博客 nginx 配置</td>
+<td><code>/etc/nginx/sites-available/mizuki</code></td>
+</tr>
+<tr>
+<td>plan 的 nginx 配置</td>
+<td><code>/etc/nginx/sites-available/plan.qiqimora.com</code></td>
+</tr>
+<tr>
+<td>plan 应用代码</td>
+<td><code>/root/app-plan-release-20260814-next16-candidate/</code></td>
+</tr>
+<tr>
+<td>plan 的环境变量</td>
+<td>存在 <strong>PM2</strong> 里，不在 <code>.env</code> 文件（<code>pm2 delete</code> 前先备份）</td>
+</tr>
+<tr>
+<td>证书</td>
+<td><code>/etc/ssl/qiqimora/fullchain.pem</code> + <code>privkey.pem</code></td>
+</tr>
+<tr>
+<td>证书续期</td>
+<td><code>~/.acme.sh/</code>（cron 每天 4 次检查，下次 2026-11-24）</td>
+</tr>
+<tr>
+<td>部署脚本</td>
+<td><code>/var/www/deploy.sh</code>（cron 每天 04:00）</td>
+</tr>
+<tr>
+<td>Syncthing 数据</td>
+<td><code>/root/syncthing/{config,data}</code>（挂载进容器）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>一条纪律</h2>
+<p><strong>永远不要在这台 2 核 2G 服务器上跑 <code>pnpm build</code> / <code>npm install</code> / <code>apt upgrade</code>。</strong></p>
+<p>构建一律在本地完成再提交 <code>dist/</code>。服务器只负责 <code>git reset --hard</code> + <code>chown</code> + <code>reload nginx</code>。</p>
 ]]></content>
     <author>
       <name>キキモラ-奇奇莫拉</name>

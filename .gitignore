@@ -54,5 +54,8 @@ src/data/bilibili-data.json
 
 # 本地杂项（live2d 备份、工具脚本等，不进仓库）
 other/
-# �����õ���ʱĿ¼��ɳ���� TEMP ָ�����
+# �����õ���ʱĿ¼��ɳ���� TEMP ָ�����
 .tmp-build/
+
+# 开发服务器的本地临时目录（见 scripts/dev-local-tmp.mjs）
+.tmp-dev/

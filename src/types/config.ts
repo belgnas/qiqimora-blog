@@ -430,16 +430,49 @@ export type FullscreenWallpaperConfig = {
 };
 
 /**
+ * 看板娘渲染运行时
+ * - `cubism5`：PixiJS 8 + Cubism 5，支持 `.moc3`（Cubism 3/4/5，含 VTube Studio 模型）
+ * - `legacy`：原有的 Cubism 2.1 运行时，只支持 `.moc` 老格式
+ */
+export type PioRuntime = "cubism5" | "legacy";
+
+/**
  * Pio 看板娘配置
  */
 export type PioConfig = {
 	enable: boolean; // 是否启用看板娘
 	models?: string[]; // 模型文件路径数组
+	runtime?: PioRuntime; // 渲染运行时，默认 cubism5
 	position?: "left" | "right"; // 看板娘位置
-	width?: number; // 看板娘宽度
-	height?: number; // 看板娘高度
+	width?: number; // 看板娘宽度（CSS 像素）
+	height?: number; // 看板娘高度（CSS 像素）
 	mode?: "static" | "fixed" | "draggable"; // 展现模式
 	hiddenOnMobile?: boolean; // 是否在移动设备上隐藏
+	/**
+	 * 取景。`zoom` 是相对"整幅模型画布刚好装下"的倍数，
+	 * `offsetX/offsetY` 是相对画布宽高的位移比例（屏幕坐标，正值向右/向下）。
+	 * 只在 `runtime: "cubism5"` 下生效。
+	 */
+	framing?: {
+		zoom?: number;
+		offsetX?: number;
+		offsetY?: number;
+	};
+	/** 点击模型时随机切换的情绪表情名（对应 model3.json 里的 Expressions.Name）。用洗牌袋随机，一轮内不重复 */
+	expressions?: string[];
+	/** 表情保持多少毫秒后自动恢复；0 表示保持到下次点击 */
+	expressionHoldMs?: number;
+	/** 是否显示右侧的选择面板（表情/配饰/工具/道具手动选择），默认显示 */
+	panel?: boolean;
+	/** 初始是否锁定随机（锁定后点击只播动作和台词，不换表情） */
+	locked?: boolean;
+	/** 打开页面时预设的选择 */
+	selection?: {
+		emotion?: string | null;
+		tool?: string | null;
+		accessories?: string[];
+		props?: string[];
+	};
 	dialog?: {
 		welcome?: string | string[]; // 欢迎词
 		touch?: string | string[]; // 触摸提示

@@ -656,14 +656,67 @@ export const sakuraConfig: SakuraConfig = {
 
 //（有改动）
 // Pio 看板娘配置
+//
+// 运行时说明：
+//   runtime: "cubism5" —— PixiJS 8 + pixi-live2d-display(Cubism 5) + 官方 Cubism Core 5，
+//                        支持 .moc3（Cubism 3/4/5，含 VTube Studio 导出的模型）。
+//                        实现见 src/components/widget/live2d-runtime.ts
+//   想回到原来的 Cubism 2.1 猫娘：把 runtime 改成 "legacy"，
+//   并把 models 换回 ["/pio/models/pio/model.json"] 即可（老的 l2d.js 一直保留着）。
+//
+// 当前模型：DS鲸鱼娘（作者：B站 @氵六青 11272072）
+//   授权：无偿分享，允许商用直播/自印物料，禁止盗用与出售。
+//   原文见 public/live2d/models/ds-whale/NOTICE.txt
+//   模型资源由 scripts/prepare-live2d-model.mjs 从 other/DS鲸鱼娘/ 整理生成。
 export const pioConfig: import("./types/config").PioConfig = {
 	enable: true, // 启用看板娘
-	models: ["/pio/models/pio/model.json"], // 默认模型路径
+	models: ["/live2d/models/ds-whale/c_0120.model3.json"], // 默认模型路径
+	runtime: "cubism5", // 渲染运行时
 	position: "left", // 模型位置
-	width: 280, // 默认宽度
-	height: 250, // 默认高度
+	width: 420, // 默认宽度（模型画布是 4068×4068 正方形）
+	height: 420, // 默认高度
 	mode: "draggable", // 默认为可拖拽模式
 	hiddenOnMobile: true, // 默认在移动设备上隐藏
+
+	// 取景：zoom=1 表示整幅模型画布刚好装下；调大即放大。
+	// 实测该模型默认只绘制 93/269 个 drawable，内容占画布宽 84.8%、高 78.5%，
+	// 中心在 (55.2%, 52.2%)。想更"贴脸"可以试 { zoom: 1.12, offsetX: -0.05, offsetY: 0.02 }。
+	framing: {
+		zoom: 1,
+		offsetX: 0,
+		offsetY: 0,
+	},
+
+	// 点击模型时随机切换的表情。
+	//
+	// ⚠️ 现在**只有在没挂面板时才会用到**（pioConfig.panel === false）。
+	//    挂了面板时，点击宠物由面板的「表情」栏负责摇
+	//    （见 PioPanel.svelte 的 rollEmotion + runtime.setEmotionRoller）——
+	//    因为面板才是表情的唯一真相源，否则两套状态并存会出现
+	//    「星星眼 + 爱心眼」这种共用眉毛参数的冲突。
+	//
+	// 这里保持和面板「表情」栏一致的 14 个情绪表情。
+	expressions: [
+		"blush",
+		"heart-eyes",
+		"star-eyes",
+		"excited",
+		"naughty",
+		"angry",
+		"sad",
+		"cry",
+		"dizzy",
+		"gloomy",
+		"blank-eyes",
+		"drool",
+		"tongue",
+		"soul-out",
+	],
+
+
+	// 表情保持 0 秒后不自动恢复（= 保持到下次点击）；想让它自己变回去就填毫秒数，例如 4000
+	expressionHoldMs: 0,
+
 	dialog: {
 		welcome: "你好啊！", // 欢迎词
 		touch: [

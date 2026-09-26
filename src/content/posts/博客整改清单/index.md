@@ -1,7 +1,7 @@
 ---
 title: 博客整改清单：一次全站自查的 19 个待修点
 published: 2026-09-22
-updated: 2026-09-25
+updated: 2026-09-26
 pinned: true
 description: 对 qiqimora.cn 做了一次从仓库、构建、路由到内容的全面自查，把发现的 19 个问题整理成可逐条执行的清单，每条都附文件位置、改法和验证方式。
 tags: [任务, 维护, 博客]
@@ -398,6 +398,47 @@ favicon: [
 
 > [!TIP]
 > 可以先用 `public/favicon/favicon.ico` 之外的格式做一份，用 [realfavicongenerator](https://realfavicongenerator.net/) 一次生成全套（含 `apple-touch-icon`、`manifest`），覆盖到 `public/favicon/` 即可。
+
+> [!IMPORTANT]
+> **2026-09-26 补充：为什么浏览器里看到的是 Mizuki 的「M」？**
+>
+> 这**不是缓存问题**，而是配置指向了主题默认值。完整链路：
+>
+> ```
+> ① 主题自带默认图标
+>    public/favicon/favicon.ico   ← 粉紫渐变的 "M" + 小熊脸
+>
+> ② 主题把兜底值硬编码在常量里
+>    src/constants/icon.ts:
+>    export const defaultFavicons = [
+>      { src: "/favicon/favicon.ico", theme: "light", sizes: "64x64" },
+>      { src: "/favicon/favicon.ico", theme: "dark",  sizes: "64x64" },
+>    ]
+>
+> ③ 站点配置里 favicon 是空数组
+>    src/config.ts:  favicon: []      // 注释写着「留空以使用默认 favicon」
+>
+> ④ 布局组件走了兜底分支
+>    Layout.astro:  siteConfig.favicon.length > 0
+>                     ? siteConfig.favicon
+>                     : defaultFavicons          ← 命中这里
+>
+> ⑤ 浏览器实际收到
+>    <link rel="icon" href="/favicon/favicon.ico" sizes="64x64">
+> ```
+>
+> **关键教训**：那句「留空以使用默认 favicon」里的「默认」，指的是**主题作者的默认**，不是你的。模板项目里所有「留空即用默认」的配置项，留空就意味着会露出原作者的痕迹——这个坑不止 favicon 一处。
+>
+> 实际处理分了两步：
+>
+> | 步骤 | 改动 | 作用 |
+> | --- | --- | --- |
+> | 1 | `config.ts` 的 `favicon` 填入自己的头像 PNG（512 明暗两套 + 32 小图） | 让 HTML 优先声明自己的图标 |
+> | 2 | `public/favicon/favicon.ico` 从主题的 M 换成自己的头像 | 任何仍请求该路径的客户端（旧书签、缓存中的旧 HTML）也不再露出主题痕迹 |
+>
+> 第 2 步的 ICO 用**经典 DIB 格式**（16/32/48 多尺寸）制作。最初试的是 PNG 载荷格式，但 `System.Drawing` 解析失败——说明兼容面不够广，故改用 DIB（浏览器、GDI+、Windows 全覆盖）。
+>
+> **改完仍看到 M 怎么办**：那才是 favicon 缓存。浏览器有独立的图标库，普通清缓存往往无效，按顺序试：`Ctrl+Shift+R` → 关闭该标签页重开 → 无痕窗口（能验证是否缓存）→ 重启浏览器。
 
 ---
 

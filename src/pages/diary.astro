@@ -157,6 +157,13 @@ function formatTime(dateString: string): string {
 		color: rgba(255, 255, 255, 0.8);
 	}
 	
+	/* 日记正文：保留手动换行。
+	   pre-line = 保留换行、折叠多余空格（适合手写分段）
+	   若想连缩进也一起保留，改成 pre-wrap */
+	.moment-text {
+		white-space: pre-line;
+	}
+	
 	.image-item img {
 		transition: transform 0.3s ease;
 	}

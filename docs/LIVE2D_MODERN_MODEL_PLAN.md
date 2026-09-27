@@ -22,7 +22,7 @@
 
 | 候选 | 位置 | moc3 版本 | 结论 |
 |---|---|---|---|
-| A. 初音未来 | `other/miku/` | 5（Cubism 5.0） | 技术可行，但**版权不允许上线**，只做本地验证 |
+| A. 初音未来 | `other/miku/` | 5（Cubism 5.0） | ✅ **已获作者授权公开分享**（2026-09-27），可上线 |
 | **B. DS鲸鱼娘** | `other/DS鲸鱼娘/` | **4（Cubism 4.2）** | ✅ **无偿分享、允许商用直播，可直接上线** —— 推荐作为首个落地模型 |
 
 ### 1.2 本次明确不做的事
@@ -30,7 +30,7 @@
 | 项目 | 决定 |
 |---|---|
 | 修改 `src/`、`public/` 里的运行代码 | ❌ 本次不做 |
-| **miku** 放进 `public/` 并上线 | ❌ 不做（授权为"不可二传"，见 9.1） |
+| **miku** 放进 `public/` 并上线 | ✅ 可以做（作者已改为允许公开分享，见 9.1） |
 | **DS鲸鱼娘** 上线 | ✅ **授权允许**（"无偿分享"，见 9.2）—— 但本节仅作方案，实际动作另起 |
 | 模型文件进 Git | ⏸ 暂缓（`other/` 已在 `.gitignore` 中） |
 | 本地验证可行性 | ✅ 做（见第 8 节，全程不进构建产物） |
@@ -117,7 +117,7 @@ public/pio/static/l2d.js          ← 真正的渲染核心（151 KB，压缩后
 
 ---
 
-## 3. 候选模型 A：`other/miku`（Cubism 5，仅本地验证）
+## 3. 候选模型 A：`other/miku`（Cubism 5）
 
 ### 3.1 资产清单
 
@@ -677,7 +677,7 @@ miku/
 | 三角面 | 低 | 68,978 | 68,978（不变） | **15,166** |
 | 参数 / Drawable | 少 | 141 / 440 | 141 / 440 | 247 / **269** |
 | 需要做的资产优化 | — | 贴图降采样 + 重命名 | — | **仅重命名** |
-| 授权可上线 | — | ❌ | ❌ | ✅ |
+| 授权可上线 | — | ✅（2026-09-27 放开） | ✅ | ✅ |
 
 **注意**：三角面和 drawable 数量是**改不掉**的 —— miku 的 `moc3` 即使 brotli 后也有约 2 MB，这是加载时的硬成本。
 
@@ -792,7 +792,7 @@ git status --short          # 必须为空，确认没被跟踪
 优点：`pnpm dev` 直接能跑，路径就是 `/live2d-dev/miku.model3.json`。
 缺点：本地 `pnpm build` 会把它们复制进 `dist/`；且依赖开发者自觉，容易误提交。
 
-**这个"验证完请删除"的约束只针对 miku。** DS鲸鱼娘授权允许分享，将来正式上线时的目标是 `public/live2d/ds-whale/`（进 Git、进构建产物）—— 所以它走这条路线时**不需要刻意回避提交**，只要注意别把 miku 一起带进去。
+**这个"验证完请删除"的约束原本只针对 miku，现已取消**（作者放开授权）。DS鲸鱼娘授权允许分享，将来正式上线时的目标是 `public/live2d/ds-whale/`（进 Git、进构建产物）—— 所以它走这条路线时**不需要刻意回避提交**，只要注意别把 miku 一起带进去。
 
 ### 8.3 本地验证检查清单
 
@@ -805,7 +805,7 @@ git status --short          # 必须为空，确认没被跟踪
 - [ ] 模型不被容器裁切
 - [ ] 高清屏下不发虚（`resolution` 生效）
 - [ ] 面板里确认显存与帧率可接受
-- [ ] `git status --short` 干净 —— **miku 没有被提交**
+- [ ] `git status --short` 干净（miku 现已可提交，此条不再适用）
 
 **miku 专项**：
 
@@ -828,17 +828,25 @@ git status --short          # 必须为空，确认没被跟踪
 
 ## 9. 许可与合规（重要）
 
-### 9.1 候选 A（miku）：**不可上线**
+### 9.1 候选 A（miku）：**已获授权，可以公开** ✅（2026-09-27 更新）
 
-[模型使用说明.txt](../other/miku/模型使用说明.txt) 原文要点：
+原本的结论是"不可上线"，依据是模型自带的 [模型使用说明.txt](../other/miku/模型使用说明.txt)：
 
 > 1. 模型可免费使用作为桌宠或 VTS 面捕使用，但**不可二传二改**！！！
 > 2. 严禁将该模型文件使用于任何商用用途，严禁直播牟利……
 > 5. 如有非商用需求，使用此模型发表视频，请表明出处
 
-**含义**：把它放进 `public/` 就等于在公网公开提供下载，实质上是**二次分发**。虽然"自己博客上展示"和"打包给别人下载"在意图上不同，但技术上无法区分 —— 任何人 `curl` 就能拿到 `miku.moc3`。
+当时判断：放进 `public/` 等于在公网提供下载（任何人 `curl` 就能拿到 `miku.moc3`），实质是**二次分发**，与"不可二传"冲突 —— 所以只做本地验证。
 
-**决定（已与维护者确认）**：miku 只做**本地验证**，不进 `public/`、不进 Git、不上线。用途是验证"对 Cubism 5 模型的通用支持能力"。
+**2026-09-27 更新：作者已改为允许公开分享**，并已把模型文件放到网盘公开、发布了说明视频。
+维护者已确认授权范围覆盖"公开托管"。**因此 miku 可以进 `public/`、进 Git、上线。**
+
+> 仍然保留的两条（与公开分享不冲突）：
+> - **严禁商用** —— 本博客是免费个人站，符合。
+> - **水印**：`Param137`，"水印"那个 exp3 不应用即可，默认就是关的。
+>
+> 唯一还没明确的是「**不可二改**」是否随之一并放开：贴图 4096→1024 降采样属于改文件。
+> 技术上这一步是**必需**的（6×4096 贴图解码后占 384 MB 显存），实施前最好再和作者确认一句。
 
 ### 9.2 候选 B（DS鲸鱼娘）：**可以上线** ✅
 
@@ -1150,7 +1158,7 @@ instance.ticker.add(() => instance.renderer.gl.clearColor(0, 0, 0, 0), undefined
 - **`dist/` 已随本次改动更新**（该目录在本仓库是纳入版本控制的）。跑的是完整链路 `astro build → pagefind → compress-fonts`，不是裸 build。
 - **`window.__live2d`** 是刻意保留的调试句柄（`destroy()` 时会清掉），控制台里可直接 `__live2d.model.expression("blush")` 手动试表情。
 - **`runtime: "legacy"` 回滚路径**只做了类型检查，未做浏览器实跑；切回时需要同时把 `models` 换成 `/pio/models/pio/model.json`（老运行时只认 Cubism 2 的 `.moc`）。
-- **miku 未接入**：授权不允许上线，其档案保留在 §3 供将来参考。
+- **miku 待接入**：授权已放开（见 9.1），档案见 §3；方案见 §17。
 
 ### 13.8 表情叠加与参数残留（上线后反馈，已修复）
 
@@ -1658,3 +1666,785 @@ pio.css 里那张图标是**写死的插件默认头像**：
 | 手机只有一套配色参数 | 全模型只有 `shouji` 一个换色开关（`shouji=0` 粉色手机 / `shouji=1` 白色手机），**无法给「自拍」和「快速自拍」分别设色** |
 | 面板定位 | 靠 `left: 100%` 挂在桌宠右侧；`hiddenOnMobile: true` 时移动端不显示，所以暂未处理窄屏溢出 |
 | `pioConfig.expressions` | 只在 `panel === false` 时作为回退池使用；挂了面板时由面板摇 |
+
+---
+
+## 17. miku 模型适配调研（2026-09-27，已尝试，**暂不实装**）
+
+**结论：先放弃。** 已做过完整的本地演示（8 个姿势 + 鼠标追踪 + 无水印），
+用户看过实际效果后决定暂不上线。本节把踩到的坑完整记下来，避免以后重复调研。
+
+代码侧**没有留下任何改动**（`src/` 已 `git checkout` 回到 `814a55c`），
+`public/live2d-dev/` 演示资源已删。**只有本节和 `docs/live2d-texture-compare.png` 保留。**
+
+### 17.1 三个必须知道的事实
+
+这一节的三个结论都会**推翻本文档前面的旧判断**，以本节为准。
+
+#### ① VTS 模型缺 `HitAreas` 会让渲染库直接崩（§3 的判断是错的）
+
+§3 原本记的是「miku 在本地能加载，只是动不了」。**实际是根本起不来：**
+
+```
+TypeError: _a.map is not a function
+    at Cubism5InternalModel.getHitAreaDefs
+    at Cubism5InternalModel.setupHitAreas
+```
+
+`getHitAreaDefs()` 里直接 `hitAreas.map(...)`，而 VTube Studio 导出时**不写 `HitAreas` 字段**，
+拿到 `undefined` 就崩。`Expressions` / `Motions` 缺失都只是降级，**唯独这个字段会致命**。
+
+**修法**：在 `model3.json` 里补 `"HitAreas": []`（`scripts/prepare-live2d-model.mjs` 生成时补）。
+
+#### ② 水印的参数极性**和直觉相反**
+
+miku 有 8 个 `.exp3.json`，其中 `水印.exp3.json` 名字看着是"打开水印"，**实际是"关掉水印"**：
+
+| `Param137` | 效果 |
+|---|---|
+| `0`（模型默认值） | 水印**显示** —— 满屏"玄宝 / 禁止直播 / 禁止商用" |
+| `1` | 水印**消失** ✅ |
+
+参数位置：`Param137`，index=31，min=0，max=1，**def=0**。
+
+**这意味着**：不做处理的话，miku 在博客上会一直挂着"禁止商用"水印。
+而且它**不能做成面板上的复选框** —— 面板的 `sync()` 会覆盖 `props`，
+用户随手点一下别的姿势水印就冒回来。正确做法是当成**常驻基础表情**
+（演示时用的 `BASE_EXPR` 思路），并在挂载时**主动同步一次**（见 17.4）。
+
+#### ③ 角色画得**比模型画布还宽**
+
+这是最耗时的坑。实测：
+
+| | 数值 |
+|---|---|
+| 模型画布（`internalModel.width/height`） | `3500 × 8888` |
+| 角色实际范围（读渲染像素量出来的） | x `808 ~ 4049`、y `222 ~ 8959` |
+| 宽高比 | `3241 : 8737` = **0.371** |
+
+**右边界 `4049` 超出了画布 `3500`。** 所以：
+
+- 按整幅画布取景 → **右马尾必然被裁掉**
+- 一旦放大（`zoom > 1`）→ 因为对齐的是**画布中心**而不是**角色中心**，
+  看到的会是角色右上方那片空白（实测 `zoom=2.5` 时画面里只剩头发）
+
+### 17.2 内容区取景（`contentBox`）
+
+为解决 17.1③，演示时给取景层加了这个能力（**代码已随回退移除**，需要时按下文重做）：
+
+```ts
+// Live2DFraming
+contentBox?: { x: number; y: number; w: number; h: number };  // y 从画布顶部往下算
+
+// applyFraming
+const box = framing.contentBox ?? { x: 0, y: 0, w: 1, h: 1 };
+const contentW = modelW * box.w;
+const contentH = modelH * box.h;
+const scale = Math.min(w / contentW, h / contentH) * zoom;
+const cx = (box.x + box.w / 2 - 0.5) * modelW;   // 内容中心 vs 画布中心
+const cy = (box.y + box.h / 2 - 0.5) * modelH;
+model.position.set(w / 2 - cx * scale, h / 2 - cy * scale);
+```
+
+miku 的实测值：
+
+```ts
+width: 230, height: 620,                          // 按角色宽高比 0.371 设
+framing: { zoom: 1, contentBox: { x: 0.231, y: 0.025, w: 0.926, h: 0.983 } },
+```
+
+效果：角色从占画布 `37%×52%` → **`100%×99.8%`**，中心正好落在 `(49.8%, 50.0%)`。
+
+**两条"自动检测内容区"的路都堵死了，别再试：**
+
+| 做法 | 失败原因 |
+|---|---|
+| `getDrawableBounds()` 求并集 | ① 全部可见 drawable 并集 → x 到 `5158`，超出画布<br>② 加透明度过滤 + 裁到画布内 → 仍偏宽（`78.8%` vs 实际约 `40%`）<br>③ 再按面积取 90% 主体 → 还是 `78.8%`。因为最大的 `ArtMesh59` 一个就占总面积 `12%`、宽 `4364`，把并集撑死了<br>**根因：包围盒对稀疏网格是无效代理** —— 顶点铺得很开，真正画出来的像素却很稀 |
+| `renderer.extract.canvas(model)` 读渲染像素 | 永远返回一张 `3500×8888` 的**全透明**画布。因为 `Live2DModel._render()` 走自己的 WebGL 路径，Pixi 的 extract（把 target 渲进 render texture）根本抓不到它 |
+
+**所以只能离线量一次写进配置**，量法：
+
+1. 模型 `scale` 设成 `0.05`、`position` 设成画布中心
+2. 页面背景涂品红（`#ff00ff`），用 `visibility: hidden` 藏掉**除 `#pio` 及其祖先链之外**的所有元素
+   （⚠️ 别用 `document.body.children` 过滤 —— `.pio-container` 不在 body 直接子级，
+   会把它的包装层一起藏掉，表现为"整屏品红、模型不见了"）
+3. 截图 → 取"非品红像素"的包围盒
+4. 换算回画布比例：
+   `(像素 - 画布中心) / scale / 模型画布尺寸 + 0.5`（x/y 都可能 `<0` 或 `>1`）
+
+### 17.3 贴图分辨率：**1024 就够**
+
+做了 1024 / 2048 / 4096 三档渲染对比（见 `docs/live2d-texture-compare.png`），
+**在桌宠的实际显示尺寸下三者没有可见差别**。
+
+原因是结构性的，不是巧合：
+
+| | 数值 |
+|---|---|
+| 模型显示宽度 | 约 `230 ~ 420` CSS px |
+| 贴图 1024 相对实际显示 | 已经是 **2~6 倍过采样** |
+| 4096 贴图体积 | `25.40 MB`（6 张） |
+| **1024 贴图体积** | **`2.29 MB`** |
+
+**结论：用 1024，省 11 倍体积。** GPU 显存同理（`6×4096` ≈ 384 MB vs 鲸鱼娘的 ~20 MB）。
+
+> ⚠️ 对比时**不要用 `clip.scale` 放大截图** —— 那是对已光栅化的帧做插值，
+> 既糊又会把贴图差异抹平，得出"三档一样"的错误结论。
+> 要提分辨率必须提高 `Emulation.setDeviceMetricsOverride` 的 `deviceScaleFactor`
+> （让 WebGL 帧缓冲本身变大）。
+> 另：`Page.captureScreenshot` 的 `clip.scale` 是**必填字段**，漏了会报
+> `Failed to deserialize params.clip.scale`。
+
+### 17.4 演示时的其他发现
+
+| 项 | 说明 |
+|---|---|
+| `BASE_EXPR`（常驻基础表情） | 面板挂载后**必须主动 `sync()` 一次**。原实现只在点击时 `sync()`，导致初始加载时基础表情根本没应用 —— 看起来就像"水印设置没生效" |
+| `hiddenOnMobile` 会挡住演示 | 视口 `≤ 1280px` 时桌宠整个不挂载。headless 验证时**必须先设 `Emulation.setDeviceMetricsOverride`**，否则 Chrome 默认 800px 宽，永远看不到桌宠 |
+| dev 日志别写在项目里 | 日志文件持续增长会被 Vite 监听到 → 触发页面重载 → 又写日志 → **无限重载风暴**。表现是"`看板娘已初始化` 重复出现 N 次、`window.__pio` 永远 undefined"。日志要放到项目外 |
+| `model.width` 是**已缩放**的 | 见 §15 同类的坑：resize 时重算取景必须用缓存下来的原始尺寸（`width / scale.x`），否则每 resize 一次缩放就重复乘一遍 |
+
+### 17.5 若将来要重启这件事
+
+1. `scripts/prepare-live2d-model.mjs` 参数化（目前硬编码鲸鱼娘），按模型生成
+   `public/live2d/models/<name>/`
+2. `model3.json` 生成时**补 `"HitAreas": []`**（17.1①，不做就崩）
+3. 贴图统一降到 **1024**（17.3）
+4. **实测**该模型的内容区，写进 `pioConfig.framing.contentBox`（17.2），
+   画布 `width/height` 按内容区宽高比设
+5. 把"去水印"做成**常驻基础表情**而非面板选项（17.1②），并确保挂载时同步一次
+6. 多模型切换需重做：`live2d-catalog.<model>.ts` / `live2d-taxonomy.<model>.ts` + 注册表，
+   运行时切换时**销毁旧 Pixi 实例并换一块新 canvas**（见 §15 的教训）
+7. `樱花miku` 资源已在 `other/樱花miku/`：与 miku 同源（`physics3.json` 字节完全一致），
+   141 参数但 **91 个 part**（miku 是 78），`Param133` 是**哭**（miku 是**大葱**），
+   缺 `Param134/135`，多 `Param89/90`，`Scene1` 有 7 条曲线（miku 是 5 条）
+
+---
+
+## 18. 竖屏下「桌宠看得见却拖不动」（已修复）
+
+### 18.1 症状
+
+宽屏打开博客 → 把窗口拖窄 / 旋转成竖屏 → **DS鲸鱼娘还在画面上，但怎么都拖不动**。
+
+### 18.2 根因：显示与否的判断只在加载时做了一次
+
+`Pio.svelte` 原来是：
+
+```js
+onMount(() => {
+	if (pioConfig.hiddenOnMobile && window.matchMedia("(max-width: 1280px)").matches) return;
+	visible = true;
+	...
+});
+```
+
+**只在页面加载时算一次**。而 `pio.css`（第三方，未改）里有：
+
+```css
+@media screen and (max-width: 768px) {
+	.pio-container { pointer-events: none; }   /* 插件"手机上只当装饰"的设计 */
+}
+```
+
+于是「宽屏加载 → 之后缩窄」时容器**仍然挂在页面上**（看得见），但事件已经被 CSS 关掉 ✗
+—— 落进"看得见却拖不动"的半死状态。
+
+实测四种状态，确认了这个不一致：
+
+| 场景 | 容器 | `pointer-events` | 能拖 |
+|---|---|---|---|
+| 宽屏加载 1600×1000 | 在页面上 | `auto` | ✅ |
+| **缩到 700×1000** | **在页面上** | **`none`** ✗ | **❌** |
+| 缩到 1000×1200 | 在页面上 | `auto` | ✅ |
+| 竖屏下**重新加载** 700×1000 | 不在 | — | — |
+
+### 18.3 修法（两处）
+
+**① 把「显示与否」变成响应式的** —— `matchMedia` 的 change 回调**直接驱动**挂载 / 卸载，
+任何时刻只有两种状态：要么完整可用，要么完全不在页面上。
+
+```js
+function applyVisibility() {
+	const show = !(pioConfig.hiddenOnMobile && narrow);
+	if (show && !booted)      { booted = true; visible = true; tick().then(bootstrap); }
+	else if (!show && booted) { bootToken++; teardown(); }
+}
+
+onMount(() => {
+	const mql = window.matchMedia("(max-width: 1280px)");
+	const update = () => { narrow = mql.matches; applyVisibility(); };
+	update();
+	mql.addEventListener("change", update);
+	return () => mql.removeEventListener("change", update);
+});
+```
+
+> ⚠️ **不要写成 `$effect` 读 `$derived(shouldShow)`** —— 试过，缩小时能正确卸载，
+> 但**放大回去时 effect 不再重跑**（`narrow` 的变更没能触发它），
+> 表现为"隐藏过一次后，桌宠再也回不来了"。由监听器直接调用才确定。
+
+**② 盖掉第三方那条 `pointer-events: none`** —— 既然渲染出来了就该能拖能点：
+
+```css
+:global(.pio-container.pio-container) { pointer-events: auto; }   /* (0,2,0) 压过 (0,1,0) */
+```
+
+`hiddenOnMobile: true`（默认）时窄屏根本不会挂载容器，这条规则自然不生效，
+不影响"手机上不显示桌宠"的原有行为。
+
+### 18.4 另一个必须注意的点：`Paul_Pio` 没有反初始化接口
+
+它是在**构造时**从 DOM 里抓 `.pio-container` / `#pio` 的，所以"隐藏"只能把容器整个摘掉。
+重新显示时必须把 `pioInitialized` **复位**，否则 `initPio()` 会直接 `return`，
+`onmousedown` 永远不会重新绑上 —— 症状还是"看得见但拖不动"。
+
+### 18.5 验证
+
+| 操作 | 结果 |
+|---|---|
+| 宽屏加载 1600×1000 | 可拖 ✅ · 画布 420 · 模型已加载 |
+| 缩到 700×1000 | 未挂载（已隐藏）✅ |
+| 放宽回 1600×1000 | 完整恢复 ✅（可拖 + 模型重新加载） |
+| 再缩 / 再放宽（往返） | 稳定 ✅ · 无控制台异常 |
+
+`hiddenOnMobile: false` 时另测：`1600 / 700 / 420` 三档 `pointer-events` 均为 `auto`、均可拖 ✅
+
+---
+
+## 19. 画布贴合角色（可拖动区域不再大于角色）
+
+### 19.1 症状
+
+桌宠**能拖动的范围比角色大一圈** —— 角色上方、右侧有大片空白，但那些空白**照样能拖、也会挡住页面点击**。
+
+### 19.2 原因：画布用的是模型画布的正方形，而不是角色的实际比例
+
+DS鲸鱼娘的模型画布是 `4068×4068`，但角色并没占满。实测（品红底 + 只留 `#pio`，读非品红像素包围盒）：
+
+| | 数值 |
+|---|---|
+| 画布 | `420 × 420` |
+| 角色实际范围 | `343 × 325` |
+| **角色占画布** | **`81.7% × 77.4%`** |
+| 角色中心 | `(54.8%, 47.6%)` ← 偏右上 |
+| **真正有像素的比例** | **`37.9%`**（六成画布是空白） |
+| 角色宽高比 | `343 : 325 = 1.0556` |
+
+> 这个测法和 §17.2 量 miku 内容区是同一套；两种模型的结果互相印证。
+
+### 19.3 修法：画布按角色比例 + 取景填满
+
+**不需要引入 `contentBox`**（§17.2 那套是给"角色画到画布外"的模型用的）——
+DS鲸鱼娘的内容完全在画布内，用现成的 `zoom` / `offsetX` / `offsetY` 就够了：
+
+```ts
+width: 420,
+height: 398,                       // 420 / 1.0556，画布贴合角色宽高比
+framing: {
+	zoom: 1.29,                     // 1 / 0.774 ≈ 1.29，填满纵向
+	offsetX: -0.059,                // -(0.548-0.5) × 1.29，把它从偏右挪回正中
+	offsetY: 0.031,                 // -(0.476-0.5) × 1.29，从偏上挪回正中
+},
+```
+
+推导口径：`zoom = 1 / 角色纵向占比`，`offset = -(角色中心 - 0.5) × zoom`。
+
+### 19.4 效果（实测）
+
+| | 调整前 | 调整后 |
+|---|---|---|
+| 角色占画布 | `81.7% × 77.4%` | **`99.8% × 99.5%`** |
+| 角色中心 | `(54.8%, 47.6%)` | **`(50.0%, 50.1%)`** |
+| 真正有像素的比例 | `37.9%` | **`59.4%`**（同面积下角色大 1.57 倍） |
+
+取景日志：`模型 4068×4068 → 画布 420×398，scale=0.1262，位置 (185.2, 211.3)`
+（与理论值 `185.36 / 211.38` 一致）。
+
+**副作用**：角色在屏幕上的实际尺寸放大了约 29%（因为不再有空白占位），
+视觉上比之前更"实"。如果觉得太大，把 `width`/`height` 等比调小即可
+（例如 `380×360`），`framing` 三个数不用动。
+
+### 19.5 一般化的做法（换模型时）
+
+任何模型的画布都该贴合它的角色，步骤：
+
+1. 品红底 + 只留 `#pio` 截一张图（`scale` 用配置的取景即可，不用额外设 0.05 —— 除非角色画到画布外，那种情况见 §17.2）
+2. 读非品红像素的包围盒 → 得到「横向占比 `rw`、纵向占比 `rh`、中心 `(cx, cy)`」
+3. `height = round(width / (rw × 模型宽 / (rh × 模型高)))`
+4. `zoom = 1 / rh`，`offsetX = -(cx - 0.5) × zoom`，`offsetY = -(cy - 0.5) × zoom`
+
+### 19.6 ⚠️ 必须按**动画极值**量，不能只量静态一帧
+
+**这是个很容易踩的坑。** DS鲸鱼娘按静态值配好后，用户先后反馈两件事：
+
+- 「尾巴摇到最右边会被挡住一点点」
+- 「头顶显示不完全，尤其是锤子动画」
+
+因为**动画会把模型的包络撑大很多**：
+
+| | 宽 | 高 | 中心 |
+|---|---|---|---|
+| 静态一帧 | `81.7%` | `77.4%` | `(54.8%, 47.6%)` |
+| 只播待机（407 帧） | `99.55%` | `101.75%` | `(61.77%, 58.53%)` |
+| **全部动作播一遍（1138 帧）** | **`104.08%`** | `101.75%` | `(64.03%, 58.53%)` |
+
+尾巴会甩出去（x 到 `4721`，画布只有 `4068`）、锤子动画会把手举过顶
+（y 到 `-383`）。只按静态值配必然被裁；**只播待机也不够** ——
+锤子是点击才播的一次性动作，采样时根本不会播到，用力时比待机更宽。
+
+**正确量法**：把所有动作逐个播一遍，采样取并集。
+
+```js
+// 1) 装采样器：每帧对"可见且不透明"的 drawable 求并集，累计全局极值
+const im = window.__live2d.model.internalModel;
+const out = { x: 0, y: 0, width: 0, height: 0 };
+window.__M = { minX: 1e9, maxX: -1, minY: 1e9, maxY: -1, n: 0 };
+const tick = () => {
+	let mnX = 1e9, mxX = -1, mnY = 1e9, mxY = -1;
+	for (const id of im.getDrawableIDs()) {
+		const i = im.getDrawableIndex(id);
+		if (!(i >= 0)) continue;
+		if (im.getDrawableOpacity && im.getDrawableOpacity(i) < 0.01) continue;
+		const b = im.getDrawableBounds(i, out);
+		if (!b || !(b.width > 0) || !(b.height > 0)) continue;
+		mnX = Math.min(mnX, b.x); mxX = Math.max(mxX, b.x + b.width);
+		mnY = Math.min(mnY, b.y); mxY = Math.max(mxY, b.y + b.height);
+	}
+	const k = window.__M;
+	if (mxX > 0) {
+		k.minX = Math.min(k.minX, mnX); k.maxX = Math.max(k.maxX, mxX);
+		k.minY = Math.min(k.minY, mnY); k.maxY = Math.max(k.maxY, mxY); k.n++;
+	}
+	requestAnimationFrame(tick);
+};
+tick();
+
+// 2) 逐个播放所有动作 —— ⚠️ 每段要等足时长，等短了会截断、量到的极值偏小
+const defs = window.__live2d.model.internalModel.motionManager.definitions;
+for (const g of Object.keys(defs)) {
+	for (let i = 0; i < defs[g].length; i++) {
+		window.__live2d.model.internalModel.motionManager.startMotion(g, i, 3);
+		await new Promise((r) => setTimeout(r, 5200));
+	}
+}
+```
+
+> 注意 drawable 边界是「模型画布空间」（**y 轴向上**），换算到屏幕要翻转：
+> `screenX = px + (v - 画布宽/2) × scale`，`screenY = py + (画布高/2 - v) × scale`。
+>
+> 也**不能靠截图像素**来量动画极值 —— 页面自身的容器背景会盖掉你涂的品红，
+> 非品红像素里会混进页面内容（试过，量出来 y 比例是 1.57，明显是假的）。
+
+### 19.7 留够余量：`zoom` 太贴会导致"差一点就出界"
+
+第一版按动画极值**刚好贴合**配（余量只有 9px），结果：
+
+```
+zoom 0.951 → 内容占画布高度的 96.8% → 几乎没有余量
+→ 锤子再顶一点就出界（用户反馈"上方少了一点"）
+```
+
+**余量不足的数学原因**：设画布高 `ch`、内容高占比 `rh`、余量 `m`：
+
+```
+ch = rh × 4068 × s + 2m      且   s = (ch / 4068) × zoom
+⇒ 2m = ch (1 - rh × zoom)
+```
+
+`rh × zoom` 越接近 1，同样的 `ch` 下余量越小。要拿到 20px 余量：
+
+```
+ch = 339 + 2×20 = 379        （内容高 1.0175 × 4068 × 0.0818 ≈ 339）
+zoom = 0.0818 / (379 / 4068) ≈ 0.878
+```
+
+**换句话说：想要余量就必须把 `zoom` 调小、同时把 `height` 调大** ——
+两者是绑在一起的，只改一个会让角色变大或变小。
+
+### 19.8 最终取值（DS鲸鱼娘）
+
+```ts
+width: 398,
+height: 391,
+framing: {
+	zoom: 0.851,      // 目标：实际缩放 0.0818，静态时角色约 272×257
+	offsetX: -0.118,
+	offsetY: -0.047,  // 居中值 -0.0726 再加 10/391，把模型下移、余量让给顶部
+},
+```
+
+推导：
+
+```
+内容高 1.0175 × 4068 × 0.0818 ≈ 339  →  height = 391（上下各约 26px）
+内容宽 1.0408 × 4068 × 0.0818 ≈ 346  →  width  = 398（左右各约 26px）
+因为 height < width，取景由高度决定 → zoom = 0.0818 / (391 / 4068) ≈ 0.851
+offsetX = -(0.6403 - 0.5) × 0.0818 × 4068 / 398 ≈ -0.118
+offsetY = -0.0726（居中）+ 10 / 391 ≈ -0.047
+```
+
+**想要上下余量不对称，就调 `offsetY`**：
+`offsetY` 调大（往正值方向）= 模型下移 = **顶部余量变大、底部变小**，反之亦然。
+角色大小完全不受影响。
+
+验证方式：**逐个播完全部动作**（每段等足 5.2s）后检查四边越界：
+
+| 检查项 | 结果 |
+|---|---|
+| 采样帧数 | `2259` 帧（Idle 1 + Tap 3 + Selfie 3 + Sauce 1） |
+| 越界左 / 右 | `0` / `0` ✅ |
+| 越界上 / 下 | `0` / `0` ✅ |
+| 四边余量 | 上 `36px` · 下 `16px` · 左 `26px` · 右 `26px` |
+| 静态角色尺寸 | `272 × 257`（与之前观感一致）✅ |
+
+> `offsetY` 的正负号很容易搞反：并集中心在中线**偏下**（`58.53%`），
+> 所以"居中"对应的是**负**值（模型上移）。第一次写成 `+0.079`，结果底下被裁了 47px。
+
+---
+
+## 20. 「可拖动范围比角色大一圈」（已修复）
+
+### 20.1 症状
+
+角色画布本身已经贴合了（§19），但**按住画布【上方】或【右侧】的空白也能把桌宠拖走** ——
+观感上就是"能拖的范围比角色大一圈"。
+
+### 20.2 根因：气泡 / 面板是容器的子元素，事件冒泡到了拖拽处理器
+
+pio.js 的拖拽是绑在 **`.pio-container`** 上的 `body.onmousedown`：
+
+```js
+draggable: () => { ...; body.onmousedown = mousedown; }
+```
+
+而容器的结构是：
+
+```
+.pio-container          ← 拖拽绑在这一层
+├── #pio                ← 画布（角色）
+├── .pio-dialog         ← 对话气泡，绝对定位在画布【上方】（bottom: calc(100% - 2em)）
+├── .pio-panel-root     ← 设置面板，绝对定位在画布【右侧】（left: 100%）
+└── .pio-action         ← 按钮列
+```
+
+绝对定位只影响**布局**，不影响**事件传播** —— 按住气泡或面板，`mousedown` 一样会
+冒泡到容器。所以"上方"（气泡）和"右侧"（面板）都能拖 ✗
+正好对应"上方和右边有大块空白区域"。
+
+> 实测确认：容器盒子 `[0,602,420,398]` 与画布**完全相同** ——
+> 所以问题不在盒子大小，而在**事件来源**。
+
+### 20.3 修法：捕获阶段拦掉来自浮层的按下事件
+
+```js
+function blockDragFromOverlays(ev) {
+	const target = ev.target;
+	if (target?.closest?.(".pio-dialog, .pio-panel-root, .pio-action")) {
+		ev.stopPropagation();
+	}
+}
+```
+
+```svelte
+<div class="pio-container ..." onmousedowncapture={blockDragFromOverlays}>
+```
+
+**必须用捕获阶段**（`onmousedowncapture`）：
+- 捕获在容器这一层先跑，`stopPropagation()` 之后事件既到不了目标、也不会冒泡回容器的 `onmousedown` ✓
+- 用普通 `onmousedown` 不行 —— 它和拖拽处理器**同为冒泡阶段**，谁先执行取决于绑定先后，不可靠 ✗
+
+### 20.4 验证
+
+用合成事件在四个位置各做一次"按下 + 移动"，看容器 `style.left/top` 有没有变：
+
+| 按下的位置 | 结果 |
+|---|---|
+| `.pio-dialog`（画布上方） | **拖不走** ✅ |
+| `.pio-panel-root`（画布右侧） | **拖不走** ✅ |
+| `.pio-action`（按钮列） | **拖不走** ✅ |
+| `#pio`（画布/角色） | **能拖走** ✅ 正常功能未受影响 |
+
+同时确认：`.pio-container` 与 `#pio` 的 `getBoundingClientRect()` 完全一致
+（`[0, 602, 420, 398]`）—— 容器盒子严格等于画布，没有多余留白。
+
+---
+
+## 21. 高 DPR 下模型被渲染成 1/DPR 大小（已修复）
+
+### 21.1 症状
+
+用户在 **Windows 150% 缩放**（`devicePixelRatio = 1.5`）下看到：
+
+- 角色只占画布约 **67%**，右上方留出大片空白
+- 而那块空白**照样能拖动**（因为拖动绑在容器上，容器就是画布）
+
+`67% ≈ 1 / 1.5` —— 这个数字就是线索。
+
+### 21.2 根因：Pixi 的 `resolution` 和库自己的 GL viewport 不一致
+
+```js
+await instance.init({
+	canvas,
+	width: cssW, height: cssH,
+	autoDensity: true,
+	resolution: Math.max(window.devicePixelRatio || 1, 1),   // ← 这里
+});
+```
+
+DPR 1.5 时：
+
+| | 值 |
+|---|---|
+| 画布 CSS 尺寸 | `420 × 398` ✅ 正确 |
+| 画布后备缓冲 | `630 × 597`（×1.5，正常） |
+| 模型渲染用的变换 | 按 CSS 尺寸算，但缓冲区是 630×597 |
+| **结果** | 图形只占缓冲区的 2/3 → 显示出来小了 1.5 倍 |
+
+根源是 `pixi-live2d-display` 的 `Live2DModel._render()` **自己设 GL viewport**，
+不保证跟着 renderer 的 `resolution` 走。
+
+### 21.3 修法：**渲染用设备像素，CSS 尺寸自己钉住**
+
+```js
+const { w: cssW, h: cssH } = computeCssSize();       // CSS 像素
+const dpr = Math.max(window.devicePixelRatio || 1, 1);
+
+await instance.init({
+	canvas,
+	width: Math.round(cssW * dpr),    // ← Pixi 的 screen = 设备像素
+	height: Math.round(cssH * dpr),
+	autoDensity: false,               // ← 不让 Pixi 碰 CSS
+	resolution: 1,                    // ← 不再让 Pixi 缩放
+});
+canvas.style.width = `${cssW}px`;     // ← CSS 尺寸自己写
+canvas.style.height = `${cssH}px`;
+```
+
+思路：**让 Pixi 的 screen 就等于设备像素**（DPR 1.5 时是 630×597），
+模型照着它铺满；再用 `style.width/height` 把画布显示成 420×398。
+浏览器自己做的这次降采样是正常的 —— **既清晰又不会错位**。
+
+`syncSize()` 里同理要乘 DPR，并把 CSS 尺寸单独写回 `style`：
+
+```js
+function syncSize() {
+	const { w, h } = computeCssSize();
+	const dpr = Math.max(window.devicePixelRatio || 1, 1);
+	const bw = Math.round(w * dpr), bh = Math.round(h * dpr);
+	canvas.style.width = `${w}px`;
+	canvas.style.height = `${h}px`;
+	if (bw === app.screen.width && bh === app.screen.height) return;
+	app.renderer.resize(bw, bh);
+	applyFraming();
+}
+```
+
+> ⚠️ **走过一条弯路**：一开始只是简单粗暴地把 `resolution` 钉成 `1`
+> （保留 `autoDensity: true`）。位置是对了，但 **HiDPI 屏上会糊** ——
+> 那等于只渲染了一半分辨率、再被浏览器放大。用户随即反馈"怎么感觉有点模糊"。
+> 正确做法是把「渲染尺寸」和「CSS 尺寸」彻底分开管，两边都要对。
+
+验证（同一份代码，两档 DPR）：
+
+| DPR | 后备缓冲 | 内联 CSS | 显示盒子 | Pixi screen | 角色占画布 |
+|---|---|---|---|---|---|
+| 1 | `272×258` | `272px×258px` | `272×258` | `272×258` | `100.0% × 99.6%` |
+| 1.5 | **`408×387`** | `272px×258px` | `272×258` | **`408×387`** | `100.0% × 99.5%` |
+
+DPR 1.5 时像素量是 1.5 倍（清晰），显示尺寸不变（不错位），且角色依然铺满 ✅
+
+### 21.4 ⚠️ 为什么这个问题排查了很久：**headless 模拟不出真实 DPR**
+
+用 CDP 的 `Emulation.setDeviceMetricsOverride({ deviceScaleFactor: 1.5 })` 测试时，
+`window.devicePixelRatio` 会报 1.5，**但真实 GL 渲染路径并没有跟着变** ——
+所以本地测了 DPR = 1 / 1.25 / 1.5 / 2 **全部显示 100% 填满、完全正常**，
+怎么都复现不出来。
+
+**教训**：模拟出来的环境参数不等于真实的渲染行为。
+涉及 DPR / 分辨率 / GPU 的问题，模拟只能排除一部分可能，**最终必须在真实设备上验证**。
+
+### 21.5 定位过程中用到的两个手段
+
+**① 用页面上的已知尺寸当参照物反推缩放比**
+
+界面缩放比未知时，不要靠肉眼估像素。找一个**尺寸已知**的元素当尺子：
+
+```
+.pio-action 实际高度 = 136 CSS px
+截图里量到 ≈ 203 图像 px
+→ 缩放比 ≈ 1.5   ← 正是用户的 DPR
+```
+
+然后反推：绿色区域 650px ÷ 1.5 = **433 CSS px**（实际 420，✅ 正确）；
+角色 430px ÷ 1.5 = **287 CSS px**（应该 420，❌ 只有 68%）—— 问题就此锁定。
+
+**② 把诊断数据画在页面上，而不是让人去翻控制台**
+
+`getBoundingClientRect()` 的结果通过一个 `position: fixed` 的黑底绿字横幅直接显示：
+
+```
+DPR=1.5｜画布内联=420px×398px 属性=630×597
+.pio-container 共 1 个：#0 420×398@(0,593)
+#pio 共 1 个：#0 420×398@(0,593)
+```
+
+这一条信息同时排除了「重复挂载」和「容器被撑大」两个假设，
+比反复指导用户操作 DevTools 高效得多。
+
+> 排查用的诊断横幅和描边**已全部移除**，没有留在代码里。
+
+### 21.6 顺带：画布尺寸调小到角色本来的视觉大小
+
+修好 DPR 之后，因为 §19 已经让角色铺满画布、而不再有 33% 是空白，
+角色的实际显示尺寸比改动前大了约 22%，用户反馈"有点大"。
+
+```ts
+width: 272,       // 可调，保持 1.0556 的比例即可
+height: 258,      // = round(272 / 1.0556)
+```
+
+调大小的对照（都保持 1.0556 比例）：
+
+| 尺寸 | 说明 |
+|---|---|
+| `420 × 398` | 角色铺满画布后的原始值，明显偏大 |
+| `340 × 322` | 约等于角色改动前的视觉尺寸 |
+| **`272 × 258`** | **当前值**，= `340×322` 的 4/5 |
+| `227 × 215` | ≈ `340×322` 的 2/3（试过，偏小） |
+| `190 × 180` | 再小一档 |
+
+**`framing` 的三个参数不用动** —— 它们是比例，与画布绝对尺寸无关。
+
+---
+
+## 22. 对话气泡被角色挡住（已修复）
+
+### 22.1 症状
+
+角色铺满画布之后（§19），对话气泡会被角色的头顶糊住。
+
+### 22.2 根因：`pio.css` 给气泡设的是 `z-index: -1`
+
+```css
+.pio-container .pio-dialog {
+	bottom: calc(100% - 2em);   /* 气泡底边在"容器高度 - 2em"，本来就压在画布上沿 */
+	z-index: -1;                /* ← 被压到容器内容（含画布）后面 */
+}
+```
+
+容器自己有 `z-index: 52`（是个层叠上下文），气泡在**容器内部**被设为 `-1`，
+所以一定在画布之下。
+
+**以前看不出来**：角色只占画布 `81.7%×77.4%`，头顶离画布上沿还有距离，
+气泡虽然在下层、但没有东西盖着它。
+**§19 让角色铺满画布之后**，头顶正好顶到画布上沿，遮挡就暴露了。
+
+### 22.3 修法：在已有的高特异性规则里补一个正值 `z-index`
+
+```css
+:global(.pio-container.left .pio-dialog),
+:global(.pio-container.right .pio-dialog) {
+	left: 50%; right: auto;
+	transform: translateX(-50%);
+	text-align: center;
+	z-index: 10;      /* ← 补的 */
+}
+```
+
+复用这条 `(0,3,0)` 的规则，顺便压过第三方的 `(0,2,0)`。
+
+### 22.4 验证
+
+用 `document.elementFromPoint()` 取气泡中心处**最上层**的元素：
+
+```
+气泡 z-index          : 10
+气泡位置/尺寸         : [94, 663, 151, 36]
+画布位置/尺寸         : [0, 678, 340, 322]     ← y 方向有 663+36-678 = 21px 重叠
+气泡中心处最上层元素  : DIV.pio-dialog   ✅（修复前这里会是 canvas）
+```
+
+---
+
+## 23. 面板的交互细节（点击外部关闭 / 开着时按钮不消失）
+
+### 23.1 两个诉求
+
+1. **点画布以外的地方（博客页面别处）应当自动关掉设置面板** —— 原来必须再点一次设置按钮
+2. **面板开着的时候，那 5 个小按钮（`.pio-action`）不该消失** —— 原来鼠标一移出画布就没了，想点下一个选项还得把鼠标挪回来
+
+### 23.2 根因
+
+**诉求 1**：面板的开关只挂在设置按钮的 `onclick` 上，没有任何"点击外部"的处理。
+
+**诉求 2**：`pio.css` 里按钮列的显示规则是
+
+```css
+.pio-container .pio-action { opacity: 0; }
+.pio-container:hover .pio-action { opacity: 1; }   /* 只在悬停【容器】时显示 */
+```
+
+而面板是绝对定位挂在容器**外侧**的（`left: 100%`）—— 鼠标一移到面板上就不再
+`:hover` 容器，按钮随之消失。
+
+### 23.3 修法
+
+**（1）点击外部关闭** —— 用**捕获阶段**的 `pointerdown`：
+
+```js
+function isInsidePanel(target) {
+	const el = target;
+	return Boolean(rootEl?.contains(el) || el?.closest?.(".pio-action-extra"));
+}
+
+$effect(() => {
+	if (!open) return;
+	const onPointerDown = (ev) => {
+		if (!isInsidePanel(ev.target)) open = false;
+	};
+	document.addEventListener("pointerdown", onPointerDown, true);
+	return () => document.removeEventListener("pointerdown", onPointerDown, true);
+});
+```
+
+> ⚠️ **判断"在不在面板里"时必须把 `.pio-action-extra` 也算作内部**。
+> 设置/锁这两个按钮被 `use:intoActionColumn` 搬到了 `.pio-action` 里
+> （和 pio.js 原生的三个按钮并排），**已经不是 `.pio-panel-root` 的后代了**。
+> 只判断 `rootEl.contains()` 的话，点设置按钮会先被"外部点击"关掉、
+> 再被按钮自己的 `onclick` 打开 —— 看起来就是"关不掉"。
+
+用捕获阶段是为了保证在按钮自己的 `onclick` 之前就判定完。
+
+**（2）面板开着时按钮保持显示** —— 给容器挂一个类，再强制显示：
+
+```js
+$effect(() => {
+	const box = rootEl?.closest(".pio-container");
+	if (!box) return;
+	box.classList.toggle("pio-panel-open", open);
+	return () => box.classList.remove("pio-panel-open");
+});
+```
+
+```css
+/* 特异性写 (0,4,0)（把 .pio-panel-open 重复一次）确保压过 pio.css 的
+   `.pio-container:hover .pio-action`（0,3,0），不依赖样式表加载顺序 */
+:global(.pio-container.pio-panel-open.pio-panel-open .pio-action) {
+	opacity: 1;
+}
+```
+
+### 23.4 验证
+
+用合成 `pointerdown` 事件依次测试四种情况：
+
+| 操作 | 面板 | 容器 `pio-panel-open` | 按钮列 `opacity` |
+|---|---|---|---|
+| 初始 | 关闭 | `false` | `0` ✅ |
+| 点设置按钮 | **打开** | `true` | **`1`** ✅ |
+| 点页面其它地方 | **自动关闭** | `false` | `0` ✅ |
+| 点面板**内部** | **保持打开** | `true` | `1` ✅ |
+
+第四条很关键 —— 验证了"点面板本身不会误关"，也就验证了
+`.pio-action-extra` 被正确算作内部。

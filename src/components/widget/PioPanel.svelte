@@ -278,9 +278,58 @@ function clearAll() {
 	const base = itemById(DEFAULT_ITEM_ID);
 	if (base) applyItem(base);
 }
+
+/* ------------------------------------------------------------------ *
+ * 面板的开关行为
+ * ------------------------------------------------------------------ */
+
+/** 面板根节点。用 `bind:this` 拿到，见模板 */
+let rootEl: HTMLDivElement | undefined = $state();
+
+/**
+ * 点击页面其它地方就关掉面板。
+ *
+ * ⚠️ 判断"在不在面板里"时，**必须把设置/锁这两个按钮也算作内部** ——
+ * 它们被 `use:intoActionColumn` 搬到了 `.pio-action` 里（和原生三个按钮并排），
+ * 已经不是 `.pio-panel-root` 的后代了。只判断 `rootEl.contains()` 的话，
+ * 点设置按钮会先被"外部点击"关掉、再被按钮自己的 onclick 打开 —— 看起来就是"关不掉"。
+ *
+ * 用 `pointerdown` 而不是 `click`：和拖拽/点击宠物的时序更一致，
+ * 而且用捕获阶段（第三个参数 true），保证在按钮自己的 onclick 之前就判定完。
+ */
+function isInsidePanel(target: EventTarget | null): boolean {
+	const el = target as HTMLElement | null;
+	return Boolean(rootEl?.contains(el as Node) || el?.closest?.(".pio-action-extra"));
+}
+
+$effect(() => {
+	if (!open) return;
+	const onPointerDown = (ev: PointerEvent) => {
+		if (!isInsidePanel(ev.target)) open = false;
+	};
+	document.addEventListener("pointerdown", onPointerDown, true);
+	return () => document.removeEventListener("pointerdown", onPointerDown, true);
+});
+
+/**
+ * 面板开着的时候，让 `.pio-action`（那 5 个小按钮）**保持显示**。
+ *
+ * pio.css 只写了 `.pio-container:hover .pio-action { opacity: 1 }` ——
+ * 而面板是绝对定位挂在容器**外侧**（`left: 100%`）的，
+ * 鼠标一移到面板上就不再 `:hover` 容器，按钮就跟着消失了，
+ * 想点下一个选项还得把鼠标挪回去。
+ *
+ * 做法是给容器挂一个 `pio-panel-open` 类，再由样式表强制显示。
+ */
+$effect(() => {
+	const box = rootEl?.closest(".pio-container");
+	if (!box) return;
+	box.classList.toggle("pio-panel-open", open);
+	return () => box.classList.remove("pio-panel-open");
+});
 </script>
 
-<div class="pio-panel-root">
+<div class="pio-panel-root" bind:this={rootEl}>
   <!-- 这两个按钮会被移动到 pio.js 的 .pio-action 列里，和原生三个按钮并排 -->
   <div class="pio-action-extra" use:intoActionColumn>
     <span
@@ -376,6 +425,21 @@ function clearAll() {
   :global(.pio-action) .pio-action-extra {
     display: contents;
   }
+
+  /*
+   * 面板开着时，让整列按钮保持显示。
+   *
+   * pio.css 的规则是 `.pio-container:hover .pio-action { opacity: 1 }`（0,3,0），
+   * 而面板绝对定位挂在容器**外侧**（left: 100%），鼠标移到面板上就不再 :hover 容器，
+   * 按钮会消失 —— 想点下一个选项还得把鼠标挪回来，很难用。
+   *
+   * 特异性写 (0,4,0)（把 .pio-panel-open 重复一次）确保压过那条 :hover 规则，
+   * 不依赖样式表的加载顺序。类名由 PioPanel 的 $effect 挂到 .pio-container 上。
+   */
+  :global(.pio-container.pio-panel-open.pio-panel-open .pio-action) {
+    opacity: 1;
+  }
+
   :global(.pio-action) .pio-panel-toggle {
     position: relative;
     display: grid;

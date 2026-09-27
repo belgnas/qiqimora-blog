@@ -210,6 +210,21 @@ export function createLive2DRuntime(options: Live2DRuntimeOptions = {}): Live2DR
 	let baseW: number | null = null;
 	let baseH: number | null = null;
 
+	/**
+	 * 模型的**未缩放**尺寸（局部坐标下的原始大小）。
+	 *
+	 * ⚠️ 和上面 baseW/baseH 是同一类坑，必须缓存，不能每次回读：
+	 * Pixi 的 `model.width` 返回的是 `局部宽度 × 当前 scale`。而 `applyFraming()`
+	 * 会被 `syncSize()` 在**每次改变窗口大小时**再调用一次 —— 那时 `model.scale`
+	 * 早已不是 1，回读到的就是"缩放过一次"的宽度。拿它再算一遍 scale 等于把缩放
+	 * 又乘了一次，于是**每 resize 一次模型就错乱一次**（越缩越小 / 大小乱跳）。
+	 *
+	 * 首次调用时 scale 还是 1，所以 `width / scale.x` 就是原始尺寸；即使首次调用
+	 * 时 scale 已被设过，除法也能还原回去。换模型时重置（见 loadlive2d）。
+	 */
+	let baseModelW: number | null = null;
+	let baseModelH: number | null = null;
+
 	/** 是否已经成功初始化过一次。决定重载时要不要换一块新 canvas（见 loadlive2d） */
 	let bootedOnce = false;
 
@@ -412,8 +427,20 @@ export function createLive2DRuntime(options: Live2DRuntimeOptions = {}): Live2DR
 
 		// Live2D 模型的尺寸在内部模型就绪前可能是 0，除下去会得到 Infinity，
 		// 结果就是"加载成功但什么都看不见"。这里兜一层。
-		const rawW = model.width;
-		const rawH = model.height;
+		//
+		// ⚠️ 只能取**未缩放**的原始尺寸，否则 resize 时会把缩放重复乘一遍 ——
+		// 详见 baseModelW/baseModelH 的注释。
+		if (baseModelW === null || baseModelH === null) {
+			const s = model.scale.x || 1;
+			const rawW0 = model.width / s;
+			const rawH0 = model.height / s;
+			if (Number.isFinite(rawW0) && rawW0 > 0 && Number.isFinite(rawH0) && rawH0 > 0) {
+				baseModelW = rawW0;
+				baseModelH = rawH0;
+			}
+		}
+		const rawW = baseModelW ?? model.width;
+		const rawH = baseModelH ?? model.height;
 		const modelW = Number.isFinite(rawW) && rawW > 0 ? rawW : 2;
 		const modelH = Number.isFinite(rawH) && rawH > 0 ? rawH : 2;
 		if (!Number.isFinite(rawW) || rawW <= 0 || !Number.isFinite(rawH) || rawH <= 0) {
@@ -436,12 +463,23 @@ export function createLive2DRuntime(options: Live2DRuntimeOptions = {}): Live2DR
 		);
 	}
 
-	/** 视口变化时重新计算尺寸并重新取景 */
+	/**
+	 * 视口变化时重新计算尺寸并重新取景。
+	 *
+	 * 注意单位：`computeCssSize()` 给的是 **CSS 像素**，而 Pixi 的 screen 用的是
+	 * **设备像素**（见 Pixi 初始化处的注释）。所以这里要乘 DPR，
+	 * 并把 CSS 尺寸单独写回 `style`。
+	 */
 	function syncSize() {
 		if (!app || !canvas) return;
 		const { w, h } = computeCssSize();
-		if (w === app.screen.width && h === app.screen.height) return;
-		app.renderer.resize(w, h);
+		const dpr = Math.max(window.devicePixelRatio || 1, 1);
+		const bw = Math.round(w * dpr);
+		const bh = Math.round(h * dpr);
+		canvas.style.width = `${w}px`;
+		canvas.style.height = `${h}px`;
+		if (bw === app.screen.width && bh === app.screen.height) return;
+		app.renderer.resize(bw, bh);
 		applyFraming();
 	}
 
@@ -613,19 +651,42 @@ export function createLive2DRuntime(options: Live2DRuntimeOptions = {}): Live2DR
 			}
 			bootedOnce = true;
 
-			// 尺寸由 JS 统一决定（Pixi 的 autoDensity 会写内联样式，CSS 管不住）
+			// 尺寸由 JS 统一决定。**渲染用设备像素，CSS 尺寸自己钉住** ——
+			// 细节见下方 `autoDensity: false` 处的注释。
 			const { w: cssW, h: cssH } = computeCssSize();
+			const dpr = Math.max(window.devicePixelRatio || 1, 1);
 
 			const instance = new PIXI.Application();
 			await instance.init({
 				canvas,
-				width: cssW,
-				height: cssH,
+				width: Math.round(cssW * dpr),
+				height: Math.round(cssH * dpr),
 				backgroundAlpha: 0,
 				antialias: true,
-				autoDensity: true,
-				resolution: Math.max(window.devicePixelRatio || 1, 1),
+				/*
+				 * ⚠️ 这里**故意关掉 `autoDensity`、并把 `resolution` 固定为 1**，
+				 * 由我们自己把"渲染尺寸"和"CSS 尺寸"分开管。
+				 *
+				 * 背景：`pixi-live2d-display` 的 `Live2DModel._render()` 自己设 GL viewport，
+				 * **不跟着 renderer 的 `resolution` 走**。所以如果按常规写法
+				 * （`autoDensity: true` + `resolution: devicePixelRatio`）：
+				 *
+				 *     画布 CSS = 420×398，后备缓冲 = 630×597（DPR 1.5）
+				 *     但模型变换按 420×398 算 → 只占缓冲区的 2/3
+				 *     → 显示出来小了 1.5 倍（有用户在 Windows 150% 缩放下踩到）
+				 *
+				 * 于是改成：让 **Pixi 的 screen 就是设备像素**（630×597），
+				 * 模型照着它铺满；再用 `style.width/height` 把画布显示成 420×398。
+				 * 浏览器自己做的这次降采样是正常的，**既清晰又不会错位**。
+				 *
+				 * （中间试过简单粗暴地把 `resolution` 钉成 1 —— 位置对了，但在
+				 *   HiDPI 屏上会糊，因为等于只渲染了一半分辨率再被放大。）
+				 */
+				autoDensity: false,
+				resolution: 1,
 			});
+			canvas.style.width = `${cssW}px`;
+			canvas.style.height = `${cssH}px`;
 			if (token !== loadToken) {
 				instance.destroy({ removeView: false }, { children: true });
 				return;
@@ -668,6 +729,9 @@ export function createLive2DRuntime(options: Live2DRuntimeOptions = {}): Live2DR
 			loaded.setRenderer(instance.renderer);
 
 			model = loaded;
+			// 换模型了，之前缓存的原始尺寸作废（不同模型的画布尺寸不一样）
+			baseModelW = null;
+			baseModelH = null;
 
 			app.stage.addChild(model);
 			applyFraming();
